@@ -11,11 +11,19 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from .models import User
 from .permissions import IsAdmin
+from rest_framework import viewsets, status
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.response import Response
+from .models import Student
+from .serializers import StudentSerializer
+from .permissions import IsAdminOrFiscal
 
 logger = logging.getLogger(__name__)
 
 def test_api(request):
     return JsonResponse({"message": "API funcionando"})
+def home(request):
+    return JsonResponse({"message": "Bem-vindo à API do sistema"})
 
 # Registro de usuário (apenas admin)
 @api_view(['POST'])
@@ -179,3 +187,28 @@ def perfil_usuario(request):
         'papel': request.user.papel,
         'ultimo_acesso': request.user.ultimo_acesso,
     })
+class StudentViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet completo para CRUD de estudantes.
+    Suporta upload de foto via multipart/form-data.
+    """
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    permission_classes = [IsAdminOrFiscal]  # apenas admin/fiscal
+    parser_classes = [MultiPartParser, FormParser]
+
+    def create(self, request, *args, **kwargs):
+        # O DRF já lida com upload automaticamente via serializer
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        # Permite atualização parcial inclusive da foto
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
