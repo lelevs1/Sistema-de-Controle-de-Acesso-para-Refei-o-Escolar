@@ -19,6 +19,9 @@ class Student(models.Model):
     foto = models.ImageField('Foto do estudante', upload_to='estudantes/fotos/', blank=True, null=True)
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
     updated_at = models.DateTimeField('Atualizado em', auto_now=True)
+    ativo = models.BooleanField('Ativo', default=True)
+    curso = models.CharField('Curso', max_length=100, blank=True, null=True)
+    turma = models.CharField('Turma', max_length=50, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Estudante'
@@ -67,3 +70,47 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+class Digital(models.Model):
+    DEDO_CHOICES = [
+        ('polegar_d', 'Polegar Direito'),
+        ('indicador_d', 'Indicador Direito'),
+        ('medio_d', 'Médio Direito'),
+        ('anelar_d', 'Anelar Direito'),
+        ('minimo_d', 'Mínimo Direito'),
+        ('polegar_e', 'Polegar Esquerdo'),
+        ('indicador_e', 'Indicador Esquerdo'),
+        ('medio_e', 'Médio Esquerdo'),
+        ('anelar_e', 'Anelar Esquerdo'),
+        ('minimo_e', 'Mínimo Esquerdo'),
+    ]
+    estudante = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='digitais')
+    codigo_hex = models.CharField('Código hexadecimal', max_length=255, unique=True)
+    dedo = models.CharField('Dedo', max_length=20, choices=DEDO_CHOICES, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Digital'
+        verbose_name_plural = 'Digitais'
+        unique_together = ['estudante', 'dedo']  # evita dois cadastros do mesmo dedo para o mesmo aluno
+
+    def __str__(self):
+        return f'{self.estudante.nome} - {self.get_dedo_display() or "Dedo não especificado"}'
+
+    class LogLiberacao(models.Model):
+        TIPO_CHOICES = [
+            ('biometrica', 'Biométrica'),
+            ('manual', 'Manual'),
+        ]
+        estudante = models.ForeignKey('Student', on_delete=models.CASCADE, related_name='logs')
+        operador = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True)
+        tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+        data_hora = models.DateTimeField(auto_now_add=True)
+        observacao = models.TextField(blank=True, null=True)
+
+        class Meta:
+            verbose_name = 'Log de Liberação'
+            verbose_name_plural = 'Logs de Liberação'
+            ordering = ['-data_hora']
+
+        def __str__(self):
+            return f'{self.estudante.nome} - {self.tipo} - {self.data_hora.strftime("%d/%m/%Y %H:%M")}'

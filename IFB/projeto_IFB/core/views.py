@@ -17,7 +17,130 @@ from rest_framework.response import Response
 from .models import Student
 from .serializers import StudentSerializer
 from .permissions import IsAdminOrFiscal
+import csv
+import io
+from rest_framework.parsers import MultiPartParser
+from .serializers import ImportStudentSerializer
+from .models import Digital
+from .serializers import DigitalSerializer
+from .models import User, Student, Digital
+@api_view(['POST'])
+def identificar_por_digital(request):
+    """
+    Recebe o código hexadecimal da digital (template) e retorna os dados do aluno,
+    desde que a digital esteja cadastrada e o aluno esteja ativo.
+    """
+    codigo_hex = request.data.get('codigo_hex')
+    if not codigo_hex:
+        return Response({'error': 'Código hexadecimal não informado'}, status=400)
 
+    try:
+        digital = Digital.objects.select_related('estudante').get(codigo_hex=codigo_hex)
+    except Digital.DoesNotExist:
+        return Response({'error': 'Digital não reconhecida'}, status=404)
+
+    estudante = digital.estudante
+    if not estudante.ativo:
+        return Response({'error': 'Estudante inativo'}, status=403)
+
+    # Opcional: registrar log de liberação (ver abaixo)
+    # registrar_log_liberacao(estudante, tipo='biometrica', operador=None)
+
+    return Response({
+        'id': estudante.id,
+        'nome': estudante.nome,
+        'matricula': estudante.matricula,
+        'serie': estudante.serie,
+        'foto_url': estudante.foto.url if estudante.foto else None,
+        'ativo': estudante.ativo
+    })
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def cadastrar_digital(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+
+    codigo_hex = request.data.get('codigo_hex')
+    dedo = request.data.get('dedo')
+    if not codigo_hex:
+        return Response({'error': 'código hexadecimal é obrigatório'}, status=400)
+
+    # Verifica se o código já existe em algum aluno
+    if Digital.objects.filter(codigo_hex=codigo_hex).exists():
+        return Response({'error': 'Este código de digital já está cadastrado para outro aluno'}, status=400)
+
+    digital = Digital.objects.create(estudante=estudante, codigo_hex=codigo_hex, dedo=dedo)
+    serializer = DigitalSerializer(digital)
+    return Response(serializer.data, status=201)
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def listar_digitais(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+
+    digitais = estudante.digitais.all()
+    serializer = DigitalSerializer(digitais, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminOrFiscal])
+def remover_digital(request, digital_id):
+    try:
+        digital = Digital.objects.get(id=digital_id)
+    except Digital.DoesNotExist:
+        return Response({'error': 'Digital não encontrada'}, status=404)
+    digital.delete()
+    return Response({'message': 'Digital removida com sucesso'})
+
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def importar_estudantes(request):
+    serializer = ImportStudentSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
+
+    file = serializer.validated_data['file']
+    data = file.read().decode('utf-8')
+    csv_file = io.StringIO(data)
+    reader = csv.DictReader(csv_file)
+
+    expected_fields = ['nome', 'matricula', 'data_nascimento', 'serie']
+    if not all(field in reader.fieldnames for field in expected_fields):
+        return Response({'error': f'O CSV deve conter as colunas: {", ".join(expected_fields)}'}, status=400)
+
+    criados = []
+    erros = []
+    for row_num, row in enumerate(reader, start=2):
+        # Validação básica
+        if Student.objects.filter(matricula=row['matricula']).exists():
+            erros.append(f"Linha {row_num}: Matrícula {row['matricula']} já existe.")
+            continue
+        try:
+            student = Student.objects.create(
+                nome=row['nome'],
+                matricula=row['matricula'],
+                data_nascimento=row['data_nascimento'],
+                serie=row['serie'],
+                curso=row.get('curso', ''),
+                turma=row.get('turma', ''),
+                ativo=row.get('ativo', 'True').lower() in ['true', '1', 'sim']
+            )
+            criados.append(student.id)
+        except Exception as e:
+            erros.append(f"Linha {row_num}: {str(e)}")
+
+    return Response({
+        'importados': len(criados),
+        'ids': criados,
+        'erros': erros
+    })
 logger = logging.getLogger(__name__)
 
 def test_api(request):
@@ -56,8 +179,8 @@ def login(request):
         return Response({'error': 'Credenciais inválidas'}, status=401)
 
     # Bloqueia login por senha para fiscais e admin
-    if user.papel in ['fiscal', 'admin']:
-        return Response({'error': 'Este usuário deve usar login com Google'}, status=403)
+    if user.papel == 'fiscal':  # apenas fiscal deve usar Google (admin pode usar senha)
+        return Response({'error': 'Fiscais devem usar login com Google'}, status=403)
 
     if not user.is_active:
         return Response({'error': 'Usuário desativado'}, status=403)
@@ -187,6 +310,10 @@ def perfil_usuario(request):
         'papel': request.user.papel,
         'ultimo_acesso': request.user.ultimo_acesso,
     })
+
+    # ========== VIEWSET ESTUDANTE (CRUD) ==========
+
+
 class StudentViewSet(viewsets.ModelViewSet):
     """
     ViewSet completo para CRUD de estudantes.
@@ -194,21 +321,48 @@ class StudentViewSet(viewsets.ModelViewSet):
     """
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-    permission_classes = [IsAdminOrFiscal]  # apenas admin/fiscal
+    permission_classes = [IsAdminOrFiscal]
     parser_classes = [MultiPartParser, FormParser]
 
     def create(self, request, *args, **kwargs):
-        # O DRF já lida com upload automaticamente via serializer
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
-        # Permite atualização parcial inclusive da foto
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
+    # ========== LOGS DE LIBERAÇÃO (RF04 e RF05) ==========
+
+
+def registrar_log_liberacao(estudante, tipo, operador=None, observacao=''):
+    LogLiberacao.objects.create(
+        estudante=estudante,
+        operador=operador,
+        tipo=tipo,
+        observacao=observacao
+    )
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def logs_estudante(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+    logs = estudante.logs.all().order_by('-data_hora')
+    data = [{
+        'id': log.id,
+        'tipo': log.tipo,
+        'data_hora': log.data_hora,
+        'operador': log.operador.email if log.operador else None,
+        'observacao': log.observacao
+    } for log in logs]
+    return Response(data)
