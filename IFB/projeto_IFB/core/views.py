@@ -12,7 +12,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 from .models import User
 from .permissions import IsAdmin
 from rest_framework import viewsets, status
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.response import Response
 from .models import Student
 from .serializers import StudentSerializer
@@ -24,6 +24,8 @@ from .serializers import ImportStudentSerializer
 from .models import Digital
 from .serializers import DigitalSerializer
 from .models import User, Student, Digital
+from .biometria import comparar_templates
+#from .models import Almoco  # se for usar depois
 @api_view(['POST'])
 def identificar_por_digital(request):
     """
@@ -322,7 +324,7 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     permission_classes = [IsAdminOrFiscal]
-    parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -366,3 +368,45 @@ def logs_estudante(request, estudante_id):
         'observacao': log.observacao
     } for log in logs]
     return Response(data)
+
+
+@api_view(['POST'])
+def verificar_digital(request):
+    """
+    Recebe código hexadecimal da digital capturada, compara com todos os templates
+    armazenados e retorna os dados do estudante se encontrar correspondência.
+    """
+    codigo_hex = request.data.get('codigo_hex')
+    if not codigo_hex:
+        return Response({'error': 'Código hexadecimal não informado'}, status=400)
+
+    # Buscar todas as digitais cadastradas
+    todas_digitais = Digital.objects.select_related('estudante').all()
+
+    for digital in todas_digitais:
+        try:
+            # Compara o template recebido com o armazenado
+            if comparar_templates(codigo_hex, digital.codigo_hex, security_level=4):
+                estudante = digital.estudante
+                if not estudante.ativo:
+                    return Response({'status': 'aluno_inativo'}, status=403)
+
+                # (Opcional) Aqui futuramente registraremos o almoço
+                # Almoco.objects.create(estudante=estudante, metodo='biometria', operador=request.user if request.user.is_authenticated else None)
+
+                return Response({
+                    'status': 'encontrado',
+                    'estudante': {
+                        'id': estudante.id,
+                        'nome': estudante.nome,
+                        'matricula': estudante.matricula,
+                        'serie': estudante.serie,
+                        'foto_url': estudante.foto.url if estudante.foto else None,
+                    }
+                })
+        except Exception as e:
+            # Log do erro, mas continua tentando os próximos
+            continue
+
+    # Se nenhuma corresponder
+    return Response({'status': 'nao_cadastrado'}, status=404)

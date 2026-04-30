@@ -114,3 +114,21 @@ class Digital(models.Model):
 
         def __str__(self):
             return f'{self.estudante.nome} - {self.tipo} - {self.data_hora.strftime("%d/%m/%Y %H:%M")}'
+
+        class Almoco(models.Model):
+            METODO_CHOICES = [
+                ('biometria', 'Biometria'),
+                ('manual', 'Manual'),
+            ]
+            estudante = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='almocos')
+            data_hora = models.DateTimeField(auto_now_add=True)
+            metodo = models.CharField(max_length=20, choices=METODO_CHOICES)
+            operador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+            class Meta:
+                verbose_name = 'Almoço'
+                verbose_name_plural = 'Almoços'
+                ordering = ['-data_hora']
+
+            def __str__(self):
+                return f'{self.estudante.nome} - {self.data_hora.strftime("%d/%m/%Y %H:%M")}'
