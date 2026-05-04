@@ -23,7 +23,7 @@ from rest_framework.parsers import MultiPartParser
 from .serializers import ImportStudentSerializer
 from .models import Digital
 from .serializers import DigitalSerializer
-from .models import User, Student, Digital
+from .models import User, Student, Digital, Almoco
 from .biometria import comparar_templates
 #from .models import Almoco  # se for usar depois
 @api_view(['POST'])
@@ -32,9 +32,11 @@ def identificar_por_digital(request):
     Recebe o código hexadecimal da digital (template) e retorna os dados do aluno,
     desde que a digital esteja cadastrada e o aluno esteja ativo.
     """
+
     codigo_hex = request.data.get('codigo_hex')
     if not codigo_hex:
         return Response({'error': 'Código hexadecimal não informado'}, status=400)
+
 
     try:
         digital = Digital.objects.select_related('estudante').get(codigo_hex=codigo_hex)
@@ -410,3 +412,81 @@ def verificar_digital(request):
 
     # Se nenhuma corresponder
     return Response({'status': 'nao_cadastrado'}, status=404)
+@api_view(['POST'])
+def verificar_digital(request):
+    """
+    Verifica a digital, valida se aluno está ativo e se já almoçou hoje.
+    Se tudo ok, registra o almoço e retorna liberado.
+    """
+    codigo_hex = request.data.get('codigo_hex')
+    if not codigo_hex:
+        return Response({'error': 'Código hexadecimal não informado'}, status=400)
+
+    # Buscar todas as digitais cadastradas
+    todas_digitais = Digital.objects.select_related('estudante').all()
+
+    for digital in todas_digitais:
+        # Usa a função simulada (ou real) de comparação
+        if comparar_templates(codigo_hex, digital.codigo_hex, security_level=4):
+            estudante = digital.estudante
+
+            # 1. Aluno ativo?
+            if not estudante.ativo:
+                return Response({
+                    'status': 'bloqueado',
+                    'motivo': 'Aluno inativo'
+                }, status=403)
+
+            # 2. Já almoçou hoje?
+            hoje = timezone.now().date()
+            if Almoco.objects.filter(estudante=estudante, data_hora__date=hoje).exists():
+                return Response({
+                    'status': 'bloqueado',
+                    'motivo': 'Já almoçou hoje'
+                }, status=403)
+
+            # 3. Registrar almoço
+            almoco = Almoco.objects.create(
+                estudante=estudante,
+                metodo='biometria',
+                operador=request.user if request.user.is_authenticated else None,
+                observacao='Liberação via biometria'
+            )
+
+            return Response({
+                'status': 'liberado',
+                'estudante': {
+                    'id': estudante.id,
+                    'nome': estudante.nome,
+                    'matricula': estudante.matricula,
+                    'serie': estudante.serie,
+                    'foto_url': estudante.foto.url if estudante.foto else None,
+                },
+                'mensagem': f'Almoço liberado para {estudante.nome}'
+            })
+
+    # Nenhuma digital correspondeu
+    return Response({'status': 'nao_cadastrado', 'motivo': 'Digital não reconhecida'}, status=404)
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def registrar_almoco_manual(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+
+    hoje = timezone.now().date()
+    if Almoco.objects.filter(estudante=estudante, data_hora__date=hoje).exists():
+        return Response({'status': 'bloqueado', 'motivo': 'Já almoçou hoje'}, status=400)
+
+    almoco = Almoco.objects.create(
+        estudante=estudante,
+        metodo='manual',
+        operador=request.user,
+        observacao=request.data.get('observacao', 'Liberação manual')
+    )
+    return Response({
+        'status': 'liberado',
+        'almoco_id': almoco.id,
+        'mensagem': f'Almoço manual registrado para {estudante.nome}'
+    })

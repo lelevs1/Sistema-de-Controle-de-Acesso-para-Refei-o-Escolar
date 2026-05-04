@@ -27,4 +27,5 @@ urlpatterns = [
     path('api/biometria/identificar/', views.identificar_por_digital, name='identificar_por_digital'),
     path('api/estudantes/<int:estudante_id>/logs/', views.logs_estudante, name='logs_estudante'),
     path('api/verificar-digital/', views.verificar_digital, name='verificar_digital'),
+    path('api/estudantes/<int:estudante_id>/almoco/manual/', views.registrar_almoco_manual, name='registrar_almoco_manual'),
 ]
