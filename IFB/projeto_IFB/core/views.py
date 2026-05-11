@@ -25,7 +25,42 @@ from .models import Digital
 from .serializers import DigitalSerializer
 from .models import User, Student, Digital, Almoco
 from .biometria import comparar_templates
+from django.db import models
 #from .models import Almoco  # se for usar depois
+from django.db.models import Count, Q
+from datetime import datetime, timedelta
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+def calcular_percentuais():
+    hoje = timezone.now().date()
+    almocos_hoje = Almoco.objects.filter(data_hora__date=hoje)
+    total = almocos_hoje.count()
+    biometria = almocos_hoje.filter(metodo='biometria').count()
+    manual = total - biometria
+    return {
+        'total': total,
+        'biometria': biometria,
+        'manual': manual,
+        'percentual_biometria': round(biometria / total * 100, 2) if total else 0
+    }
+def enviar_liberacao_websocket(estudante, almoco):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        'liberacoes',
+        {
+            'type': 'nova_liberacao',
+            'data': {
+                'estudante_id': estudante.id,
+                'nome': estudante.nome,
+                'matricula': estudante.matricula,
+                'metodo': almoco.metodo,
+                'data_hora': almoco.data_hora.isoformat(),
+                'observacao': almoco.observacao,
+                'percentuais': calcular_percentuais()  # função opcional
+            }
+        }
+    )
 @api_view(['POST'])
 def identificar_por_digital(request):
     """
@@ -375,46 +410,6 @@ def logs_estudante(request, estudante_id):
 @api_view(['POST'])
 def verificar_digital(request):
     """
-    Recebe código hexadecimal da digital capturada, compara com todos os templates
-    armazenados e retorna os dados do estudante se encontrar correspondência.
-    """
-    codigo_hex = request.data.get('codigo_hex')
-    if not codigo_hex:
-        return Response({'error': 'Código hexadecimal não informado'}, status=400)
-
-    # Buscar todas as digitais cadastradas
-    todas_digitais = Digital.objects.select_related('estudante').all()
-
-    for digital in todas_digitais:
-        try:
-            # Compara o template recebido com o armazenado
-            if comparar_templates(codigo_hex, digital.codigo_hex, security_level=4):
-                estudante = digital.estudante
-                if not estudante.ativo:
-                    return Response({'status': 'aluno_inativo'}, status=403)
-
-                # (Opcional) Aqui futuramente registraremos o almoço
-                # Almoco.objects.create(estudante=estudante, metodo='biometria', operador=request.user if request.user.is_authenticated else None)
-
-                return Response({
-                    'status': 'encontrado',
-                    'estudante': {
-                        'id': estudante.id,
-                        'nome': estudante.nome,
-                        'matricula': estudante.matricula,
-                        'serie': estudante.serie,
-                        'foto_url': estudante.foto.url if estudante.foto else None,
-                    }
-                })
-        except Exception as e:
-            # Log do erro, mas continua tentando os próximos
-            continue
-
-    # Se nenhuma corresponder
-    return Response({'status': 'nao_cadastrado'}, status=404)
-@api_view(['POST'])
-def verificar_digital(request):
-    """
     Verifica a digital, valida se aluno está ativo e se já almoçou hoje.
     Se tudo ok, registra o almoço e retorna liberado.
     """
@@ -489,4 +484,137 @@ def registrar_almoco_manual(request, estudante_id):
         'status': 'liberado',
         'almoco_id': almoco.id,
         'mensagem': f'Almoço manual registrado para {estudante.nome}'
+    })
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def buscar_estudantes(request):
+    query = request.query_params.get('q', '').strip()
+    if not query:
+        return Response({'error': 'Parâmetro de busca "q" é obrigatório'}, status=400)
+
+    # Busca por nome (case-insensitive) ou matrícula (exata)
+    estudantes = Student.objects.filter(
+        models.Q(nome__icontains=query) | models.Q(matricula__icontains=query)
+    ).only('id', 'nome', 'matricula', 'turma', 'foto')
+
+    resultados = []
+    for est in estudantes:
+        resultados.append({
+            'id': est.id,
+            'nome': est.nome,
+            'matricula': est.matricula,
+            'turma': est.turma,
+            'foto_url': est.foto.url if est.foto else None,
+        })
+    return Response(resultados)
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def liberar_manual(request):
+    """
+    Registra almoço manual para um estudante.
+    Body: { "estudante_id": 1, "observacao": "Motivo da liberação manual" }
+    """
+    estudante_id = request.data.get('estudante_id')
+    observacao = request.data.get('observacao', '').strip()
+
+    if not estudante_id:
+        return Response({'error': 'estudante_id é obrigatório'}, status=400)
+    if not observacao:
+        return Response({'error': 'Observação (motivo) é obrigatória'}, status=400)
+
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+
+    if not estudante.ativo:
+        return Response({'status': 'bloqueado', 'motivo': 'Aluno inativo'}, status=403)
+
+    hoje = timezone.now().date()
+    if Almoco.objects.filter(estudante=estudante, data_hora__date=hoje).exists():
+        return Response({'status': 'bloqueado', 'motivo': 'Já almoçou hoje'}, status=400)
+
+    almoco = Almoco.objects.create(
+        estudante=estudante,
+        metodo='manual',
+        operador=request.user,
+        observacao=observacao
+    )
+
+    # Disparar evento WebSocket (será implementado depois)
+    # enviar_evento_websocket(estudante, almoco)
+
+    return Response({
+        'status': 'liberado',
+        'almoco_id': almoco.id,
+        'mensagem': f'Almoço manual registrado para {estudante.nome}'
+    })
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def estatisticas_hoje(request):
+    hoje = timezone.now().date()
+    almocos_hoje = Almoco.objects.filter(data_hora__date=hoje)
+
+    total = almocos_hoje.count()
+    por_hora = almocos_hoje.extra({'hora': "strftime('%H', data_hora)"}).values('hora').annotate(total=Count('id'))
+
+    # Comparativo com ontem
+    ontem = hoje - timedelta(days=1)
+    total_ontem = Almoco.objects.filter(data_hora__date=ontem).count()
+    variacao = ((total - total_ontem) / total_ontem * 100) if total_ontem else 0
+
+    return Response({
+        'total_hoje': total,
+        'por_hora': list(por_hora),
+        'total_ontem': total_ontem,
+        'variacao_percentual': round(variacao, 2)
+    })
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def estatisticas_semana(request):
+    hoje = timezone.now().date()
+    inicio_semana = hoje - timedelta(days=hoje.weekday())  # segunda-feira
+    dias = [inicio_semana + timedelta(days=i) for i in range(7)]
+
+    dados = []
+    for dia in dias:
+        total = Almoco.objects.filter(data_hora__date=dia).count()
+        dados.append({
+            'data': dia.strftime('%Y-%m-%d'),
+            'dia_semana': dia.strftime('%A'),
+            'total': total
+        })
+    return Response(dados)
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def estatisticas_mensal(request):
+    hoje = timezone.now().date()
+    mes_atual = hoje.replace(day=1)
+    proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
+
+    almocos = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
+    total = almocos.count()
+    por_metodo = almocos.values('metodo').annotate(total=Count('id'))
+
+    # Percentual biometria vs manual
+    biometria = next((item['total'] for item in por_metodo if item['metodo'] == 'biometria'), 0)
+    manual = next((item['total'] for item in por_metodo if item['metodo'] == 'manual'), 0)
+    total = biometria + manual
+    perc_biometria = (biometria / total * 100) if total else 0
+    perc_manual = (manual / total * 100) if total else 0
+
+    return Response({
+        'mes': mes_atual.strftime('%B %Y'),
+        'total': total,
+        'biometria': biometria,
+        'manual': manual,
+        'percentual_biometria': round(perc_biometria, 2),
+        'percentual_manual': round(perc_manual, 2),
+        'detalhes_por_dia': list(
+            almocos.extra({'dia': "strftime('%d', data_hora)"}).values('dia').annotate(total=Count('id')))
     })

@@ -28,4 +28,9 @@ urlpatterns = [
     path('api/estudantes/<int:estudante_id>/logs/', views.logs_estudante, name='logs_estudante'),
     path('api/verificar-digital/', views.verificar_digital, name='verificar_digital'),
     path('api/estudantes/<int:estudante_id>/almoco/manual/', views.registrar_almoco_manual, name='registrar_almoco_manual'),
+    path('api/estudantes/busca/', views.buscar_estudantes, name='buscar_estudantes'),
+    path('api/liberar-manual/', views.liberar_manual, name='liberar_manual'),
+    path('api/dashboard/hoje/', views.estatisticas_hoje, name='dashboard_hoje'),
+    path('api/dashboard/semana/', views.estatisticas_semana, name='dashboard_semana'),
+    path('api/dashboard/mensal/', views.estatisticas_mensal, name='dashboard_mensal'),
 ]
