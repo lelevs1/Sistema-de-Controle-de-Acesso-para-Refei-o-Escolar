@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import User, Student, Digital, Turma
+from .models import User
+from .models import Student
+from .models import Digital
 
 class DigitalSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,9 +33,4 @@ class StudentSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
-
-class TurmaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Turma
         fields = '__all__'

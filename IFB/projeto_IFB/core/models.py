@@ -1,17 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
 
-class Turma(models.Model):
-    nome = models.CharField('Nome da Turma', max_length=100, unique=True)
-    turno = models.CharField('Turno', max_length=50, blank=True, null=True)
-
-    class Meta:
-        verbose_name = 'Turma'
-        verbose_name_plural = 'Turmas'
-
-    def __str__(self):
-        return self.nome
-
 class Student(models.Model):
     SERIE_CHOICES = [
         ('6EF', '6º Ano EF'),
@@ -32,7 +21,7 @@ class Student(models.Model):
     updated_at = models.DateTimeField('Atualizado em', auto_now=True)
     ativo = models.BooleanField('Ativo', default=True)
     curso = models.CharField('Curso', max_length=100, blank=True, null=True)
-    turma = models.ForeignKey(Turma, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Turma', related_name='estudantes')
+    turma = models.CharField('Turma', max_length=50, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Estudante'
