@@ -1,0 +1,16 @@
+# Banco de dados local
+db.sqlite3
+*.sqlite3
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes Virtuais (caso você suba a pasta do backend inteira)
+.venv/
+venv/
+env/
+
+# Variáveis de ambiente (senhas e tokens)
+.env
