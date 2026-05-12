@@ -102,26 +102,45 @@ class Digital(models.Model):
     class Meta:
         verbose_name = 'Digital'
         verbose_name_plural = 'Digitais'
-        unique_together = ['estudante', 'dedo']  # evita dois cadastros do mesmo dedo para o mesmo aluno
+        unique_together = ['estudante', 'dedo']
 
     def __str__(self):
         return f'{self.estudante.nome} - {self.get_dedo_display() or "Dedo não especificado"}'
 
-    class LogLiberacao(models.Model):
-        TIPO_CHOICES = [
-            ('biometrica', 'Biométrica'),
-            ('manual', 'Manual'),
-        ]
-        estudante = models.ForeignKey('Student', on_delete=models.CASCADE, related_name='logs')
-        operador = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True)
-        tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
-        data_hora = models.DateTimeField(auto_now_add=True)
-        observacao = models.TextField(blank=True, null=True)
+class LogLiberacao(models.Model):
+    TIPO_CHOICES = [
+        ('biometrica', 'Biométrica'),
+        ('manual', 'Manual'),
+    ]
+    estudante = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='logs')
+    operador = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True)
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    data_hora = models.DateTimeField(auto_now_add=True)
+    observacao = models.TextField(blank=True, null=True)
 
-        class Meta:
-            verbose_name = 'Log de Liberação'
-            verbose_name_plural = 'Logs de Liberação'
-            ordering = ['-data_hora']
+    class Meta:
+        verbose_name = 'Log de Liberação'
+        verbose_name_plural = 'Logs de Liberação'
+        ordering = ['-data_hora']
 
-        def __str__(self):
-            return f'{self.estudante.nome} - {self.tipo} - {self.data_hora.strftime("%d/%m/%Y %H:%M")}'
+    def __str__(self):
+        return f'{self.estudante.nome} - {self.tipo} - {self.data_hora.strftime("%d/%m/%Y %H:%M")}'
+
+class Almoco(models.Model):
+    METODO_CHOICES = [
+        ('biometria', 'Biometria'),
+        ('manual', 'Manual'),
+    ]
+    estudante = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='almocos')
+    data_hora = models.DateTimeField(auto_now_add=True)
+    metodo = models.CharField(max_length=20, choices=METODO_CHOICES)
+    operador = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, blank=True)
+    observacao = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Almoço'
+        verbose_name_plural = 'Almoços'
+        ordering = ['-data_hora']
+
+    def __str__(self):
+        return f'{self.estudante.nome} - {self.data_hora.strftime("%d/%m/%Y %H:%M")}'
