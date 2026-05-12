@@ -20,10 +20,8 @@ from .permissions import IsAdminOrFiscal
 import csv
 import io
 from rest_framework.parsers import MultiPartParser
-from .serializers import ImportStudentSerializer
-from .models import Digital
-from .serializers import DigitalSerializer
-from .models import User, Student, Digital
+from .serializers import StudentSerializer, DigitalSerializer, TurmaSerializer
+from .models import User, Student, Digital, Turma
 @api_view(['POST'])
 def identificar_por_digital(request):
     """
@@ -310,6 +308,13 @@ def perfil_usuario(request):
         'papel': request.user.papel,
         'ultimo_acesso': request.user.ultimo_acesso,
     })
+
+    # ========== VIEWSET TURMA (CRUD) ==========
+
+class TurmaViewSet(viewsets.ModelViewSet):
+    queryset = Turma.objects.all()
+    serializer_class = TurmaSerializer
+    permission_classes = [IsAdmin]
 
     # ========== VIEWSET ESTUDANTE (CRUD) ==========
 
