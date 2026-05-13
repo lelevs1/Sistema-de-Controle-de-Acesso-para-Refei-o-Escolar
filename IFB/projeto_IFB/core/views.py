@@ -1,42 +1,31 @@
 import urllib.parse
 import requests
 import logging
+from datetime import datetime, timedelta
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.conf import settings
 from django.http import JsonResponse
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.exceptions import TokenError
-from .models import User
-from .permissions import IsAdmin
-from rest_framework import viewsets, status
-from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from rest_framework.response import Response
-from .models import Student
-from .serializers import StudentSerializer
-from .permissions import IsAdminOrFiscal
-import csv
-import io
-from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from .serializers import DigitalSerializer, ImportStudentSerializer, StudentSerializer, TurmaSerializer
-from .models import User, Student, Digital, Almoco, Turma, LogLiberacao
-from .biometria import comparar_templates
 from django.db import models
 from django.db.models import Count
-from datetime import datetime, timedelta
-import importlib
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from rest_framework import viewsets, status
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
 
-try:
-    channels_layers = importlib.import_module('channels.layers')
-    get_channel_layer = channels_layers.get_channel_layer
-    asgiref_sync = importlib.import_module('asgiref.sync')
-    async_to_sync = asgiref_sync.async_to_sync
-except ImportError:
-    get_channel_layer = None
-    async_to_sync = None
+from .models import User, Student, Digital, Almoco, LogLiberacao
+from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
+from .permissions import IsAdmin, IsAdminOrFiscal
+from .biometria import comparar_templates
 
+import csv
+import io
+
+logger = logging.getLogger(__name__)
+
+# ==================== UTILITÁRIOS ====================
 def calcular_percentuais():
     hoje = timezone.now().date()
     almocos_hoje = Almoco.objects.filter(data_hora__date=hoje)
@@ -49,6 +38,7 @@ def calcular_percentuais():
         'manual': manual,
         'percentual_biometria': round(biometria / total * 100, 2) if total else 0
     }
+
 def enviar_liberacao_websocket(estudante, almoco):
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
@@ -195,28 +185,10 @@ logger = logging.getLogger(__name__)
 
 def test_api(request):
     return JsonResponse({"message": "API funcionando"})
+
 def home(request):
     return JsonResponse({"message": "Bem-vindo à API do sistema"})
 
-# Registro de usuário (apenas admin)
-@api_view(['POST'])
-@permission_classes([IsAdmin])
-def register_user(request):
-    data = request.data
-    required = ['email', 'nome', 'papel']
-    if not all(k in data for k in required):
-        return Response({'error': 'Dados obrigatórios: email, nome, papel'}, status=400)
-    if User.objects.filter(email=data['email']).exists():
-        return Response({'error': 'Usuário já existe'}, status=400)
-    user = User.objects.create_user(
-        email=data['email'],
-        nome=data['nome'],
-        password=data.get('password'),  # opcional para OAuth
-        papel=data['papel']
-    )
-    return Response({'message': 'Usuário criado com sucesso'})
-
-# Login tradicional (apenas operador, empresa, gestor)
 @api_view(['POST'])
 def login(request):
     email = request.data.get('email')
@@ -228,8 +200,7 @@ def login(request):
     if not user or not user.check_password(password):
         return Response({'error': 'Credenciais inválidas'}, status=401)
 
-    # Bloqueia login por senha para fiscais e admin
-    if user.papel == 'fiscal':  # apenas fiscal deve usar Google (admin pode usar senha)
+    if user.papel == 'fiscal':
         return Response({'error': 'Fiscais devem usar login com Google'}, status=403)
 
     if not user.is_active:
@@ -246,7 +217,7 @@ def login(request):
         'email': user.email
     })
 
-# Inicia fluxo OAuth Google
+# ==================== GOOGLE OAUTH ====================
 def google_login(request):
     base_url = "https://accounts.google.com/o/oauth2/v2/auth"
     params = {
@@ -260,7 +231,6 @@ def google_login(request):
     url = f"{base_url}?{urllib.parse.urlencode(params)}"
     return redirect(url)
 
-# Callback do Google
 def google_callback(request):
     code = request.GET.get('code')
     if not code:
@@ -300,16 +270,13 @@ def google_callback(request):
     if not email:
         return redirect("http://localhost:5173/login?error=no_email")
 
-    # Restrição de domínio para fiscais e admin
     allowed_domains = ["escola.gov.br", "educacao.gov.br"]
     domain = email.split("@")[-1]
     if domain not in allowed_domains:
         return redirect("http://localhost:5173/login?error=domain_not_allowed")
 
-    # Busca ou cria usuário
     user = User.objects.filter(email=email).first()
     if not user:
-        # Cria como fiscal (padrão), admin pode ser promovido depois
         user = User.objects.create_user(
             email=email,
             nome=user_info.get('name', email.split('@')[0]),
@@ -319,7 +286,6 @@ def google_callback(request):
         user.google_id = user_info.get('id')
         user.save()
     else:
-        # Se já existe, mas papel não é fiscal/admin, bloqueia
         if user.papel not in ['fiscal', 'admin']:
             return redirect("http://localhost:5173/login?error=unauthorized")
         if not user.google_id:
@@ -333,23 +299,38 @@ def google_callback(request):
     access_jwt = str(refresh.access_token)
     refresh_jwt = str(refresh)
 
-    # Redireciona para o frontend com tokens
     frontend_url = f"http://localhost:5173/dashboard?access={access_jwt}&refresh={refresh_jwt}&papel={user.papel}"
     return redirect(frontend_url)
 
-# Logout (invalida o refresh token - opcional)
+# ==================== USUÁRIOS E PERFIL ====================
+@api_view(['POST'])
+@permission_classes([IsAdmin])
+def register_user(request):
+    data = request.data
+    required = ['email', 'nome', 'papel']
+    if not all(k in data for k in required):
+        return Response({'error': 'Dados obrigatórios: email, nome, papel'}, status=400)
+    if User.objects.filter(email=data['email']).exists():
+        return Response({'error': 'Usuário já existe'}, status=400)
+    user = User.objects.create_user(
+        email=data['email'],
+        nome=data['nome'],
+        password=data.get('password'),
+        papel=data['papel']
+    )
+    return Response({'message': 'Usuário criado com sucesso'})
+
 @api_view(['POST'])
 def logout(request):
     try:
         refresh_token = request.data.get('refresh')
         if refresh_token:
             token = RefreshToken(refresh_token)
-            token.blacklist()  # requer 'rest_framework_simplejwt.token_blacklist' no INSTALLED_APPS
+            token.blacklist()
         return Response({'message': 'Logout realizado com sucesso'})
     except TokenError:
         return Response({'error': 'Token inválido'}, status=400)
 
-# Perfil do usuário
 @api_view(['GET'])
 def perfil_usuario(request):
     if not request.user.is_authenticated:
@@ -361,21 +342,8 @@ def perfil_usuario(request):
         'ultimo_acesso': request.user.ultimo_acesso,
     })
 
-    # ========== VIEWSET TURMA (CRUD) ==========
-
-class TurmaViewSet(viewsets.ModelViewSet):
-    queryset = Turma.objects.all()
-    serializer_class = TurmaSerializer
-    permission_classes = [IsAdmin]
-
-    # ========== VIEWSET ESTUDANTE (CRUD) ==========
-
-
+# ==================== CRUD ESTUDANTES (VIEWSET) ====================
 class StudentViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet completo para CRUD de estudantes.
-    Suporta upload de foto via multipart/form-data.
-    """
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     permission_classes = [IsAdminOrFiscal]
@@ -395,77 +363,111 @@ class StudentViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
-    # ========== LOGS DE LIBERAÇÃO (RF04 e RF05) ==========
-
-
-def registrar_log_liberacao(estudante, tipo, operador=None, observacao=''):
-    LogLiberacao.objects.create(
-        estudante=estudante,
-        operador=operador,
-        tipo=tipo,
-        observacao=observacao
-    )
-
-
-@api_view(['GET'])
+# ==================== IMPORTAR ESTUDANTES ====================
+@api_view(['POST'])
 @permission_classes([IsAdminOrFiscal])
-def logs_estudante(request, estudante_id):
+def importar_estudantes(request):
+    serializer = ImportStudentSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
+
+    file = serializer.validated_data['file']
+    data = file.read().decode('utf-8')
+    csv_file = io.StringIO(data)
+    reader = csv.DictReader(csv_file)
+
+    expected_fields = ['nome', 'matricula', 'data_nascimento', 'serie']
+    if not all(field in reader.fieldnames for field in expected_fields):
+        return Response({'error': f'O CSV deve conter as colunas: {", ".join(expected_fields)}'}, status=400)
+
+    criados = []
+    erros = []
+    for row_num, row in enumerate(reader, start=2):
+        if Student.objects.filter(matricula=row['matricula']).exists():
+            erros.append(f"Linha {row_num}: Matrícula {row['matricula']} já existe.")
+            continue
+        try:
+            student = Student.objects.create(
+                nome=row['nome'],
+                matricula=row['matricula'],
+                data_nascimento=row['data_nascimento'],
+                serie=row['serie'],
+                curso=row.get('curso', ''),
+                turma=row.get('turma', ''),
+                ativo=row.get('ativo', 'True').lower() in ['true', '1', 'sim']
+            )
+            criados.append(student.id)
+        except Exception as e:
+            erros.append(f"Linha {row_num}: {str(e)}")
+    return Response({'importados': len(criados), 'ids': criados, 'erros': erros})
+
+# ==================== DIGITAIS ====================
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def cadastrar_digital(request, estudante_id):
     try:
         estudante = Student.objects.get(id=estudante_id)
     except Student.DoesNotExist:
         return Response({'error': 'Estudante não encontrado'}, status=404)
-    logs = estudante.logs.all().order_by('-data_hora')
-    data = [{
-        'id': log.id,
-        'tipo': log.tipo,
-        'data_hora': log.data_hora,
-        'operador': log.operador.email if log.operador else None,
-        'observacao': log.observacao
-    } for log in logs]
-    return Response(data)
 
+    codigo_hex = request.data.get('codigo_hex')
+    dedo = request.data.get('dedo')
+    if not codigo_hex:
+        return Response({'error': 'código hexadecimal é obrigatório'}, status=400)
 
+    if Digital.objects.filter(codigo_hex=codigo_hex).exists():
+        return Response({'error': 'Este código de digital já está cadastrado para outro aluno'}, status=400)
+
+    digital = Digital.objects.create(estudante=estudante, codigo_hex=codigo_hex, dedo=dedo)
+    serializer = DigitalSerializer(digital)
+    return Response(serializer.data, status=201)
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def listar_digitais(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+    digitais = estudante.digitais.all()
+    serializer = DigitalSerializer(digitais, many=True)
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminOrFiscal])
+def remover_digital(request, digital_id):
+    try:
+        digital = Digital.objects.get(id=digital_id)
+    except Digital.DoesNotExist:
+        return Response({'error': 'Digital não encontrada'}, status=404)
+    digital.delete()
+    return Response({'message': 'Digital removida com sucesso'})
+
+# ==================== VERIFICAÇÃO BIOMÉTRICA (com almoço) ====================
 @api_view(['POST'])
 def verificar_digital(request):
-    """
-    Verifica a digital, valida se aluno está ativo e se já almoçou hoje.
-    Se tudo ok, registra o almoço e retorna liberado.
-    """
     codigo_hex = request.data.get('codigo_hex')
     if not codigo_hex:
         return Response({'error': 'Código hexadecimal não informado'}, status=400)
 
-    # Buscar todas as digitais cadastradas
     todas_digitais = Digital.objects.select_related('estudante').all()
-
     for digital in todas_digitais:
-        # Usa a função simulada (ou real) de comparação
         if comparar_templates(codigo_hex, digital.codigo_hex, security_level=4):
             estudante = digital.estudante
-
-            # 1. Aluno ativo?
             if not estudante.ativo:
-                return Response({
-                    'status': 'bloqueado',
-                    'motivo': 'Aluno inativo'
-                }, status=403)
+                return Response({'status': 'bloqueado', 'motivo': 'Aluno inativo'}, status=403)
 
-            # 2. Já almoçou hoje?
             hoje = timezone.now().date()
             if Almoco.objects.filter(estudante=estudante, data_hora__date=hoje).exists():
-                return Response({
-                    'status': 'bloqueado',
-                    'motivo': 'Já almoçou hoje'
-                }, status=403)
+                return Response({'status': 'bloqueado', 'motivo': 'Já almoçou hoje'}, status=403)
 
-            # 3. Registrar almoço
             almoco = Almoco.objects.create(
                 estudante=estudante,
                 metodo='biometria',
                 operador=request.user if request.user.is_authenticated else None,
                 observacao='Liberação via biometria'
             )
-
+            enviar_liberacao_websocket(estudante, almoco)  # notifica via WebSocket
             return Response({
                 'status': 'liberado',
                 'estudante': {
@@ -478,64 +480,14 @@ def verificar_digital(request):
                 },
                 'mensagem': f'Almoço liberado para {estudante.nome}'
             })
-
-    # Nenhuma digital correspondeu
     return Response({'status': 'nao_cadastrado', 'motivo': 'Digital não reconhecida'}, status=404)
-@api_view(['POST'])
-@permission_classes([IsAdminOrFiscal])
-def registrar_almoco_manual(request, estudante_id):
-    try:
-        estudante = Student.objects.get(id=estudante_id)
-    except Student.DoesNotExist:
-        return Response({'error': 'Estudante não encontrado'}, status=404)
 
-    hoje = timezone.now().date()
-    if Almoco.objects.filter(estudante=estudante, data_hora__date=hoje).exists():
-        return Response({'status': 'bloqueado', 'motivo': 'Já almoçou hoje'}, status=400)
-
-    almoco = Almoco.objects.create(
-        estudante=estudante,
-        metodo='manual',
-        operador=request.user,
-        observacao=request.data.get('observacao', 'Liberação manual')
-    )
-    return Response({
-        'status': 'liberado',
-        'almoco_id': almoco.id,
-        'mensagem': f'Almoço manual registrado para {estudante.nome}'
-    })
-@api_view(['GET'])
-@permission_classes([IsAdminOrFiscal])
-def buscar_estudantes(request):
-    query = request.query_params.get('q', '').strip()
-    if not query:
-        return Response({'error': 'Parâmetro de busca "q" é obrigatório'}, status=400)
-
-    # Busca por nome (case-insensitive) ou matrícula (exata)
-    estudantes = Student.objects.filter(
-        models.Q(nome__icontains=query) | models.Q(matricula__icontains=query)
-    ).only('id', 'nome', 'matricula', 'turma', 'foto')
-
-    resultados = []
-    for est in estudantes:
-        resultados.append({
-            'id': est.id,
-            'nome': est.nome,
-            'matricula': est.matricula,
-            'turma': est.turma,
-            'foto_url': est.foto.url if est.foto else None,
-        })
-    return Response(resultados)
+# ==================== LIBERAÇÃO MANUAL ====================
 @api_view(['POST'])
 @permission_classes([IsAdminOrFiscal])
 def liberar_manual(request):
-    """
-    Registra almoço manual para um estudante.
-    Body: { "estudante_id": 1, "observacao": "Motivo da liberação manual" }
-    """
     estudante_id = request.data.get('estudante_id')
     observacao = request.data.get('observacao', '').strip()
-
     if not estudante_id:
         return Response({'error': 'estudante_id é obrigatório'}, status=400)
     if not observacao:
@@ -559,30 +511,53 @@ def liberar_manual(request):
         operador=request.user,
         observacao=observacao
     )
-
-    # Disparar evento WebSocket (será implementado depois)
-    # enviar_evento_websocket(estudante, almoco)
-
+    enviar_liberacao_websocket(estudante, almoco)  # notifica via WebSocket
     return Response({
         'status': 'liberado',
         'almoco_id': almoco.id,
         'mensagem': f'Almoço manual registrado para {estudante.nome}'
     })
 
+# (opcional, compatibilidade com versão antiga – pode ser removida)
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def registrar_almoco_manual(request, estudante_id):
+    return liberar_manual(request)  # redireciona para a função padrão
+
+# ==================== BUSCA DE ESTUDANTES ====================
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def buscar_estudantes(request):
+    query = request.query_params.get('q', '').strip()
+    if not query:
+        return Response({'error': 'Parâmetro de busca "q" é obrigatório'}, status=400)
+
+    estudantes = Student.objects.filter(
+        models.Q(nome__icontains=query) | models.Q(matricula__icontains=query)
+    ).only('id', 'nome', 'matricula', 'turma', 'foto')
+
+    resultados = []
+    for est in estudantes:
+        resultados.append({
+            'id': est.id,
+            'nome': est.nome,
+            'matricula': est.matricula,
+            'turma': est.turma,
+            'foto_url': est.foto.url if est.foto else None,
+        })
+    return Response(resultados)
+
+# ==================== ESTATÍSTICAS ====================
 @api_view(['GET'])
 @permission_classes([IsAdminOrFiscal])
 def estatisticas_hoje(request):
     hoje = timezone.now().date()
     almocos_hoje = Almoco.objects.filter(data_hora__date=hoje)
-
     total = almocos_hoje.count()
     por_hora = almocos_hoje.extra({'hora': "strftime('%H', data_hora)"}).values('hora').annotate(total=Count('id'))
-
-    # Comparativo com ontem
     ontem = hoje - timedelta(days=1)
     total_ontem = Almoco.objects.filter(data_hora__date=ontem).count()
     variacao = ((total - total_ontem) / total_ontem * 100) if total_ontem else 0
-
     return Response({
         'total_hoje': total,
         'por_hora': list(por_hora),
@@ -590,14 +565,12 @@ def estatisticas_hoje(request):
         'variacao_percentual': round(variacao, 2)
     })
 
-
 @api_view(['GET'])
 @permission_classes([IsAdminOrFiscal])
 def estatisticas_semana(request):
     hoje = timezone.now().date()
-    inicio_semana = hoje - timedelta(days=hoje.weekday())  # segunda-feira
+    inicio_semana = hoje - timedelta(days=hoje.weekday())
     dias = [inicio_semana + timedelta(days=i) for i in range(7)]
-
     dados = []
     for dia in dias:
         total = Almoco.objects.filter(data_hora__date=dia).count()
@@ -608,25 +581,20 @@ def estatisticas_semana(request):
         })
     return Response(dados)
 
-
 @api_view(['GET'])
 @permission_classes([IsAdminOrFiscal])
 def estatisticas_mensal(request):
     hoje = timezone.now().date()
     mes_atual = hoje.replace(day=1)
     proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
-
     almocos = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
     total = almocos.count()
     por_metodo = almocos.values('metodo').annotate(total=Count('id'))
-
-    # Percentual biometria vs manual
     biometria = next((item['total'] for item in por_metodo if item['metodo'] == 'biometria'), 0)
     manual = next((item['total'] for item in por_metodo if item['metodo'] == 'manual'), 0)
-    total = biometria + manual
     perc_biometria = (biometria / total * 100) if total else 0
     perc_manual = (manual / total * 100) if total else 0
-
+    detalhes_por_dia = list(almocos.extra({'dia': "strftime('%d', data_hora)"}).values('dia').annotate(total=Count('id')))
     return Response({
         'mes': mes_atual.strftime('%B %Y'),
         'total': total,
@@ -634,6 +602,56 @@ def estatisticas_mensal(request):
         'manual': manual,
         'percentual_biometria': round(perc_biometria, 2),
         'percentual_manual': round(perc_manual, 2),
-        'detalhes_por_dia': list(
-            almocos.extra({'dia': "strftime('%d', data_hora)"}).values('dia').annotate(total=Count('id')))
+        'detalhes_por_dia': detalhes_por_dia
+    })
+
+# ==================== LOGS (OPCIONAL) ====================
+def registrar_log_liberacao(estudante, tipo, operador=None, observacao=''):
+    LogLiberacao.objects.create(
+        estudante=estudante,
+        operador=operador,
+        tipo=tipo,
+        observacao=observacao
+    )
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def logs_estudante(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+    logs = estudante.logs.all().order_by('-data_hora')
+    data = [{
+        'id': log.id,
+        'tipo': log.tipo,
+        'data_hora': log.data_hora,
+        'operador': log.operador.email if log.operador else None,
+        'observacao': log.observacao
+    } for log in logs]
+    return Response(data)
+
+# ==================== IDENTIFICAÇÃO (BUSCA EXATA) ====================
+@api_view(['POST'])
+def identificar_por_digital(request):
+    """
+    Versão simples: busca exata do código hex (sem registro de almoço).
+    """
+    codigo_hex = request.data.get('codigo_hex')
+    if not codigo_hex:
+        return Response({'error': 'Código hexadecimal não informado'}, status=400)
+    try:
+        digital = Digital.objects.select_related('estudante').get(codigo_hex=codigo_hex)
+    except Digital.DoesNotExist:
+        return Response({'error': 'Digital não reconhecida'}, status=404)
+    estudante = digital.estudante
+    if not estudante.ativo:
+        return Response({'error': 'Estudante inativo'}, status=403)
+    return Response({
+        'id': estudante.id,
+        'nome': estudante.nome,
+        'matricula': estudante.matricula,
+        'serie': estudante.serie,
+        'foto_url': estudante.foto.url if estudante.foto else None,
+        'ativo': estudante.ativo
     })

@@ -17,13 +17,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders',                     # apenas uma vez
+    'corsheaders',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'core',
     'channels',
-]
+    'core',
 
+]
+ASGI_APPLICATION = 'setup.asgi.application'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,7 +55,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'setup.wsgi.application'
+
 
 # Banco de dados
 if os.getenv('DATABASE_URL'):
@@ -76,8 +77,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Para desenvolvimento
-        # Para produção, use Redis: 'BACKEND': 'channels_redis.core.RedisChannelLayer'
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
     },
 }
 LANGUAGE_CODE = 'pt-br'
