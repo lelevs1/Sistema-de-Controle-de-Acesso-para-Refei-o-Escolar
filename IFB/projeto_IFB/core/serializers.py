@@ -20,7 +20,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ['id', 'nome', 'matricula', 'data_nascimento', 'serie', 'foto', 'foto_url',
+        fields = ['id', 'nome', 'matricula', 'data_nascimento', 'foto', 'foto_url',
                   'ativo', 'curso', 'turma', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
 

@@ -13,26 +13,34 @@ class Turma(models.Model):
         return self.nome
 
 class Student(models.Model):
-    SERIE_CHOICES = [
-        ('6EF', '6º Ano EF'),
-        ('7EF', '7º Ano EF'),
-        ('8EF', '8º Ano EF'),
-        ('9EF', '9º Ano EF'),
-        ('1EM', '1º Ano EM'),
-        ('2EM', '2º Ano EM'),
-        ('3EM', '3º Ano EM'),
+
+    CURSO_CHOICES = [
+        ('Técnico Integrado em Eletromecânica', 'Técnico Integrado em Eletromecânica'),
+        ('Técnico Subsequente em Eletromecânica', 'Técnico Subsequente em Eletromecânica'),
+        ('Técnico Subsequente em Manutenção e Suporte em Informática', 'Técnico Subsequente em Manutenção e Suporte em Informática'),
+        ('Técnico Subsequente em Modelagem do Vestuário', 'Técnico Subsequente em Modelagem do Vestuário'),
+        ('Técnico PROEJA em Modelagem e Vestuário', 'Técnico PROEJA em Modelagem e Vestuário'),
+        ('Bacharelado em Ciência da Computação', 'Bacharelado em Ciência da Computação'),
+        ('Licenciatura em Computação', 'Licenciatura em Computação'),
+        ('Licenciatura em Física', 'Licenciatura em Física'),
+        ('Tecnológico em Automação Industrial', 'Tecnológico em Automação Industrial'),
+        ('Tecnológico em Design de Moda', 'Tecnológico em Design de Moda'),
+        ('FIC Libras Básico', 'FIC Libras Básico'),
+        ('FIC Libras Intermediário', 'FIC Libras Intermediário'),
+        ('FIC Front-End com React', 'FIC Front-End com React'),
+        ('Qualificação Cuidadora de Idosos', 'Qualificação Cuidadora de Idosos'),
+        ('Qualificação Recepcionista', 'Qualificação Recepcionista'),
     ]
 
     nome = models.CharField('Nome completo', max_length=200)
     matricula = models.CharField('Matrícula', max_length=20, unique=True)
     data_nascimento = models.DateField('Data de nascimento')
-    serie = models.CharField('Série/Ano', max_length=3, choices=SERIE_CHOICES)
+    curso = models.CharField('Curso', max_length=100, choices=CURSO_CHOICES, blank=True, null=True)
+    turma = models.ForeignKey(Turma, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Turma', related_name='estudantes')
     foto = models.ImageField('Foto do estudante', upload_to='estudantes/fotos/', blank=True, null=True)
+    ativo = models.BooleanField('Ativo', default=True)
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
     updated_at = models.DateTimeField('Atualizado em', auto_now=True)
-    ativo = models.BooleanField('Ativo', default=True)
-    curso = models.CharField('Curso', max_length=100, blank=True, null=True)
-    turma = models.ForeignKey(Turma, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Turma', related_name='estudantes')
 
     class Meta:
         verbose_name = 'Estudante'

@@ -94,7 +94,8 @@ def identificar_por_digital(request):
         'id': estudante.id,
         'nome': estudante.nome,
         'matricula': estudante.matricula,
-        'serie': estudante.serie,
+        'curso': estudante.curso,
+        'turma': estudante.turma.nome if estudante.turma else None,
         'foto_url': estudante.foto.url if estudante.foto else None,
         'ativo': estudante.ativo
     })
@@ -155,7 +156,7 @@ def importar_estudantes(request):
     csv_file = io.StringIO(data)
     reader = csv.DictReader(csv_file)
 
-    expected_fields = ['nome', 'matricula', 'data_nascimento', 'serie']
+    expected_fields = ['nome', 'matricula', 'data_nascimento']
     if not all(field in reader.fieldnames for field in expected_fields):
         return Response({'error': f'O CSV deve conter as colunas: {", ".join(expected_fields)}'}, status=400)
 
@@ -167,13 +168,18 @@ def importar_estudantes(request):
             erros.append(f"Linha {row_num}: Matrícula {row['matricula']} já existe.")
             continue
         try:
+            # Gerencia a busca ou criação da turma automaticamente
+            nome_turma = row.get('turma', '').strip()
+            turma_obj = None
+            if nome_turma:
+                turma_obj, _ = Turma.objects.get_or_create(nome=nome_turma)
+                
             student = Student.objects.create(
                 nome=row['nome'],
                 matricula=row['matricula'],
                 data_nascimento=row['data_nascimento'],
-                serie=row['serie'],
                 curso=row.get('curso', ''),
-                turma=row.get('turma', ''),
+                turma=turma_obj,
                 ativo=row.get('ativo', 'True').lower() in ['true', '1', 'sim']
             )
             criados.append(student.id)
@@ -466,7 +472,8 @@ def verificar_digital(request):
                     'id': estudante.id,
                     'nome': estudante.nome,
                     'matricula': estudante.matricula,
-                    'serie': estudante.serie,
+                    'curso': estudante.curso,
+                    'turma': estudante.turma.nome if estudante.turma else None,
                     'foto_url': estudante.foto.url if estudante.foto else None,
                 },
                 'mensagem': f'Almoço liberado para {estudante.nome}'
