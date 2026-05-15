@@ -1,6 +1,17 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
 
+class Turma(models.Model):
+    nome = models.CharField('Nome da Turma', max_length=100, unique=True)
+    turno = models.CharField('Turno', max_length=50, blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Turma'
+        verbose_name_plural = 'Turmas'
+
+    def __str__(self):
+        return self.nome
+
 class Student(models.Model):
 
     CURSO_CHOICES = [
