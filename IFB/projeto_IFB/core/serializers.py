@@ -2,6 +2,12 @@ from rest_framework import serializers
 from .models import User
 from .models import Student
 from .models import Digital
+from .models import Turma
+
+class TurmaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Turma
+        fields = '__all__'
 
 class DigitalSerializer(serializers.ModelSerializer):
     class Meta:

@@ -16,7 +16,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 
 from .models import User, Student, Digital, Almoco, LogLiberacao, Turma
-from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
+from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer, TurmaSerializer
 from .permissions import IsAdmin, IsAdminOrFiscal
 from .biometria import comparar_templates
 
@@ -362,6 +362,12 @@ class StudentViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
+# ==================== CRUD TURMAS (VIEWSET) ====================
+class TurmaViewSet(viewsets.ModelViewSet):
+    queryset = Turma.objects.all()
+    serializer_class = TurmaSerializer
+    permission_classes = [IsAdminOrFiscal]
 
 # ==================== VERIFICAÇÃO BIOMÉTRICA (com almoço) ====================
 @api_view(['POST'])

@@ -3,10 +3,11 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 from . import views
-from .views import StudentViewSet
+from .views import StudentViewSet, TurmaViewSet
 
 router = DefaultRouter()
 router.register(r'estudantes', StudentViewSet, basename='estudante')
+router.register(r'turmas', TurmaViewSet, basename='turma')
 
 urlpatterns = [
     path('api/test/', views.test_api),
