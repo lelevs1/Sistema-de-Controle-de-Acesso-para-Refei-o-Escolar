@@ -25,7 +25,7 @@ class Student(models.Model):
     matricula = models.CharField('Matrícula', max_length=20, unique=True)
     data_nascimento = models.DateField('Data de nascimento')
     curso = models.CharField('Curso', max_length=100, choices=CURSO_CHOICES, blank=True, null=True)
-    turma = models.ForeignKey(Turma, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Turma', related_name='estudantes')
+    turma = models.ForeignKey('Turma', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Turma', related_name='estudantes')
     foto = models.ImageField('Foto do estudante', upload_to='estudantes/fotos/', blank=True, null=True)
     ativo = models.BooleanField('Ativo', default=True)
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
