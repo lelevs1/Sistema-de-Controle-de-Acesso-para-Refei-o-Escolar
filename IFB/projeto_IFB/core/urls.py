@@ -20,7 +20,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('api/', include(router.urls)),
     path('api/estudantes/importar/', views.importar_estudantes, name='importar_estudantes'),
-    path('api/estudantes/importar/', views.importar_estudantes, name='importar_estudantes'),
     path('api/estudantes/<int:estudante_id>/digitais/', views.listar_digitais, name='listar_digitais'),
     path('api/estudantes/<int:estudante_id>/digitais/cadastrar/', views.cadastrar_digital, name='cadastrar_digital'),
     path('api/digitais/<int:digital_id>/', views.remover_digital, name='remover_digital'),

@@ -15,7 +15,7 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 
-from .models import User, Student, Digital, Almoco, LogLiberacao
+from .models import User, Student, Digital, Almoco, LogLiberacao, Turma
 from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
 from .permissions import IsAdmin, IsAdminOrFiscal
 from .biometria import comparar_templates
@@ -363,86 +363,6 @@ class StudentViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
-# ==================== IMPORTAR ESTUDANTES ====================
-@api_view(['POST'])
-@permission_classes([IsAdminOrFiscal])
-def importar_estudantes(request):
-    serializer = ImportStudentSerializer(data=request.data)
-    if not serializer.is_valid():
-        return Response(serializer.errors, status=400)
-
-    file = serializer.validated_data['file']
-    data = file.read().decode('utf-8')
-    csv_file = io.StringIO(data)
-    reader = csv.DictReader(csv_file)
-
-    expected_fields = ['nome', 'matricula', 'data_nascimento', 'serie']
-    if not all(field in reader.fieldnames for field in expected_fields):
-        return Response({'error': f'O CSV deve conter as colunas: {", ".join(expected_fields)}'}, status=400)
-
-    criados = []
-    erros = []
-    for row_num, row in enumerate(reader, start=2):
-        if Student.objects.filter(matricula=row['matricula']).exists():
-            erros.append(f"Linha {row_num}: Matrícula {row['matricula']} já existe.")
-            continue
-        try:
-            student = Student.objects.create(
-                nome=row['nome'],
-                matricula=row['matricula'],
-                data_nascimento=row['data_nascimento'],
-                serie=row['serie'],
-                curso=row.get('curso', ''),
-                turma=row.get('turma', ''),
-                ativo=row.get('ativo', 'True').lower() in ['true', '1', 'sim']
-            )
-            criados.append(student.id)
-        except Exception as e:
-            erros.append(f"Linha {row_num}: {str(e)}")
-    return Response({'importados': len(criados), 'ids': criados, 'erros': erros})
-
-# ==================== DIGITAIS ====================
-@api_view(['POST'])
-@permission_classes([IsAdminOrFiscal])
-def cadastrar_digital(request, estudante_id):
-    try:
-        estudante = Student.objects.get(id=estudante_id)
-    except Student.DoesNotExist:
-        return Response({'error': 'Estudante não encontrado'}, status=404)
-
-    codigo_hex = request.data.get('codigo_hex')
-    dedo = request.data.get('dedo')
-    if not codigo_hex:
-        return Response({'error': 'código hexadecimal é obrigatório'}, status=400)
-
-    if Digital.objects.filter(codigo_hex=codigo_hex).exists():
-        return Response({'error': 'Este código de digital já está cadastrado para outro aluno'}, status=400)
-
-    digital = Digital.objects.create(estudante=estudante, codigo_hex=codigo_hex, dedo=dedo)
-    serializer = DigitalSerializer(digital)
-    return Response(serializer.data, status=201)
-
-@api_view(['GET'])
-@permission_classes([IsAdminOrFiscal])
-def listar_digitais(request, estudante_id):
-    try:
-        estudante = Student.objects.get(id=estudante_id)
-    except Student.DoesNotExist:
-        return Response({'error': 'Estudante não encontrado'}, status=404)
-    digitais = estudante.digitais.all()
-    serializer = DigitalSerializer(digitais, many=True)
-    return Response(serializer.data)
-
-@api_view(['DELETE'])
-@permission_classes([IsAdminOrFiscal])
-def remover_digital(request, digital_id):
-    try:
-        digital = Digital.objects.get(id=digital_id)
-    except Digital.DoesNotExist:
-        return Response({'error': 'Digital não encontrada'}, status=404)
-    digital.delete()
-    return Response({'message': 'Digital removida com sucesso'})
-
 # ==================== VERIFICAÇÃO BIOMÉTRICA (com almoço) ====================
 @api_view(['POST'])
 def verificar_digital(request):
@@ -630,28 +550,3 @@ def logs_estudante(request, estudante_id):
         'observacao': log.observacao
     } for log in logs]
     return Response(data)
-
-# ==================== IDENTIFICAÇÃO (BUSCA EXATA) ====================
-@api_view(['POST'])
-def identificar_por_digital(request):
-    """
-    Versão simples: busca exata do código hex (sem registro de almoço).
-    """
-    codigo_hex = request.data.get('codigo_hex')
-    if not codigo_hex:
-        return Response({'error': 'Código hexadecimal não informado'}, status=400)
-    try:
-        digital = Digital.objects.select_related('estudante').get(codigo_hex=codigo_hex)
-    except Digital.DoesNotExist:
-        return Response({'error': 'Digital não reconhecida'}, status=404)
-    estudante = digital.estudante
-    if not estudante.ativo:
-        return Response({'error': 'Estudante inativo'}, status=403)
-    return Response({
-        'id': estudante.id,
-        'nome': estudante.nome,
-        'matricula': estudante.matricula,
-        'serie': estudante.serie,
-        'foto_url': estudante.foto.url if estudante.foto else None,
-        'ativo': estudante.ativo
-    })
