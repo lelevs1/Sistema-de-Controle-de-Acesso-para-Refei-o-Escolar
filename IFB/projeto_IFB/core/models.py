@@ -12,30 +12,22 @@ class Turma(models.Model):
     def __str__(self):
         return self.nome
 
-class Student(models.Model):
+class Curso(models.Model):
+    nome = models.CharField('Nome do Curso', max_length=150, unique=True)
 
-    CURSO_CHOICES = [
-        ('Técnico Integrado em Eletromecânica', 'Técnico Integrado em Eletromecânica'),
-        ('Técnico Subsequente em Eletromecânica', 'Técnico Subsequente em Eletromecânica'),
-        ('Técnico Subsequente em Manutenção e Suporte em Informática', 'Técnico Subsequente em Manutenção e Suporte em Informática'),
-        ('Técnico Subsequente em Modelagem do Vestuário', 'Técnico Subsequente em Modelagem do Vestuário'),
-        ('Técnico PROEJA em Modelagem e Vestuário', 'Técnico PROEJA em Modelagem e Vestuário'),
-        ('Bacharelado em Ciência da Computação', 'Bacharelado em Ciência da Computação'),
-        ('Licenciatura em Computação', 'Licenciatura em Computação'),
-        ('Licenciatura em Física', 'Licenciatura em Física'),
-        ('Tecnológico em Automação Industrial', 'Tecnológico em Automação Industrial'),
-        ('Tecnológico em Design de Moda', 'Tecnológico em Design de Moda'),
-        ('FIC Libras Básico', 'FIC Libras Básico'),
-        ('FIC Libras Intermediário', 'FIC Libras Intermediário'),
-        ('FIC Front-End com React', 'FIC Front-End com React'),
-        ('Qualificação Cuidadora de Idosos', 'Qualificação Cuidadora de Idosos'),
-        ('Qualificação Recepcionista', 'Qualificação Recepcionista'),
-    ]
+    class Meta:
+        verbose_name = 'Curso'
+        verbose_name_plural = 'Cursos'
+
+    def __str__(self):
+        return self.nome
+
+class Student(models.Model):
 
     nome = models.CharField('Nome completo', max_length=200)
     matricula = models.CharField('Matrícula', max_length=20, unique=True)
     data_nascimento = models.DateField('Data de nascimento')
-    curso = models.CharField('Curso', max_length=100, choices=CURSO_CHOICES, blank=True, null=True)
+    curso = models.ForeignKey('Curso', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Curso', related_name='estudantes')
     turma = models.ForeignKey('Turma', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Turma', related_name='estudantes')
     foto = models.ImageField('Foto do estudante', upload_to='estudantes/fotos/', blank=True, null=True)
     ativo = models.BooleanField('Ativo', default=True)

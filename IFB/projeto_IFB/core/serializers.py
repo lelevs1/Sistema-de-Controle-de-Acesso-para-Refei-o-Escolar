@@ -3,6 +3,12 @@ from .models import User
 from .models import Student
 from .models import Digital
 from .models import Turma
+from .models import Curso
+
+class CursoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Curso
+        fields = '__all__'
 
 class TurmaSerializer(serializers.ModelSerializer):
     class Meta:

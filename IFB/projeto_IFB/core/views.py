@@ -15,8 +15,8 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 
-from .models import User, Student, Digital, Almoco, LogLiberacao, Turma
-from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer, TurmaSerializer
+from .models import User, Student, Digital, Almoco, LogLiberacao, Turma, Curso
+from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer, TurmaSerializer, CursoSerializer
 from .permissions import IsAdmin, IsAdminOrFiscal
 from .biometria import comparar_templates
 
@@ -84,7 +84,7 @@ def identificar_por_digital(request):
         'id': estudante.id,
         'nome': estudante.nome,
         'matricula': estudante.matricula,
-        'curso': estudante.curso,
+        'curso': estudante.curso.nome if estudante.curso else None,
         'turma': estudante.turma.nome if estudante.turma else None,
         'foto_url': estudante.foto.url if estudante.foto else None,
         'ativo': estudante.ativo
@@ -163,12 +163,17 @@ def importar_estudantes(request):
             turma_obj = None
             if nome_turma:
                 turma_obj, _ = Turma.objects.get_or_create(nome=nome_turma)
+
+            nome_curso = row.get('curso', '').strip()
+            curso_obj = None
+            if nome_curso:
+                curso_obj, _ = Curso.objects.get_or_create(nome=nome_curso)
                 
             student = Student.objects.create(
                 nome=row['nome'],
                 matricula=row['matricula'],
                 data_nascimento=row['data_nascimento'],
-                curso=row.get('curso', ''),
+                curso=curso_obj,
                 turma=turma_obj,
                 ativo=row.get('ativo', 'True').lower() in ['true', '1', 'sim']
             )
@@ -369,6 +374,12 @@ class TurmaViewSet(viewsets.ModelViewSet):
     serializer_class = TurmaSerializer
     permission_classes = [IsAdminOrFiscal]
 
+# ==================== CRUD CURSOS (VIEWSET) ====================
+class CursoViewSet(viewsets.ModelViewSet):
+    queryset = Curso.objects.all()
+    serializer_class = CursoSerializer
+    permission_classes = [IsAdminOrFiscal]
+
 # ==================== VERIFICAÇÃO BIOMÉTRICA (com almoço) ====================
 @api_view(['POST'])
 def verificar_digital(request):
@@ -400,7 +411,7 @@ def verificar_digital(request):
                     'id': estudante.id,
                     'nome': estudante.nome,
                     'matricula': estudante.matricula,
-                    'curso': estudante.curso,
+                    'curso': estudante.curso.nome if estudante.curso else None,
                     'turma': estudante.turma.nome if estudante.turma else None,
                     'foto_url': estudante.foto.url if estudante.foto else None,
                 },
