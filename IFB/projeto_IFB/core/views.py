@@ -16,7 +16,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 
 from .models import User, Student, Digital, Almoco, LogLiberacao, Turma, Curso
-from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer, TurmaSerializer, CursoSerializer
+from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
 from .permissions import IsAdmin, IsAdminOrFiscal
 from .biometria import comparar_templates
 
@@ -40,154 +40,31 @@ def calcular_percentuais():
     }
 
 def enviar_liberacao_websocket(estudante, almoco):
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        'liberacoes',
-        {
-            'type': 'nova_liberacao',
-            'data': {
-                'estudante_id': estudante.id,
-                'nome': estudante.nome,
-                'matricula': estudante.matricula,
-                'metodo': almoco.metodo,
-                'data_hora': almoco.data_hora.isoformat(),
-                'observacao': almoco.observacao,
-                'percentuais': calcular_percentuais()  # função opcional
-            }
-        }
-    )
-@api_view(['POST'])
-def identificar_por_digital(request):
-    """
-    Recebe o código hexadecimal da digital (template) e retorna os dados do aluno,
-    desde que a digital esteja cadastrada e o aluno esteja ativo.
-    """
-
-    codigo_hex = request.data.get('codigo_hex')
-    if not codigo_hex:
-        return Response({'error': 'Código hexadecimal não informado'}, status=400)
-
-
+    """Envia evento de liberação via WebSocket (se channels estiver configurado)"""
     try:
-        digital = Digital.objects.select_related('estudante').get(codigo_hex=codigo_hex)
-    except Digital.DoesNotExist:
-        return Response({'error': 'Digital não reconhecida'}, status=404)
-
-    estudante = digital.estudante
-    if not estudante.ativo:
-        return Response({'error': 'Estudante inativo'}, status=403)
-
-    # Opcional: registrar log de liberação (ver abaixo)
-    # registrar_log_liberacao(estudante, tipo='biometrica', operador=None)
-
-    return Response({
-        'id': estudante.id,
-        'nome': estudante.nome,
-        'matricula': estudante.matricula,
-        'curso': estudante.curso.nome if estudante.curso else None,
-        'turma': estudante.turma.nome if estudante.turma else None,
-        'foto_url': estudante.foto.url if estudante.foto else None,
-        'ativo': estudante.ativo
-    })
-@api_view(['POST'])
-@permission_classes([IsAdminOrFiscal])
-def cadastrar_digital(request, estudante_id):
-    try:
-        estudante = Student.objects.get(id=estudante_id)
-    except Student.DoesNotExist:
-        return Response({'error': 'Estudante não encontrado'}, status=404)
-
-    codigo_hex = request.data.get('codigo_hex')
-    dedo = request.data.get('dedo')
-    if not codigo_hex:
-        return Response({'error': 'código hexadecimal é obrigatório'}, status=400)
-
-    # Verifica se o código já existe em algum aluno
-    if Digital.objects.filter(codigo_hex=codigo_hex).exists():
-        return Response({'error': 'Este código de digital já está cadastrado para outro aluno'}, status=400)
-
-    digital = Digital.objects.create(estudante=estudante, codigo_hex=codigo_hex, dedo=dedo)
-    serializer = DigitalSerializer(digital)
-    return Response(serializer.data, status=201)
-
-
-@api_view(['GET'])
-@permission_classes([IsAdminOrFiscal])
-def listar_digitais(request, estudante_id):
-    try:
-        estudante = Student.objects.get(id=estudante_id)
-    except Student.DoesNotExist:
-        return Response({'error': 'Estudante não encontrado'}, status=404)
-
-    digitais = estudante.digitais.all()
-    serializer = DigitalSerializer(digitais, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-@permission_classes([IsAdminOrFiscal])
-def remover_digital(request, digital_id):
-    try:
-        digital = Digital.objects.get(id=digital_id)
-    except Digital.DoesNotExist:
-        return Response({'error': 'Digital não encontrada'}, status=404)
-    digital.delete()
-    return Response({'message': 'Digital removida com sucesso'})
-
-@api_view(['POST'])
-@permission_classes([IsAdminOrFiscal])
-def importar_estudantes(request):
-    serializer = ImportStudentSerializer(data=request.data)
-    if not serializer.is_valid():
-        return Response(serializer.errors, status=400)
-
-    file = serializer.validated_data['file']
-    data = file.read().decode('utf-8')
-    csv_file = io.StringIO(data)
-    reader = csv.DictReader(csv_file)
-
-    expected_fields = ['nome', 'matricula', 'data_nascimento']
-    if not all(field in reader.fieldnames for field in expected_fields):
-        return Response({'error': f'O CSV deve conter as colunas: {", ".join(expected_fields)}'}, status=400)
-
-    criados = []
-    erros = []
-    for row_num, row in enumerate(reader, start=2):
-        # Validação básica
-        if Student.objects.filter(matricula=row['matricula']).exists():
-            erros.append(f"Linha {row_num}: Matrícula {row['matricula']} já existe.")
-            continue
-        try:
-            # Gerencia a busca ou criação da turma automaticamente
-            nome_turma = row.get('turma', '').strip()
-            turma_obj = None
-            if nome_turma:
-                turma_obj, _ = Turma.objects.get_or_create(nome=nome_turma)
-
-            nome_curso = row.get('curso', '').strip()
-            curso_obj = None
-            if nome_curso:
-                curso_obj, _ = Curso.objects.get_or_create(nome=nome_curso)
-                
-            student = Student.objects.create(
-                nome=row['nome'],
-                matricula=row['matricula'],
-                data_nascimento=row['data_nascimento'],
-                curso=curso_obj,
-                turma=turma_obj,
-                ativo=row.get('ativo', 'True').lower() in ['true', '1', 'sim']
+        from channels.layers import get_channel_layer
+        from asgiref.sync import async_to_sync
+        channel_layer = get_channel_layer()
+        if channel_layer:
+            async_to_sync(channel_layer.group_send)(
+                'liberacoes',
+                {
+                    'type': 'nova_liberacao',
+                    'data': {
+                        'estudante_id': estudante.id,
+                        'nome': estudante.nome,
+                        'matricula': estudante.matricula,
+                        'metodo': almoco.metodo,
+                        'data_hora': almoco.data_hora.isoformat(),
+                        'observacao': almoco.observacao,
+                        'percentuais': calcular_percentuais()
+                    }
+                }
             )
-            criados.append(student.id)
-        except Exception as e:
-            erros.append(f"Linha {row_num}: {str(e)}")
+    except Exception as e:
+        print(f"WebSocket não enviado: {e}")
 
-    return Response({
-        'importados': len(criados),
-        'ids': criados,
-        'erros': erros
-    })
-logger = logging.getLogger(__name__)
-
+# ==================== VIEWS PÚBLICAS ====================
 def test_api(request):
     return JsonResponse({"message": "API funcionando"})
 
@@ -368,17 +245,98 @@ class StudentViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
-# ==================== CRUD TURMAS (VIEWSET) ====================
-class TurmaViewSet(viewsets.ModelViewSet):
-    queryset = Turma.objects.all()
-    serializer_class = TurmaSerializer
-    permission_classes = [IsAdminOrFiscal]
+# ==================== IMPORTAR ESTUDANTES (CSV) ====================
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def importar_estudantes(request):
+    serializer = ImportStudentSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
 
-# ==================== CRUD CURSOS (VIEWSET) ====================
-class CursoViewSet(viewsets.ModelViewSet):
-    queryset = Curso.objects.all()
-    serializer_class = CursoSerializer
-    permission_classes = [IsAdminOrFiscal]
+    file = serializer.validated_data['file']
+    data = file.read().decode('utf-8')
+    csv_file = io.StringIO(data)
+    reader = csv.DictReader(csv_file)
+
+    expected_fields = ['nome', 'matricula', 'data_nascimento']
+    if not all(field in reader.fieldnames for field in expected_fields):
+        return Response({'error': f'O CSV deve conter as colunas: {", ".join(expected_fields)} (curso, turma e ativo são opcionais)'}, status=400)
+
+    criados = []
+    erros = []
+    for row_num, row in enumerate(reader, start=2):
+        if Student.objects.filter(matricula=row['matricula']).exists():
+            erros.append(f"Linha {row_num}: Matrícula {row['matricula']} já existe.")
+            continue
+
+        try:
+            # Tratamento do curso (ForeignKey)
+            nome_curso = row.get('curso', '').strip()
+            curso_obj = None
+            if nome_curso:
+                curso_obj, _ = Curso.objects.get_or_create(nome=nome_curso)
+
+            # Tratamento da turma (ForeignKey)
+            nome_turma = row.get('turma', '').strip()
+            turma_obj = None
+            if nome_turma:
+                turma_obj, _ = Turma.objects.get_or_create(nome=nome_turma)
+
+            student = Student.objects.create(
+                nome=row['nome'],
+                matricula=row['matricula'],
+                data_nascimento=row['data_nascimento'],
+                curso=curso_obj,
+                turma=turma_obj,
+                ativo=row.get('ativo', 'True').lower() in ['true', '1', 'sim']
+            )
+            criados.append(student.id)
+        except Exception as e:
+            erros.append(f"Linha {row_num}: {str(e)}")
+
+    return Response({'importados': len(criados), 'ids': criados, 'erros': erros})
+
+# ==================== DIGITAIS ====================
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def cadastrar_digital(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+
+    codigo_hex = request.data.get('codigo_hex')
+    dedo = request.data.get('dedo')
+    if not codigo_hex:
+        return Response({'error': 'código hexadecimal é obrigatório'}, status=400)
+
+    if Digital.objects.filter(codigo_hex=codigo_hex).exists():
+        return Response({'error': 'Este código de digital já está cadastrado para outro aluno'}, status=400)
+
+    digital = Digital.objects.create(estudante=estudante, codigo_hex=codigo_hex, dedo=dedo)
+    serializer = DigitalSerializer(digital)
+    return Response(serializer.data, status=201)
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def listar_digitais(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+    digitais = estudante.digitais.all()
+    serializer = DigitalSerializer(digitais, many=True)
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminOrFiscal])
+def remover_digital(request, digital_id):
+    try:
+        digital = Digital.objects.get(id=digital_id)
+    except Digital.DoesNotExist:
+        return Response({'error': 'Digital não encontrada'}, status=404)
+    digital.delete()
+    return Response({'message': 'Digital removida com sucesso'})
 
 # ==================== VERIFICAÇÃO BIOMÉTRICA (com almoço) ====================
 @api_view(['POST'])
@@ -387,7 +345,7 @@ def verificar_digital(request):
     if not codigo_hex:
         return Response({'error': 'Código hexadecimal não informado'}, status=400)
 
-    todas_digitais = Digital.objects.select_related('estudante').all()
+    todas_digitais = Digital.objects.select_related('estudante__turma', 'estudante__curso').all()
     for digital in todas_digitais:
         if comparar_templates(codigo_hex, digital.codigo_hex, security_level=4):
             estudante = digital.estudante
@@ -404,7 +362,7 @@ def verificar_digital(request):
                 operador=request.user if request.user.is_authenticated else None,
                 observacao='Liberação via biometria'
             )
-            enviar_liberacao_websocket(estudante, almoco)  # notifica via WebSocket
+            enviar_liberacao_websocket(estudante, almoco)
             return Response({
                 'status': 'liberado',
                 'estudante': {
@@ -448,7 +406,7 @@ def liberar_manual(request):
         operador=request.user,
         observacao=observacao
     )
-    enviar_liberacao_websocket(estudante, almoco)  # notifica via WebSocket
+    enviar_liberacao_websocket(estudante, almoco)
     return Response({
         'status': 'liberado',
         'almoco_id': almoco.id,
@@ -459,7 +417,7 @@ def liberar_manual(request):
 @api_view(['POST'])
 @permission_classes([IsAdminOrFiscal])
 def registrar_almoco_manual(request, estudante_id):
-    return liberar_manual(request)  # redireciona para a função padrão
+    return liberar_manual(request)
 
 # ==================== BUSCA DE ESTUDANTES ====================
 @api_view(['GET'])
@@ -471,7 +429,7 @@ def buscar_estudantes(request):
 
     estudantes = Student.objects.filter(
         models.Q(nome__icontains=query) | models.Q(matricula__icontains=query)
-    ).only('id', 'nome', 'matricula', 'turma', 'foto')
+    ).select_related('turma', 'curso')
 
     resultados = []
     for est in estudantes:
@@ -479,7 +437,8 @@ def buscar_estudantes(request):
             'id': est.id,
             'nome': est.nome,
             'matricula': est.matricula,
-            'turma': est.turma,
+            'turma': est.turma.nome if est.turma else None,
+            'curso': est.curso.nome if est.curso else None,
             'foto_url': est.foto.url if est.foto else None,
         })
     return Response(resultados)
@@ -567,3 +526,29 @@ def logs_estudante(request, estudante_id):
         'observacao': log.observacao
     } for log in logs]
     return Response(data)
+
+# ==================== IDENTIFICAÇÃO (BUSCA EXATA) ====================
+@api_view(['POST'])
+def identificar_por_digital(request):
+    """
+    Versão simples: busca exata do código hex (sem registro de almoço).
+    """
+    codigo_hex = request.data.get('codigo_hex')
+    if not codigo_hex:
+        return Response({'error': 'Código hexadecimal não informado'}, status=400)
+    try:
+        digital = Digital.objects.select_related('estudante__turma', 'estudante__curso').get(codigo_hex=codigo_hex)
+    except Digital.DoesNotExist:
+        return Response({'error': 'Digital não reconhecida'}, status=404)
+    estudante = digital.estudante
+    if not estudante.ativo:
+        return Response({'error': 'Estudante inativo'}, status=403)
+    return Response({
+        'id': estudante.id,
+        'nome': estudante.nome,
+        'matricula': estudante.matricula,
+        'curso': estudante.curso.nome if estudante.curso else None,
+        'turma': estudante.turma.nome if estudante.turma else None,
+        'foto_url': estudante.foto.url if estudante.foto else None,
+        'ativo': estudante.ativo
+    })

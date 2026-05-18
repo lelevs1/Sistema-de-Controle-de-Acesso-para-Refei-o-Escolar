@@ -1,19 +1,5 @@
 from rest_framework import serializers
-from .models import User
-from .models import Student
-from .models import Digital
-from .models import Turma
-from .models import Curso
-
-class CursoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Curso
-        fields = '__all__'
-
-class TurmaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Turma
-        fields = '__all__'
+from .models import User, Student, Digital, Turma
 
 class DigitalSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,18 +17,28 @@ class ImportStudentSerializer(serializers.Serializer):
 
 class StudentSerializer(serializers.ModelSerializer):
     foto_url = serializers.SerializerMethodField(read_only=True)
+    turma_nome = serializers.SerializerMethodField(read_only=True)  # campo extra para exibir o nome da turma
 
     class Meta:
         model = Student
-        fields = ['id', 'nome', 'matricula', 'data_nascimento', 'foto', 'foto_url',
-                  'ativo', 'curso', 'turma', 'created_at', 'updated_at']
+        fields = [
+            'id', 'nome', 'matricula', 'data_nascimento',
+            'curso', 'turma', 'turma_nome', 'foto', 'foto_url',
+            'ativo', 'created_at', 'updated_at'
+        ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
     def get_foto_url(self, obj):
-        if obj.foto:
-            return obj.foto.url
-        return None
+        return obj.foto.url if obj.foto else None
+
+    def get_turma_nome(self, obj):
+        return obj.turma.nome if obj.turma else None
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+curso_nome = serializers.SerializerMethodField()
+
+def get_curso_nome(self, obj):
+    return obj.curso.nome if obj.curso else None
