@@ -32,4 +32,6 @@ urlpatterns = [
     path('api/dashboard/hoje/', views.estatisticas_hoje, name='dashboard_hoje'),
     path('api/dashboard/semana/', views.estatisticas_semana, name='dashboard_semana'),
     path('api/dashboard/mensal/', views.estatisticas_mensal, name='dashboard_mensal'),
+    path('api/dashboard/fiscal/', views.dashboard_fiscal, name='dashboard_fiscal'),
+    path('api/dashboard/gestao/', views.dashboard_gestao, name='dashboard_gestao'),
 ]

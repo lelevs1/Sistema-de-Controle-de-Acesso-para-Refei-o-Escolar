@@ -17,7 +17,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 
 from .models import User, Student, Digital, Almoco, LogLiberacao, Turma, Curso
 from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
-from .permissions import IsAdmin, IsAdminOrFiscal
+from .permissions import IsAdmin, IsAdminOrFiscal, IsAdminOrGestor, IsFiscal
 from .biometria import comparar_templates
 
 import csv
@@ -413,7 +413,6 @@ def liberar_manual(request):
         'mensagem': f'Almoço manual registrado para {estudante.nome}'
     })
 
-# (opcional, compatibilidade com versão antiga – pode ser removida)
 @api_view(['POST'])
 @permission_classes([IsAdminOrFiscal])
 def registrar_almoco_manual(request, estudante_id):
@@ -501,7 +500,7 @@ def estatisticas_mensal(request):
         'detalhes_por_dia': detalhes_por_dia
     })
 
-# ==================== LOGS (OPCIONAL) ====================
+# ==================== LOGS (COM OCULTAÇÃO PARA FISCAL) ====================
 def registrar_log_liberacao(estudante, tipo, operador=None, observacao=''):
     LogLiberacao.objects.create(
         estudante=estudante,
@@ -518,13 +517,18 @@ def logs_estudante(request, estudante_id):
     except Student.DoesNotExist:
         return Response({'error': 'Estudante não encontrado'}, status=404)
     logs = estudante.logs.all().order_by('-data_hora')
-    data = [{
-        'id': log.id,
-        'tipo': log.tipo,
-        'data_hora': log.data_hora,
-        'operador': log.operador.email if log.operador else None,
-        'observacao': log.observacao
-    } for log in logs]
+    data = []
+    for log in logs:
+        item = {
+            'id': log.id,
+            'tipo': log.tipo,
+            'data_hora': log.data_hora,
+            'observacao': log.observacao
+        }
+        # Só inclui o campo 'operador' se o usuário for admin (não fiscal)
+        if request.user.papel == 'admin':
+            item['operador'] = log.operador.email if log.operador else None
+        data.append(item)
     return Response(data)
 
 # ==================== IDENTIFICAÇÃO (BUSCA EXATA) ====================
@@ -551,4 +555,122 @@ def identificar_por_digital(request):
         'turma': estudante.turma.nome if estudante.turma else None,
         'foto_url': estudante.foto.url if estudante.foto else None,
         'ativo': estudante.ativo
+    })
+
+# ==================== DASHBOARD FISCAL ====================
+@api_view(['GET'])
+@permission_classes([IsFiscal])
+def dashboard_fiscal(request):
+    """
+    Retorna dados agregados para validação do fiscal:
+    - Totais por dia, semana, mês
+    - Evolução diária (últimos 30 dias)
+    - Resumo diário: data, total, biometria, manual
+    """
+    hoje = timezone.now().date()
+    ultimos_30_dias = [hoje - timedelta(days=i) for i in range(30)]
+    evolucao = []
+    for dia in ultimos_30_dias:
+        total = Almoco.objects.filter(data_hora__date=dia).count()
+        biometria = Almoco.objects.filter(data_hora__date=dia, metodo='biometria').count()
+        manual = total - biometria
+        evolucao.append({
+            'data': dia.isoformat(),
+            'total': total,
+            'biometria': biometria,
+            'manual': manual
+        })
+    inicio_semana = hoje - timedelta(days=hoje.weekday())
+    dias_semana = [inicio_semana + timedelta(days=i) for i in range(7)]
+    semana = []
+    for dia in dias_semana:
+        total = Almoco.objects.filter(data_hora__date=dia).count()
+        semana.append({'data': dia.isoformat(), 'total': total})
+
+    mes_atual = hoje.replace(day=1)
+    proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
+    almocos_mes = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
+    total_mes = almocos_mes.count()
+    biometria_mes = almocos_mes.filter(metodo='biometria').count()
+    manual_mes = total_mes - biometria_mes
+
+    return Response({
+        'evolucao_diaria': evolucao,
+        'semana': semana,
+        'mes': {
+            'total': total_mes,
+            'biometria': biometria_mes,
+            'manual': manual_mes,
+            'percentual_biometria': round(biometria_mes / total_mes * 100, 2) if total_mes else 0
+        }
+    })
+
+# ==================== DASHBOARD GESTÃO ====================
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def dashboard_gestao(request):
+    """
+    Retorna indicadores por turma e curso:
+    - Visão por turma: total de almoços e percentual de comparecimento
+    - Visão por curso: agregado por curso
+    - Evolução mensal (últimos 12 meses)
+    """
+    hoje = timezone.now().date()
+    mes_atual = hoje.replace(day=1)
+    proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
+    almocos_periodo = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
+
+    # Dados por turma
+    turmas = Turma.objects.all()
+    dados_turmas = []
+    for turma in turmas:
+        alunos_turma = Student.objects.filter(turma=turma, ativo=True).count()
+        if alunos_turma == 0:
+            continue
+        total_almocos_turma = almocos_periodo.filter(estudante__turma=turma).count()
+        media_por_aluno = round(total_almocos_turma / alunos_turma, 2) if alunos_turma else 0
+        percentual = round((total_almocos_turma / (alunos_turma * 30)) * 100, 2) if alunos_turma else 0
+        dados_turmas.append({
+            'turma_id': turma.id,
+            'turma_nome': turma.nome,
+            'total_alunos': alunos_turma,
+            'total_almocos': total_almocos_turma,
+            'media_por_aluno': media_por_aluno,
+            'percentual_comparecimento': percentual
+        })
+
+    # Dados por curso
+    cursos = Curso.objects.all()
+    dados_cursos = []
+    for curso in cursos:
+        alunos_curso = Student.objects.filter(curso=curso, ativo=True).count()
+        if alunos_curso == 0:
+            continue
+        total_almocos_curso = almocos_periodo.filter(estudante__curso=curso).count()
+        media_por_aluno = round(total_almocos_curso / alunos_curso, 2) if alunos_curso else 0
+        dados_cursos.append({
+            'curso_id': curso.id,
+            'curso_nome': curso.nome,
+            'total_alunos': alunos_curso,
+            'total_almocos': total_almocos_curso,
+            'media_por_aluno': media_por_aluno
+        })
+
+    # Evolução mensal (últimos 12 meses)
+    meses = []
+    for i in range(12):
+        data_inicio = hoje.replace(day=1) - timedelta(days=30 * i)
+        data_inicio = data_inicio.replace(day=1)
+        data_fim = (data_inicio + timedelta(days=32)).replace(day=1)
+        total = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).count()
+        meses.append({
+            'mes': data_inicio.strftime('%Y-%m'),
+            'total': total
+        })
+    meses.reverse()
+
+    return Response({
+        'por_turma': dados_turmas,
+        'por_curso': dados_cursos,
+        'evolucao_mensal': meses
     })
