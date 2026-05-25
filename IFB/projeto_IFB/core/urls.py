@@ -34,4 +34,10 @@ urlpatterns = [
     path('api/dashboard/mensal/', views.estatisticas_mensal, name='dashboard_mensal'),
     path('api/dashboard/fiscal/', views.dashboard_fiscal, name='dashboard_fiscal'),
     path('api/dashboard/gestao/', views.dashboard_gestao, name='dashboard_gestao'),
+    path('api/relatorios/diario/', views.relatorio_diario, name='relatorio_diario'),
+    path('api/relatorios/mensal/', views.relatorio_mensal, name='relatorio_mensal'),
+    path('api/relatorios/estudante/<int:estudante_id>/', views.relatorio_estudante, name='relatorio_estudante'),
+    path('api/relatorios/operador/', views.relatorio_operador, name='relatorio_operador'),
+    path('api/relatorios/excecoes/', views.relatorio_excecoes, name='relatorio_excecoes'),
+    path('api/relatorios/pagamento/', views.relatorio_pagamento, name='relatorio_pagamento'),
 ]

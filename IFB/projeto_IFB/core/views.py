@@ -22,6 +22,193 @@ from .biometria import comparar_templates
 
 import csv
 import io
+# ==================== RELATÓRIOS ====================
+from .utils import gerar_csv, gerar_pdf
+from django.db.models import Q, Sum
+from .models import Almoco, Student, LogLiberacao, User
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_diario(request):
+    """GET /relatorios/diario?data=AAAA-MM-DD"""
+    data_str = request.query_params.get('data')
+    if not data_str:
+        return Response({'error': 'Parâmetro data obrigatório (YYYY-MM-DD)'}, status=400)
+    try:
+        data = datetime.strptime(data_str, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    almocos = Almoco.objects.filter(data_hora__date=data).select_related('estudante', 'operador')
+    cabecalho = ['ID Almoço', 'Estudante', 'Matrícula', 'Método', 'Data/Hora', 'Operador', 'Observação']
+    dados = [[
+        a.id, a.estudante.nome, a.estudante.matricula,
+        a.get_metodo_display(), a.data_hora.strftime('%d/%m/%Y %H:%M'),
+        a.operador.email if a.operador else '---', a.observacao or ''
+    ] for a in almocos]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    if formato == 'csv':
+        return gerar_csv(f'relatorio_diario_{data_str}', cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(f'relatorio_diario_{data_str}', f'Relatório Diário - {data_str}', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_mensal(request):
+    """GET /relatorios/mensal?ano=2025&mes=5"""
+    ano = request.query_params.get('ano')
+    mes = request.query_params.get('mes')
+    if not ano or not mes:
+        return Response({'error': 'Parâmetros ano e mes obrigatórios'}, status=400)
+    try:
+        data_inicio = datetime(int(ano), int(mes), 1).date()
+        if int(mes) == 12:
+            data_fim = datetime(int(ano)+1, 1, 1).date()
+        else:
+            data_fim = datetime(int(ano), int(mes)+1, 1).date()
+    except ValueError:
+        return Response({'error': 'Ano/mês inválidos'}, status=400)
+
+    almocos = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).select_related('estudante', 'operador')
+    cabecalho = ['ID', 'Estudante', 'Matrícula', 'Data', 'Método', 'Operador']
+    dados = [[
+        a.id, a.estudante.nome, a.estudante.matricula,
+        a.data_hora.strftime('%d/%m/%Y'), a.get_metodo_display(),
+        a.operador.email if a.operador else '---'
+    ] for a in almocos]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_mensal_{ano}_{mes}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Relatório Mensal - {data_inicio.strftime("%B %Y")}', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def relatorio_estudante(request, estudante_id):
+    """GET /relatorios/estudante/:id"""
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+
+    almocos = Almoco.objects.filter(estudante=estudante).order_by('-data_hora')
+    cabecalho = ['ID', 'Data/Hora', 'Método', 'Operador', 'Observação']
+    dados = [[
+        a.id, a.data_hora.strftime('%d/%m/%Y %H:%M'),
+        a.get_metodo_display(), a.operador.email if a.operador else '---',
+        a.observacao or ''
+    ] for a in almocos]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_estudante_{estudante.matricula}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Histórico de {estudante.nome} - {estudante.matricula}', cabecalho, dados)
+    return Response({'estudante': {'id': estudante.id, 'nome': estudante.nome, 'matricula': estudante.matricula}, 'almocos': dados})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_operador(request):
+    """GET /relatorios/operador?inicio=YYYY-MM-DD&fim=YYYY-MM-DD"""
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    try:
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    operadores = User.objects.filter(papel__in=['operador', 'admin']).annotate(num_almocos=Count('almoco'))
+    dados = []
+    for op in operadores:
+        almocos = Almoco.objects.filter(operador=op, data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
+        total = almocos.count()
+        biometria = almocos.filter(metodo='biometria').count()
+        manual = total - biometria
+        dados.append([op.email, total, biometria, manual])
+    cabecalho = ['Operador', 'Total almoços', 'Biometria', 'Manual']
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_operador_{inicio}_a_{fim}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Relatório por Operador ({inicio} a {fim})', cabecalho, dados)
+    return Response({'dados': dados})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_excecoes(request):
+    """GET /relatorios/excecoes?inicio=YYYY-MM-DD&fim=YYYY-MM-DD"""
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    try:
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    # Exceções = almoços manuais (observação não vazia) ou com operador null (sistema?)
+    excecoes = LogLiberacao.objects.filter(
+        data_hora__date__gte=data_ini, data_hora__date__lte=data_fim,
+        tipo='manual'
+    ).select_related('estudante', 'operador')
+    cabecalho = ['ID', 'Data', 'Estudante', 'Operador', 'Observação']
+    dados = [[
+        log.id, log.data_hora.strftime('%d/%m/%Y %H:%M'),
+        log.estudante.nome, log.operador.email if log.operador else '---',
+        log.observacao or ''
+    ] for log in excecoes]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_excecoes_{inicio}_a_{fim}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Exceções de Liberação Manual', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_pagamento(request):
+    """GET /relatorios/pagamento?inicio=YYYY-MM-DD&fim=YYYY-MM-DD"""
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    try:
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    # Agrupa por dia
+    almocos = Almoco.objects.filter(data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
+    dias = almocos.dates('data_hora', 'day').order_by('data_hora')
+    dados = []
+    for dia in dias:
+        dia_almocos = almocos.filter(data_hora__date=dia)
+        total = dia_almocos.count()
+        biometria = dia_almocos.filter(metodo='biometria').count()
+        manual = total - biometria
+        dados.append([dia.strftime('%d/%m/%Y'), total, biometria, manual])
+    cabecalho = ['Data', 'Total almoços', 'Biometria', 'Manual']
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_pagamento_{inicio}_a_{fim}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Relatório de Pagamento (Diário)', cabecalho, dados)
+    return Response({'dados': dados})
 
 logger = logging.getLogger(__name__)
 
