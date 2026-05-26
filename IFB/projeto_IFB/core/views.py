@@ -18,12 +18,199 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 
 from .models import User, Student, Digital, Almoco, LogLiberacao, Turma, Curso
-from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer, TurmaSerializer, CursoSerializer
-from .permissions import IsAdmin, IsAdminOrFiscal
+from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
+from .permissions import IsAdmin, IsAdminOrFiscal, IsAdminOrGestor, IsFiscal
 from .biometria import comparar_templates
 
 import csv
 import io
+# ==================== RELATÓRIOS ====================
+from .utils import gerar_csv, gerar_pdf
+from django.db.models import Q, Sum
+from .models import Almoco, Student, LogLiberacao, User
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_diario(request):
+    """GET /relatorios/diario?data=AAAA-MM-DD"""
+    data_str = request.query_params.get('data')
+    if not data_str:
+        return Response({'error': 'Parâmetro data obrigatório (YYYY-MM-DD)'}, status=400)
+    try:
+        data = datetime.strptime(data_str, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    almocos = Almoco.objects.filter(data_hora__date=data).select_related('estudante', 'operador')
+    cabecalho = ['ID Almoço', 'Estudante', 'Matrícula', 'Método', 'Data/Hora', 'Operador', 'Observação']
+    dados = [[
+        a.id, a.estudante.nome, a.estudante.matricula,
+        a.get_metodo_display(), a.data_hora.strftime('%d/%m/%Y %H:%M'),
+        a.operador.email if a.operador else '---', a.observacao or ''
+    ] for a in almocos]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    if formato == 'csv':
+        return gerar_csv(f'relatorio_diario_{data_str}', cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(f'relatorio_diario_{data_str}', f'Relatório Diário - {data_str}', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_mensal(request):
+    """GET /relatorios/mensal?ano=2025&mes=5"""
+    ano = request.query_params.get('ano')
+    mes = request.query_params.get('mes')
+    if not ano or not mes:
+        return Response({'error': 'Parâmetros ano e mes obrigatórios'}, status=400)
+    try:
+        data_inicio = datetime(int(ano), int(mes), 1).date()
+        if int(mes) == 12:
+            data_fim = datetime(int(ano)+1, 1, 1).date()
+        else:
+            data_fim = datetime(int(ano), int(mes)+1, 1).date()
+    except ValueError:
+        return Response({'error': 'Ano/mês inválidos'}, status=400)
+
+    almocos = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).select_related('estudante', 'operador')
+    cabecalho = ['ID', 'Estudante', 'Matrícula', 'Data', 'Método', 'Operador']
+    dados = [[
+        a.id, a.estudante.nome, a.estudante.matricula,
+        a.data_hora.strftime('%d/%m/%Y'), a.get_metodo_display(),
+        a.operador.email if a.operador else '---'
+    ] for a in almocos]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_mensal_{ano}_{mes}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Relatório Mensal - {data_inicio.strftime("%B %Y")}', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def relatorio_estudante(request, estudante_id):
+    """GET /relatorios/estudante/:id"""
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+
+    almocos = Almoco.objects.filter(estudante=estudante).order_by('-data_hora')
+    cabecalho = ['ID', 'Data/Hora', 'Método', 'Operador', 'Observação']
+    dados = [[
+        a.id, a.data_hora.strftime('%d/%m/%Y %H:%M'),
+        a.get_metodo_display(), a.operador.email if a.operador else '---',
+        a.observacao or ''
+    ] for a in almocos]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_estudante_{estudante.matricula}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Histórico de {estudante.nome} - {estudante.matricula}', cabecalho, dados)
+    return Response({'estudante': {'id': estudante.id, 'nome': estudante.nome, 'matricula': estudante.matricula}, 'almocos': dados})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_operador(request):
+    """GET /relatorios/operador?inicio=YYYY-MM-DD&fim=YYYY-MM-DD"""
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    try:
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    operadores = User.objects.filter(papel__in=['operador', 'admin']).annotate(num_almocos=Count('almoco'))
+    dados = []
+    for op in operadores:
+        almocos = Almoco.objects.filter(operador=op, data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
+        total = almocos.count()
+        biometria = almocos.filter(metodo='biometria').count()
+        manual = total - biometria
+        dados.append([op.email, total, biometria, manual])
+    cabecalho = ['Operador', 'Total almoços', 'Biometria', 'Manual']
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_operador_{inicio}_a_{fim}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Relatório por Operador ({inicio} a {fim})', cabecalho, dados)
+    return Response({'dados': dados})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_excecoes(request):
+    """GET /relatorios/excecoes?inicio=YYYY-MM-DD&fim=YYYY-MM-DD"""
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    try:
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    # Exceções = almoços manuais (observação não vazia) ou com operador null (sistema?)
+    excecoes = LogLiberacao.objects.filter(
+        data_hora__date__gte=data_ini, data_hora__date__lte=data_fim,
+        tipo='manual'
+    ).select_related('estudante', 'operador')
+    cabecalho = ['ID', 'Data', 'Estudante', 'Operador', 'Observação']
+    dados = [[
+        log.id, log.data_hora.strftime('%d/%m/%Y %H:%M'),
+        log.estudante.nome, log.operador.email if log.operador else '---',
+        log.observacao or ''
+    ] for log in excecoes]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_excecoes_{inicio}_a_{fim}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Exceções de Liberação Manual', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_pagamento(request):
+    """GET /relatorios/pagamento?inicio=YYYY-MM-DD&fim=YYYY-MM-DD"""
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    try:
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    # Agrupa por dia
+    almocos = Almoco.objects.filter(data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
+    dias = almocos.dates('data_hora', 'day').order_by('data_hora')
+    dados = []
+    for dia in dias:
+        dia_almocos = almocos.filter(data_hora__date=dia)
+        total = dia_almocos.count()
+        biometria = dia_almocos.filter(metodo='biometria').count()
+        manual = total - biometria
+        dados.append([dia.strftime('%d/%m/%Y'), total, biometria, manual])
+    cabecalho = ['Data', 'Total almoços', 'Biometria', 'Manual']
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_pagamento_{inicio}_a_{fim}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Relatório de Pagamento (Diário)', cabecalho, dados)
+    return Response({'dados': dados})
 
 logger = logging.getLogger(__name__)
 
@@ -42,154 +229,31 @@ def calcular_percentuais():
     }
 
 def enviar_liberacao_websocket(estudante, almoco):
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        'liberacoes',
-        {
-            'type': 'nova_liberacao',
-            'data': {
-                'estudante_id': estudante.id,
-                'nome': estudante.nome,
-                'matricula': estudante.matricula,
-                'metodo': almoco.metodo,
-                'data_hora': almoco.data_hora.isoformat(),
-                'observacao': almoco.observacao,
-                'percentuais': calcular_percentuais()  # função opcional
-            }
-        }
-    )
-@api_view(['POST'])
-def identificar_por_digital(request):
-    """
-    Recebe o código hexadecimal da digital (template) e retorna os dados do aluno,
-    desde que a digital esteja cadastrada e o aluno esteja ativo.
-    """
-
-    codigo_hex = request.data.get('codigo_hex')
-    if not codigo_hex:
-        return Response({'error': 'Código hexadecimal não informado'}, status=400)
-
-
+    """Envia evento de liberação via WebSocket (se channels estiver configurado)"""
     try:
-        digital = Digital.objects.select_related('estudante').get(codigo_hex=codigo_hex)
-    except Digital.DoesNotExist:
-        return Response({'error': 'Digital não reconhecida'}, status=404)
-
-    estudante = digital.estudante
-    if not estudante.ativo:
-        return Response({'error': 'Estudante inativo'}, status=403)
-
-    # Opcional: registrar log de liberação (ver abaixo)
-    # registrar_log_liberacao(estudante, tipo='biometrica', operador=None)
-
-    return Response({
-        'id': estudante.id,
-        'nome': estudante.nome,
-        'matricula': estudante.matricula,
-        'curso': estudante.curso.nome if estudante.curso else None,
-        'turma': estudante.turma.nome if estudante.turma else None,
-        'foto_url': estudante.foto.url if estudante.foto else None,
-        'ativo': estudante.ativo
-    })
-@api_view(['POST'])
-@permission_classes([IsAdminOrFiscal])
-def cadastrar_digital(request, estudante_id):
-    try:
-        estudante = Student.objects.get(id=estudante_id)
-    except Student.DoesNotExist:
-        return Response({'error': 'Estudante não encontrado'}, status=404)
-
-    codigo_hex = request.data.get('codigo_hex')
-    dedo = request.data.get('dedo')
-    if not codigo_hex:
-        return Response({'error': 'código hexadecimal é obrigatório'}, status=400)
-
-    # Verifica se o código já existe em algum aluno
-    if Digital.objects.filter(codigo_hex=codigo_hex).exists():
-        return Response({'error': 'Este código de digital já está cadastrado para outro aluno'}, status=400)
-
-    digital = Digital.objects.create(estudante=estudante, codigo_hex=codigo_hex, dedo=dedo)
-    serializer = DigitalSerializer(digital)
-    return Response(serializer.data, status=201)
-
-
-@api_view(['GET'])
-@permission_classes([IsAdminOrFiscal])
-def listar_digitais(request, estudante_id):
-    try:
-        estudante = Student.objects.get(id=estudante_id)
-    except Student.DoesNotExist:
-        return Response({'error': 'Estudante não encontrado'}, status=404)
-
-    digitais = estudante.digitais.all()
-    serializer = DigitalSerializer(digitais, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['DELETE'])
-@permission_classes([IsAdminOrFiscal])
-def remover_digital(request, digital_id):
-    try:
-        digital = Digital.objects.get(id=digital_id)
-    except Digital.DoesNotExist:
-        return Response({'error': 'Digital não encontrada'}, status=404)
-    digital.delete()
-    return Response({'message': 'Digital removida com sucesso'})
-
-@api_view(['POST'])
-@permission_classes([IsAdminOrFiscal])
-def importar_estudantes(request):
-    serializer = ImportStudentSerializer(data=request.data)
-    if not serializer.is_valid():
-        return Response(serializer.errors, status=400)
-
-    file = serializer.validated_data['file']
-    data = file.read().decode('utf-8')
-    csv_file = io.StringIO(data)
-    reader = csv.DictReader(csv_file)
-
-    expected_fields = ['nome', 'matricula', 'data_nascimento']
-    if not all(field in reader.fieldnames for field in expected_fields):
-        return Response({'error': f'O CSV deve conter as colunas: {", ".join(expected_fields)}'}, status=400)
-
-    criados = []
-    erros = []
-    for row_num, row in enumerate(reader, start=2):
-        # Validação básica
-        if Student.objects.filter(matricula=row['matricula']).exists():
-            erros.append(f"Linha {row_num}: Matrícula {row['matricula']} já existe.")
-            continue
-        try:
-            # Gerencia a busca ou criação da turma automaticamente
-            nome_turma = row.get('turma', '').strip()
-            turma_obj = None
-            if nome_turma:
-                turma_obj, _ = Turma.objects.get_or_create(nome=nome_turma)
-
-            nome_curso = row.get('curso', '').strip()
-            curso_obj = None
-            if nome_curso:
-                curso_obj, _ = Curso.objects.get_or_create(nome=nome_curso)
-                
-            student = Student.objects.create(
-                nome=row['nome'],
-                matricula=row['matricula'],
-                data_nascimento=row['data_nascimento'],
-                curso=curso_obj,
-                turma=turma_obj,
-                ativo=row.get('ativo', 'True').lower() in ['true', '1', 'sim']
+        from channels.layers import get_channel_layer
+        from asgiref.sync import async_to_sync
+        channel_layer = get_channel_layer()
+        if channel_layer:
+            async_to_sync(channel_layer.group_send)(
+                'liberacoes',
+                {
+                    'type': 'nova_liberacao',
+                    'data': {
+                        'estudante_id': estudante.id,
+                        'nome': estudante.nome,
+                        'matricula': estudante.matricula,
+                        'metodo': almoco.metodo,
+                        'data_hora': almoco.data_hora.isoformat(),
+                        'observacao': almoco.observacao,
+                        'percentuais': calcular_percentuais()
+                    }
+                }
             )
-            criados.append(student.id)
-        except Exception as e:
-            erros.append(f"Linha {row_num}: {str(e)}")
+    except Exception as e:
+        print(f"WebSocket não enviado: {e}")
 
-    return Response({
-        'importados': len(criados),
-        'ids': criados,
-        'erros': erros
-    })
-logger = logging.getLogger(__name__)
-
+# ==================== VIEWS PÚBLICAS ====================
 def test_api(request):
     return JsonResponse({"message": "API funcionando"})
 
@@ -374,17 +438,98 @@ class StudentViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
-# ==================== CRUD TURMAS (VIEWSET) ====================
-class TurmaViewSet(viewsets.ModelViewSet):
-    queryset = Turma.objects.all()
-    serializer_class = TurmaSerializer
-    permission_classes = [IsAdminOrFiscal]
+# ==================== IMPORTAR ESTUDANTES (CSV) ====================
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def importar_estudantes(request):
+    serializer = ImportStudentSerializer(data=request.data)
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
 
-# ==================== CRUD CURSOS (VIEWSET) ====================
-class CursoViewSet(viewsets.ModelViewSet):
-    queryset = Curso.objects.all()
-    serializer_class = CursoSerializer
-    permission_classes = [IsAdminOrFiscal]
+    file = serializer.validated_data['file']
+    data = file.read().decode('utf-8')
+    csv_file = io.StringIO(data)
+    reader = csv.DictReader(csv_file)
+
+    expected_fields = ['nome', 'matricula', 'data_nascimento']
+    if not all(field in reader.fieldnames for field in expected_fields):
+        return Response({'error': f'O CSV deve conter as colunas: {", ".join(expected_fields)} (curso, turma e ativo são opcionais)'}, status=400)
+
+    criados = []
+    erros = []
+    for row_num, row in enumerate(reader, start=2):
+        if Student.objects.filter(matricula=row['matricula']).exists():
+            erros.append(f"Linha {row_num}: Matrícula {row['matricula']} já existe.")
+            continue
+
+        try:
+            # Tratamento do curso (ForeignKey)
+            nome_curso = row.get('curso', '').strip()
+            curso_obj = None
+            if nome_curso:
+                curso_obj, _ = Curso.objects.get_or_create(nome=nome_curso)
+
+            # Tratamento da turma (ForeignKey)
+            nome_turma = row.get('turma', '').strip()
+            turma_obj = None
+            if nome_turma:
+                turma_obj, _ = Turma.objects.get_or_create(nome=nome_turma)
+
+            student = Student.objects.create(
+                nome=row['nome'],
+                matricula=row['matricula'],
+                data_nascimento=row['data_nascimento'],
+                curso=curso_obj,
+                turma=turma_obj,
+                ativo=row.get('ativo', 'True').lower() in ['true', '1', 'sim']
+            )
+            criados.append(student.id)
+        except Exception as e:
+            erros.append(f"Linha {row_num}: {str(e)}")
+
+    return Response({'importados': len(criados), 'ids': criados, 'erros': erros})
+
+# ==================== DIGITAIS ====================
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def cadastrar_digital(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+
+    codigo_hex = request.data.get('codigo_hex')
+    dedo = request.data.get('dedo')
+    if not codigo_hex:
+        return Response({'error': 'código hexadecimal é obrigatório'}, status=400)
+
+    if Digital.objects.filter(codigo_hex=codigo_hex).exists():
+        return Response({'error': 'Este código de digital já está cadastrado para outro aluno'}, status=400)
+
+    digital = Digital.objects.create(estudante=estudante, codigo_hex=codigo_hex, dedo=dedo)
+    serializer = DigitalSerializer(digital)
+    return Response(serializer.data, status=201)
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def listar_digitais(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+    digitais = estudante.digitais.all()
+    serializer = DigitalSerializer(digitais, many=True)
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminOrFiscal])
+def remover_digital(request, digital_id):
+    try:
+        digital = Digital.objects.get(id=digital_id)
+    except Digital.DoesNotExist:
+        return Response({'error': 'Digital não encontrada'}, status=404)
+    digital.delete()
+    return Response({'message': 'Digital removida com sucesso'})
 
 # ==================== VERIFICAÇÃO BIOMÉTRICA (com almoço) ====================
 @api_view(['POST'])
@@ -393,7 +538,7 @@ def verificar_digital(request):
     if not codigo_hex:
         return Response({'error': 'Código hexadecimal não informado'}, status=400)
 
-    todas_digitais = Digital.objects.select_related('estudante').all()
+    todas_digitais = Digital.objects.select_related('estudante__turma', 'estudante__curso').all()
     for digital in todas_digitais:
         if comparar_templates(codigo_hex, digital.codigo_hex, security_level=4):
             estudante = digital.estudante
@@ -410,7 +555,7 @@ def verificar_digital(request):
                 operador=request.user if request.user.is_authenticated else None,
                 observacao='Liberação via biometria'
             )
-            enviar_liberacao_websocket(estudante, almoco)  # notifica via WebSocket
+            enviar_liberacao_websocket(estudante, almoco)
             return Response({
                 'status': 'liberado',
                 'estudante': {
@@ -454,18 +599,17 @@ def liberar_manual(request):
         operador=request.user,
         observacao=observacao
     )
-    enviar_liberacao_websocket(estudante, almoco)  # notifica via WebSocket
+    enviar_liberacao_websocket(estudante, almoco)
     return Response({
         'status': 'liberado',
         'almoco_id': almoco.id,
         'mensagem': f'Almoço manual registrado para {estudante.nome}'
     })
 
-# (opcional, compatibilidade com versão antiga – pode ser removida)
 @api_view(['POST'])
 @permission_classes([IsAdminOrFiscal])
 def registrar_almoco_manual(request, estudante_id):
-    return liberar_manual(request)  # redireciona para a função padrão
+    return liberar_manual(request)
 
 # ==================== BUSCA DE ESTUDANTES ====================
 @api_view(['GET'])
@@ -477,7 +621,7 @@ def buscar_estudantes(request):
 
     estudantes = Student.objects.filter(
         models.Q(nome__icontains=query) | models.Q(matricula__icontains=query)
-    ).only('id', 'nome', 'matricula', 'turma', 'foto')
+    ).select_related('turma', 'curso')
 
     resultados = []
     for est in estudantes:
@@ -485,7 +629,8 @@ def buscar_estudantes(request):
             'id': est.id,
             'nome': est.nome,
             'matricula': est.matricula,
-            'turma': est.turma,
+            'turma': est.turma.nome if est.turma else None,
+            'curso': est.curso.nome if est.curso else None,
             'foto_url': est.foto.url if est.foto else None,
         })
     return Response(resultados)
@@ -548,7 +693,7 @@ def estatisticas_mensal(request):
         'detalhes_por_dia': detalhes_por_dia
     })
 
-# ==================== LOGS (OPCIONAL) ====================
+# ==================== LOGS (COM OCULTAÇÃO PARA FISCAL) ====================
 def registrar_log_liberacao(estudante, tipo, operador=None, observacao=''):
     LogLiberacao.objects.create(
         estudante=estudante,
@@ -565,11 +710,160 @@ def logs_estudante(request, estudante_id):
     except Student.DoesNotExist:
         return Response({'error': 'Estudante não encontrado'}, status=404)
     logs = estudante.logs.all().order_by('-data_hora')
-    data = [{
-        'id': log.id,
-        'tipo': log.tipo,
-        'data_hora': log.data_hora,
-        'operador': log.operador.email if log.operador else None,
-        'observacao': log.observacao
-    } for log in logs]
+    data = []
+    for log in logs:
+        item = {
+            'id': log.id,
+            'tipo': log.tipo,
+            'data_hora': log.data_hora,
+            'observacao': log.observacao
+        }
+        # Só inclui o campo 'operador' se o usuário for admin (não fiscal)
+        if request.user.papel == 'admin':
+            item['operador'] = log.operador.email if log.operador else None
+        data.append(item)
     return Response(data)
+
+# ==================== IDENTIFICAÇÃO (BUSCA EXATA) ====================
+@api_view(['POST'])
+def identificar_por_digital(request):
+    """
+    Versão simples: busca exata do código hex (sem registro de almoço).
+    """
+    codigo_hex = request.data.get('codigo_hex')
+    if not codigo_hex:
+        return Response({'error': 'Código hexadecimal não informado'}, status=400)
+    try:
+        digital = Digital.objects.select_related('estudante__turma', 'estudante__curso').get(codigo_hex=codigo_hex)
+    except Digital.DoesNotExist:
+        return Response({'error': 'Digital não reconhecida'}, status=404)
+    estudante = digital.estudante
+    if not estudante.ativo:
+        return Response({'error': 'Estudante inativo'}, status=403)
+    return Response({
+        'id': estudante.id,
+        'nome': estudante.nome,
+        'matricula': estudante.matricula,
+        'curso': estudante.curso.nome if estudante.curso else None,
+        'turma': estudante.turma.nome if estudante.turma else None,
+        'foto_url': estudante.foto.url if estudante.foto else None,
+        'ativo': estudante.ativo
+    })
+
+# ==================== DASHBOARD FISCAL ====================
+@api_view(['GET'])
+@permission_classes([IsFiscal])
+def dashboard_fiscal(request):
+    """
+    Retorna dados agregados para validação do fiscal:
+    - Totais por dia, semana, mês
+    - Evolução diária (últimos 30 dias)
+    - Resumo diário: data, total, biometria, manual
+    """
+    hoje = timezone.now().date()
+    ultimos_30_dias = [hoje - timedelta(days=i) for i in range(30)]
+    evolucao = []
+    for dia in ultimos_30_dias:
+        total = Almoco.objects.filter(data_hora__date=dia).count()
+        biometria = Almoco.objects.filter(data_hora__date=dia, metodo='biometria').count()
+        manual = total - biometria
+        evolucao.append({
+            'data': dia.isoformat(),
+            'total': total,
+            'biometria': biometria,
+            'manual': manual
+        })
+    inicio_semana = hoje - timedelta(days=hoje.weekday())
+    dias_semana = [inicio_semana + timedelta(days=i) for i in range(7)]
+    semana = []
+    for dia in dias_semana:
+        total = Almoco.objects.filter(data_hora__date=dia).count()
+        semana.append({'data': dia.isoformat(), 'total': total})
+
+    mes_atual = hoje.replace(day=1)
+    proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
+    almocos_mes = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
+    total_mes = almocos_mes.count()
+    biometria_mes = almocos_mes.filter(metodo='biometria').count()
+    manual_mes = total_mes - biometria_mes
+
+    return Response({
+        'evolucao_diaria': evolucao,
+        'semana': semana,
+        'mes': {
+            'total': total_mes,
+            'biometria': biometria_mes,
+            'manual': manual_mes,
+            'percentual_biometria': round(biometria_mes / total_mes * 100, 2) if total_mes else 0
+        }
+    })
+
+# ==================== DASHBOARD GESTÃO ====================
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def dashboard_gestao(request):
+    """
+    Retorna indicadores por turma e curso:
+    - Visão por turma: total de almoços e percentual de comparecimento
+    - Visão por curso: agregado por curso
+    - Evolução mensal (últimos 12 meses)
+    """
+    hoje = timezone.now().date()
+    mes_atual = hoje.replace(day=1)
+    proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
+    almocos_periodo = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
+
+    # Dados por turma
+    turmas = Turma.objects.all()
+    dados_turmas = []
+    for turma in turmas:
+        alunos_turma = Student.objects.filter(turma=turma, ativo=True).count()
+        if alunos_turma == 0:
+            continue
+        total_almocos_turma = almocos_periodo.filter(estudante__turma=turma).count()
+        media_por_aluno = round(total_almocos_turma / alunos_turma, 2) if alunos_turma else 0
+        percentual = round((total_almocos_turma / (alunos_turma * 30)) * 100, 2) if alunos_turma else 0
+        dados_turmas.append({
+            'turma_id': turma.id,
+            'turma_nome': turma.nome,
+            'total_alunos': alunos_turma,
+            'total_almocos': total_almocos_turma,
+            'media_por_aluno': media_por_aluno,
+            'percentual_comparecimento': percentual
+        })
+
+    # Dados por curso
+    cursos = Curso.objects.all()
+    dados_cursos = []
+    for curso in cursos:
+        alunos_curso = Student.objects.filter(curso=curso, ativo=True).count()
+        if alunos_curso == 0:
+            continue
+        total_almocos_curso = almocos_periodo.filter(estudante__curso=curso).count()
+        media_por_aluno = round(total_almocos_curso / alunos_curso, 2) if alunos_curso else 0
+        dados_cursos.append({
+            'curso_id': curso.id,
+            'curso_nome': curso.nome,
+            'total_alunos': alunos_curso,
+            'total_almocos': total_almocos_curso,
+            'media_por_aluno': media_por_aluno
+        })
+
+    # Evolução mensal (últimos 12 meses)
+    meses = []
+    for i in range(12):
+        data_inicio = hoje.replace(day=1) - timedelta(days=30 * i)
+        data_inicio = data_inicio.replace(day=1)
+        data_fim = (data_inicio + timedelta(days=32)).replace(day=1)
+        total = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).count()
+        meses.append({
+            'mes': data_inicio.strftime('%Y-%m'),
+            'total': total
+        })
+    meses.reverse()
+
+    return Response({
+        'por_turma': dados_turmas,
+        'por_curso': dados_cursos,
+        'evolucao_mensal': meses
+    })

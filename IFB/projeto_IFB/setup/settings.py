@@ -115,6 +115,3 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",
 ]
-
-# Libera o acesso para o React (apenas para desenvolvimento local)
-CORS_ALLOW_ALL_ORIGINS = True

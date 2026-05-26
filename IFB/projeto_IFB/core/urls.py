@@ -3,12 +3,10 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 from . import views
-from .views import StudentViewSet, TurmaViewSet, CursoViewSet
+from .views import StudentViewSet
 
 router = DefaultRouter()
 router.register(r'estudantes', StudentViewSet, basename='estudante')
-router.register(r'turmas', TurmaViewSet, basename='turma')
-router.register(r'cursos', CursoViewSet, basename='curso')
 
 urlpatterns = [
     path('api/test/', views.test_api),
@@ -34,4 +32,12 @@ urlpatterns = [
     path('api/dashboard/hoje/', views.estatisticas_hoje, name='dashboard_hoje'),
     path('api/dashboard/semana/', views.estatisticas_semana, name='dashboard_semana'),
     path('api/dashboard/mensal/', views.estatisticas_mensal, name='dashboard_mensal'),
+    path('api/dashboard/fiscal/', views.dashboard_fiscal, name='dashboard_fiscal'),
+    path('api/dashboard/gestao/', views.dashboard_gestao, name='dashboard_gestao'),
+    path('api/relatorios/diario/', views.relatorio_diario, name='relatorio_diario'),
+    path('api/relatorios/mensal/', views.relatorio_mensal, name='relatorio_mensal'),
+    path('api/relatorios/estudante/<int:estudante_id>/', views.relatorio_estudante, name='relatorio_estudante'),
+    path('api/relatorios/operador/', views.relatorio_operador, name='relatorio_operador'),
+    path('api/relatorios/excecoes/', views.relatorio_excecoes, name='relatorio_excecoes'),
+    path('api/relatorios/pagamento/', views.relatorio_pagamento, name='relatorio_pagamento'),
 ]
