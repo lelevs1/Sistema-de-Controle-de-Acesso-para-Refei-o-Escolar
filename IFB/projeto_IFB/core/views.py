@@ -2,6 +2,8 @@ import urllib.parse
 import requests
 import logging
 from datetime import datetime, timedelta
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.conf import settings
@@ -196,8 +198,10 @@ def home(request):
 
 @api_view(['POST'])
 def login(request):
-    email = request.data.get('email')
+    email = request.data.get('email') or request.data.get('username')
     password = request.data.get('password')
+    if email:
+        email = User.objects.normalize_email(email.strip())
     if not email or not password:
         return Response({'error': 'Email e senha obrigatórios'}, status=400)
 
@@ -274,9 +278,10 @@ def google_callback(request):
     email = user_info.get("email")
     if not email:
         return redirect("http://localhost:5173/login?error=no_email")
+    email = User.objects.normalize_email(email.strip())
 
     allowed_domains = ["escola.gov.br", "educacao.gov.br"]
-    domain = email.split("@")[-1]
+    domain = email.split("@")[-1].lower()
     if domain not in allowed_domains:
         return redirect("http://localhost:5173/login?error=domain_not_allowed")
 
@@ -315,10 +320,11 @@ def register_user(request):
     required = ['email', 'nome', 'papel']
     if not all(k in data for k in required):
         return Response({'error': 'Dados obrigatórios: email, nome, papel'}, status=400)
-    if User.objects.filter(email=data['email']).exists():
+    email = User.objects.normalize_email(data['email'].strip())
+    if User.objects.filter(email=email).exists():
         return Response({'error': 'Usuário já existe'}, status=400)
     user = User.objects.create_user(
-        email=data['email'],
+        email=email,
         nome=data['nome'],
         password=data.get('password'),
         papel=data['papel']
