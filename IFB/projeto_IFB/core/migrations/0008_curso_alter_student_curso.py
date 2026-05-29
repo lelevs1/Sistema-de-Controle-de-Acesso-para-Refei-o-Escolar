@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0007_turma_remove_student_serie_alter_student_curso_and_more'),
+        ('core', '0007_curso_turma_remove_student_serie_alter_student_curso_and_more'),
     ]
 
     operations = [
