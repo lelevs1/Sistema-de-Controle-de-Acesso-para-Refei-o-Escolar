@@ -1,0 +1,13 @@
+# Ignore local Python and Django artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+IFB/projeto_IFB/db.sqlite3
+*.sqlite3
+*.db
+.venv/
+venv/
+env/
+.env
+
