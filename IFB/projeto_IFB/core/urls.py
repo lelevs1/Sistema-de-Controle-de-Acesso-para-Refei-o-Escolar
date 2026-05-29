@@ -1,4 +1,4 @@
-# core/urls.py (versão limpa)
+# core/urls.py
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -26,7 +26,8 @@ urlpatterns = [
     path('api/biometria/identificar/', views.identificar_por_digital, name='identificar_por_digital'),
     path('api/estudantes/<int:estudante_id>/logs/', views.logs_estudante, name='logs_estudante'),
     path('api/verificar-digital/', views.verificar_digital, name='verificar_digital'),
-    path('api/estudantes/<int:estudante_id>/almoco/manual/', views.registrar_almoco_manual, name='registrar_almoco_manual'),
+    path('api/estudantes/<int:estudante_id>/almoco/manual/', views.registrar_almoco_manual,
+         name='registrar_almoco_manual'),
     path('api/estudantes/busca/', views.buscar_estudantes, name='buscar_estudantes'),
     path('api/liberar-manual/', views.liberar_manual, name='liberar_manual'),
     path('api/dashboard/hoje/', views.estatisticas_hoje, name='dashboard_hoje'),
@@ -40,4 +41,17 @@ urlpatterns = [
     path('api/relatorios/operador/', views.relatorio_operador, name='relatorio_operador'),
     path('api/relatorios/excecoes/', views.relatorio_excecoes, name='relatorio_excecoes'),
     path('api/relatorios/pagamento/', views.relatorio_pagamento, name='relatorio_pagamento'),
+
+    # Validação fiscal
+    path('api/validar-periodo/', views.validar_periodo, name='validar_periodo'),
+    path('api/periodos-validados/', views.listar_periodos_validados, name='periodos_validados'),
+
+    # Configurações
+    path('api/configuracoes/', views.configuracao_sistema, name='configuracoes'),
+
+    # Ocorrências (separação para evitar conflito)
+    path('api/ocorrencias/', views.listar_ocorrencias, name='listar_ocorrencias'),
+    path('api/ocorrencias/criar/', views.registrar_ocorrencia, name='registrar_ocorrencia'),
+    path('api/ocorrencias/estudante/<int:estudante_id>/', views.listar_ocorrencias,
+         name='listar_ocorrencias_estudante'),
 ]
