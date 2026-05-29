@@ -19,3 +19,8 @@ class IsFiscal(BasePermission):
     """Permite acesso para usuários com papel 'fiscal' (e admin)."""
     def has_permission(self, request, view):
         return request.user and request.user.is_authenticated and request.user.papel in ['fiscal', 'admin']
+
+class IsAdminOrFiscalOrGestor(BasePermission):
+    """Permite acesso para usuários com papel 'admin', 'fiscal' ou 'gestor'."""
+    def has_permission(self, request, view):
+        return request.user and request.user.is_authenticated and request.user.papel in ['admin', 'fiscal', 'gestor']

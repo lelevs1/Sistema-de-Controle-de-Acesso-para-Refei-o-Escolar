@@ -9,7 +9,15 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 from django.http import HttpResponse
+from .models import LogConfiguracao
 
+def registrar_log_configuracao(usuario, campo, valor_antigo, valor_novo):
+    LogConfiguracao.objects.create(
+        usuario=usuario,
+        campo=campo,
+        valor_antigo=valor_antigo,
+        valor_novo=valor_novo
+    )
 def gerar_csv(nome_arquivo, cabecalho, dados):
     """Gera resposta HTTP com arquivo CSV."""
     response = HttpResponse(content_type='text/csv')

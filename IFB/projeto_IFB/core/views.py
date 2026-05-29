@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.conf import settings
 from django.http import JsonResponse
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import viewsets, status
@@ -17,200 +17,17 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 
-from .models import User, Student, Digital, Almoco, LogLiberacao, Turma, Curso
+from .models import (
+    User, Student, Digital, Almoco, LogLiberacao, Turma, Curso,
+    Configuracao, PeriodoValidado, Ocorrencia
+)
 from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
-from .permissions import IsAdmin, IsAdminOrFiscal, IsAdminOrGestor, IsFiscal
+from .permissions import IsAdmin, IsAdminOrFiscal, IsAdminOrGestor, IsFiscal, IsAdminOrFiscalOrGestor
 from .biometria import comparar_templates
+from .utils import gerar_csv, gerar_pdf, registrar_log_configuracao
 
 import csv
 import io
-# ==================== RELATÓRIOS ====================
-from .utils import gerar_csv, gerar_pdf
-from django.db.models import Q, Sum
-from .models import Almoco, Student, LogLiberacao, User
-
-@api_view(['GET'])
-@permission_classes([IsAdminOrGestor])
-def relatorio_diario(request):
-    """GET /relatorios/diario?data=AAAA-MM-DD"""
-    data_str = request.query_params.get('data')
-    if not data_str:
-        return Response({'error': 'Parâmetro data obrigatório (YYYY-MM-DD)'}, status=400)
-    try:
-        data = datetime.strptime(data_str, '%Y-%m-%d').date()
-    except ValueError:
-        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
-
-    almocos = Almoco.objects.filter(data_hora__date=data).select_related('estudante', 'operador')
-    cabecalho = ['ID Almoço', 'Estudante', 'Matrícula', 'Método', 'Data/Hora', 'Operador', 'Observação']
-    dados = [[
-        a.id, a.estudante.nome, a.estudante.matricula,
-        a.get_metodo_display(), a.data_hora.strftime('%d/%m/%Y %H:%M'),
-        a.operador.email if a.operador else '---', a.observacao or ''
-    ] for a in almocos]
-
-    formato = request.query_params.get('formato', 'json').lower()
-    if formato == 'csv':
-        return gerar_csv(f'relatorio_diario_{data_str}', cabecalho, dados)
-    elif formato == 'pdf':
-        return gerar_pdf(f'relatorio_diario_{data_str}', f'Relatório Diário - {data_str}', cabecalho, dados)
-    return Response({'dados': dados, 'total': len(dados)})
-
-@api_view(['GET'])
-@permission_classes([IsAdminOrGestor])
-def relatorio_mensal(request):
-    """GET /relatorios/mensal?ano=2025&mes=5"""
-    ano = request.query_params.get('ano')
-    mes = request.query_params.get('mes')
-    if not ano or not mes:
-        return Response({'error': 'Parâmetros ano e mes obrigatórios'}, status=400)
-    try:
-        data_inicio = datetime(int(ano), int(mes), 1).date()
-        if int(mes) == 12:
-            data_fim = datetime(int(ano)+1, 1, 1).date()
-        else:
-            data_fim = datetime(int(ano), int(mes)+1, 1).date()
-    except ValueError:
-        return Response({'error': 'Ano/mês inválidos'}, status=400)
-
-    almocos = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).select_related('estudante', 'operador')
-    cabecalho = ['ID', 'Estudante', 'Matrícula', 'Data', 'Método', 'Operador']
-    dados = [[
-        a.id, a.estudante.nome, a.estudante.matricula,
-        a.data_hora.strftime('%d/%m/%Y'), a.get_metodo_display(),
-        a.operador.email if a.operador else '---'
-    ] for a in almocos]
-
-    formato = request.query_params.get('formato', 'json').lower()
-    nome_arquivo = f'relatorio_mensal_{ano}_{mes}'
-    if formato == 'csv':
-        return gerar_csv(nome_arquivo, cabecalho, dados)
-    elif formato == 'pdf':
-        return gerar_pdf(nome_arquivo, f'Relatório Mensal - {data_inicio.strftime("%B %Y")}', cabecalho, dados)
-    return Response({'dados': dados, 'total': len(dados)})
-
-@api_view(['GET'])
-@permission_classes([IsAdminOrFiscal])
-def relatorio_estudante(request, estudante_id):
-    """GET /relatorios/estudante/:id"""
-    try:
-        estudante = Student.objects.get(id=estudante_id)
-    except Student.DoesNotExist:
-        return Response({'error': 'Estudante não encontrado'}, status=404)
-
-    almocos = Almoco.objects.filter(estudante=estudante).order_by('-data_hora')
-    cabecalho = ['ID', 'Data/Hora', 'Método', 'Operador', 'Observação']
-    dados = [[
-        a.id, a.data_hora.strftime('%d/%m/%Y %H:%M'),
-        a.get_metodo_display(), a.operador.email if a.operador else '---',
-        a.observacao or ''
-    ] for a in almocos]
-
-    formato = request.query_params.get('formato', 'json').lower()
-    nome_arquivo = f'relatorio_estudante_{estudante.matricula}'
-    if formato == 'csv':
-        return gerar_csv(nome_arquivo, cabecalho, dados)
-    elif formato == 'pdf':
-        return gerar_pdf(nome_arquivo, f'Histórico de {estudante.nome} - {estudante.matricula}', cabecalho, dados)
-    return Response({'estudante': {'id': estudante.id, 'nome': estudante.nome, 'matricula': estudante.matricula}, 'almocos': dados})
-
-@api_view(['GET'])
-@permission_classes([IsAdminOrGestor])
-def relatorio_operador(request):
-    """GET /relatorios/operador?inicio=YYYY-MM-DD&fim=YYYY-MM-DD"""
-    inicio = request.query_params.get('inicio')
-    fim = request.query_params.get('fim')
-    if not inicio or not fim:
-        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
-    try:
-        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
-        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
-    except ValueError:
-        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
-
-    operadores = User.objects.filter(papel__in=['operador', 'admin']).annotate(num_almocos=Count('almoco'))
-    dados = []
-    for op in operadores:
-        almocos = Almoco.objects.filter(operador=op, data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
-        total = almocos.count()
-        biometria = almocos.filter(metodo='biometria').count()
-        manual = total - biometria
-        dados.append([op.email, total, biometria, manual])
-    cabecalho = ['Operador', 'Total almoços', 'Biometria', 'Manual']
-    formato = request.query_params.get('formato', 'json').lower()
-    nome_arquivo = f'relatorio_operador_{inicio}_a_{fim}'
-    if formato == 'csv':
-        return gerar_csv(nome_arquivo, cabecalho, dados)
-    elif formato == 'pdf':
-        return gerar_pdf(nome_arquivo, f'Relatório por Operador ({inicio} a {fim})', cabecalho, dados)
-    return Response({'dados': dados})
-
-@api_view(['GET'])
-@permission_classes([IsAdminOrGestor])
-def relatorio_excecoes(request):
-    """GET /relatorios/excecoes?inicio=YYYY-MM-DD&fim=YYYY-MM-DD"""
-    inicio = request.query_params.get('inicio')
-    fim = request.query_params.get('fim')
-    if not inicio or not fim:
-        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
-    try:
-        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
-        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
-    except ValueError:
-        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
-
-    # Exceções = almoços manuais (observação não vazia) ou com operador null (sistema?)
-    excecoes = LogLiberacao.objects.filter(
-        data_hora__date__gte=data_ini, data_hora__date__lte=data_fim,
-        tipo='manual'
-    ).select_related('estudante', 'operador')
-    cabecalho = ['ID', 'Data', 'Estudante', 'Operador', 'Observação']
-    dados = [[
-        log.id, log.data_hora.strftime('%d/%m/%Y %H:%M'),
-        log.estudante.nome, log.operador.email if log.operador else '---',
-        log.observacao or ''
-    ] for log in excecoes]
-
-    formato = request.query_params.get('formato', 'json').lower()
-    nome_arquivo = f'relatorio_excecoes_{inicio}_a_{fim}'
-    if formato == 'csv':
-        return gerar_csv(nome_arquivo, cabecalho, dados)
-    elif formato == 'pdf':
-        return gerar_pdf(nome_arquivo, f'Exceções de Liberação Manual', cabecalho, dados)
-    return Response({'dados': dados, 'total': len(dados)})
-
-@api_view(['GET'])
-@permission_classes([IsAdminOrGestor])
-def relatorio_pagamento(request):
-    """GET /relatorios/pagamento?inicio=YYYY-MM-DD&fim=YYYY-MM-DD"""
-    inicio = request.query_params.get('inicio')
-    fim = request.query_params.get('fim')
-    if not inicio or not fim:
-        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
-    try:
-        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
-        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
-    except ValueError:
-        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
-
-    # Agrupa por dia
-    almocos = Almoco.objects.filter(data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
-    dias = almocos.dates('data_hora', 'day').order_by('data_hora')
-    dados = []
-    for dia in dias:
-        dia_almocos = almocos.filter(data_hora__date=dia)
-        total = dia_almocos.count()
-        biometria = dia_almocos.filter(metodo='biometria').count()
-        manual = total - biometria
-        dados.append([dia.strftime('%d/%m/%Y'), total, biometria, manual])
-    cabecalho = ['Data', 'Total almoços', 'Biometria', 'Manual']
-    formato = request.query_params.get('formato', 'json').lower()
-    nome_arquivo = f'relatorio_pagamento_{inicio}_a_{fim}'
-    if formato == 'csv':
-        return gerar_csv(nome_arquivo, cabecalho, dados)
-    elif formato == 'pdf':
-        return gerar_pdf(nome_arquivo, f'Relatório de Pagamento (Diário)', cabecalho, dados)
-    return Response({'dados': dados})
 
 logger = logging.getLogger(__name__)
 
@@ -229,7 +46,6 @@ def calcular_percentuais():
     }
 
 def enviar_liberacao_websocket(estudante, almoco):
-    """Envia evento de liberação via WebSocket (se channels estiver configurado)"""
     try:
         from channels.layers import get_channel_layer
         from asgiref.sync import async_to_sync
@@ -421,7 +237,7 @@ def perfil_usuario(request):
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-    permission_classes = [IsAdminOrFiscal]
+    permission_classes = [IsAdminOrFiscalOrGestor]   # alterado para incluir gestor
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def create(self, request, *args, **kwargs):
@@ -463,13 +279,11 @@ def importar_estudantes(request):
             continue
 
         try:
-            # Tratamento do curso (ForeignKey)
             nome_curso = row.get('curso', '').strip()
             curso_obj = None
             if nome_curso:
                 curso_obj, _ = Curso.objects.get_or_create(nome=nome_curso)
 
-            # Tratamento da turma (ForeignKey)
             nome_turma = row.get('turma', '').strip()
             turma_obj = None
             if nome_turma:
@@ -538,6 +352,13 @@ def verificar_digital(request):
     if not codigo_hex:
         return Response({'error': 'Código hexadecimal não informado'}, status=400)
 
+    # Verifica horário de funcionamento
+    config = Configuracao.objects.first()
+    if config:
+        agora = timezone.now().time()
+        if agora < config.horario_inicio or agora > config.horario_fim:
+            return Response({'status': 'bloqueado', 'motivo': 'Fora do horário de funcionamento'}, status=403)
+
     todas_digitais = Digital.objects.select_related('estudante__turma', 'estudante__curso').all()
     for digital in todas_digitais:
         if comparar_templates(codigo_hex, digital.codigo_hex, security_level=4):
@@ -593,6 +414,13 @@ def liberar_manual(request):
     if Almoco.objects.filter(estudante=estudante, data_hora__date=hoje).exists():
         return Response({'status': 'bloqueado', 'motivo': 'Já almoçou hoje'}, status=400)
 
+    # Verifica horário
+    config = Configuracao.objects.first()
+    if config:
+        agora = timezone.now().time()
+        if agora < config.horario_inicio or agora > config.horario_fim:
+            return Response({'status': 'bloqueado', 'motivo': 'Fora do horário de funcionamento'}, status=403)
+
     almoco = Almoco.objects.create(
         estudante=estudante,
         metodo='manual',
@@ -635,7 +463,7 @@ def buscar_estudantes(request):
         })
     return Response(resultados)
 
-# ==================== ESTATÍSTICAS ====================
+# ==================== ESTATÍSTICAS (básicas) ====================
 @api_view(['GET'])
 @permission_classes([IsAdminOrFiscal])
 def estatisticas_hoje(request):
@@ -718,7 +546,6 @@ def logs_estudante(request, estudante_id):
             'data_hora': log.data_hora,
             'observacao': log.observacao
         }
-        # Só inclui o campo 'operador' se o usuário for admin (não fiscal)
         if request.user.papel == 'admin':
             item['operador'] = log.operador.email if log.operador else None
         data.append(item)
@@ -727,9 +554,6 @@ def logs_estudante(request, estudante_id):
 # ==================== IDENTIFICAÇÃO (BUSCA EXATA) ====================
 @api_view(['POST'])
 def identificar_por_digital(request):
-    """
-    Versão simples: busca exata do código hex (sem registro de almoço).
-    """
     codigo_hex = request.data.get('codigo_hex')
     if not codigo_hex:
         return Response({'error': 'Código hexadecimal não informado'}, status=400)
@@ -754,12 +578,6 @@ def identificar_por_digital(request):
 @api_view(['GET'])
 @permission_classes([IsFiscal])
 def dashboard_fiscal(request):
-    """
-    Retorna dados agregados para validação do fiscal:
-    - Totais por dia, semana, mês
-    - Evolução diária (últimos 30 dias)
-    - Resumo diário: data, total, biometria, manual
-    """
     hoje = timezone.now().date()
     ultimos_30_dias = [hoje - timedelta(days=i) for i in range(30)]
     evolucao = []
@@ -802,18 +620,11 @@ def dashboard_fiscal(request):
 @api_view(['GET'])
 @permission_classes([IsAdminOrGestor])
 def dashboard_gestao(request):
-    """
-    Retorna indicadores por turma e curso:
-    - Visão por turma: total de almoços e percentual de comparecimento
-    - Visão por curso: agregado por curso
-    - Evolução mensal (últimos 12 meses)
-    """
     hoje = timezone.now().date()
     mes_atual = hoje.replace(day=1)
     proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
     almocos_periodo = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
 
-    # Dados por turma
     turmas = Turma.objects.all()
     dados_turmas = []
     for turma in turmas:
@@ -832,7 +643,6 @@ def dashboard_gestao(request):
             'percentual_comparecimento': percentual
         })
 
-    # Dados por curso
     cursos = Curso.objects.all()
     dados_cursos = []
     for curso in cursos:
@@ -849,7 +659,6 @@ def dashboard_gestao(request):
             'media_por_aluno': media_por_aluno
         })
 
-    # Evolução mensal (últimos 12 meses)
     meses = []
     for i in range(12):
         data_inicio = hoje.replace(day=1) - timedelta(days=30 * i)
@@ -867,3 +676,335 @@ def dashboard_gestao(request):
         'por_curso': dados_cursos,
         'evolucao_mensal': meses
     })
+
+# ==================== RELATÓRIOS ====================
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_diario(request):
+    data_str = request.query_params.get('data')
+    if not data_str:
+        return Response({'error': 'Parâmetro data obrigatório (YYYY-MM-DD)'}, status=400)
+    try:
+        data = datetime.strptime(data_str, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    almocos = Almoco.objects.filter(data_hora__date=data).select_related('estudante', 'operador')
+    cabecalho = ['ID Almoço', 'Estudante', 'Matrícula', 'Método', 'Data/Hora', 'Operador', 'Observação']
+    dados = [[
+        a.id, a.estudante.nome, a.estudante.matricula,
+        a.get_metodo_display(), a.data_hora.strftime('%d/%m/%Y %H:%M'),
+        a.operador.email if a.operador else '---', a.observacao or ''
+    ] for a in almocos]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    if formato == 'csv':
+        return gerar_csv(f'relatorio_diario_{data_str}', cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(f'relatorio_diario_{data_str}', f'Relatório Diário - {data_str}', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_mensal(request):
+    ano = request.query_params.get('ano')
+    mes = request.query_params.get('mes')
+    if not ano or not mes:
+        return Response({'error': 'Parâmetros ano e mes obrigatórios'}, status=400)
+    try:
+        data_inicio = datetime(int(ano), int(mes), 1).date()
+        if int(mes) == 12:
+            data_fim = datetime(int(ano)+1, 1, 1).date()
+        else:
+            data_fim = datetime(int(ano), int(mes)+1, 1).date()
+    except ValueError:
+        return Response({'error': 'Ano/mês inválidos'}, status=400)
+
+    almocos = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).select_related('estudante', 'operador')
+    cabecalho = ['ID', 'Estudante', 'Matrícula', 'Data', 'Método', 'Operador']
+    dados = [[
+        a.id, a.estudante.nome, a.estudante.matricula,
+        a.data_hora.strftime('%d/%m/%Y'), a.get_metodo_display(),
+        a.operador.email if a.operador else '---'
+    ] for a in almocos]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_mensal_{ano}_{mes}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Relatório Mensal - {data_inicio.strftime("%B %Y")}', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def relatorio_estudante(request, estudante_id):
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+
+    almocos = Almoco.objects.filter(estudante=estudante).order_by('-data_hora')
+    cabecalho = ['ID', 'Data/Hora', 'Método', 'Operador', 'Observação']
+    dados = [[
+        a.id, a.data_hora.strftime('%d/%m/%Y %H:%M'),
+        a.get_metodo_display(), a.operador.email if a.operador else '---',
+        a.observacao or ''
+    ] for a in almocos]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_estudante_{estudante.matricula}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Histórico de {estudante.nome} - {estudante.matricula}', cabecalho, dados)
+    return Response({'estudante': {'id': estudante.id, 'nome': estudante.nome, 'matricula': estudante.matricula}, 'almocos': dados})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_operador(request):
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    try:
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    operadores = User.objects.filter(papel__in=['operador', 'admin']).annotate(num_almocos=Count('almoco'))
+    dados = []
+    for op in operadores:
+        almocos = Almoco.objects.filter(operador=op, data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
+        total = almocos.count()
+        biometria = almocos.filter(metodo='biometria').count()
+        manual = total - biometria
+        dados.append([op.email, total, biometria, manual])
+    cabecalho = ['Operador', 'Total almoços', 'Biometria', 'Manual']
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_operador_{inicio}_a_{fim}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Relatório por Operador ({inicio} a {fim})', cabecalho, dados)
+    return Response({'dados': dados})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_excecoes(request):
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    try:
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    excecoes = LogLiberacao.objects.filter(
+        data_hora__date__gte=data_ini, data_hora__date__lte=data_fim,
+        tipo='manual'
+    ).select_related('estudante', 'operador')
+    cabecalho = ['ID', 'Data', 'Estudante', 'Operador', 'Observação']
+    dados = [[
+        log.id, log.data_hora.strftime('%d/%m/%Y %H:%M'),
+        log.estudante.nome, log.operador.email if log.operador else '---',
+        log.observacao or ''
+    ] for log in excecoes]
+
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_excecoes_{inicio}_a_{fim}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Exceções de Liberação Manual', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def relatorio_pagamento(request):
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    try:
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+
+    almocos = Almoco.objects.filter(data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
+    dias = almocos.dates('data_hora', 'day').order_by('data_hora')
+    dados = []
+    for dia in dias:
+        dia_almocos = almocos.filter(data_hora__date=dia)
+        total = dia_almocos.count()
+        biometria = dia_almocos.filter(metodo='biometria').count()
+        manual = total - biometria
+        dados.append([dia.strftime('%d/%m/%Y'), total, biometria, manual])
+    cabecalho = ['Data', 'Total almoços', 'Biometria', 'Manual']
+    formato = request.query_params.get('formato', 'json').lower()
+    nome_arquivo = f'relatorio_pagamento_{inicio}_a_{fim}'
+    if formato == 'csv':
+        return gerar_csv(nome_arquivo, cabecalho, dados)
+    elif formato == 'pdf':
+        return gerar_pdf(nome_arquivo, f'Relatório de Pagamento (Diário)', cabecalho, dados)
+    return Response({'dados': dados})
+
+# ==================== VALIDAÇÃO FISCAL ====================
+@api_view(['POST'])
+@permission_classes([IsFiscal])
+def validar_periodo(request):
+    data_inicio = request.data.get('data_inicio')
+    data_fim = request.data.get('data_fim')
+    if not data_inicio or not data_fim:
+        return Response({'error': 'data_inicio e data_fim são obrigatórios'}, status=400)
+    try:
+        inicio = datetime.strptime(data_inicio, '%Y-%m-%d').date()
+        fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
+    except ValueError:
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+    if inicio > fim:
+        return Response({'error': 'data_inicio deve ser menor ou igual a data_fim'}, status=400)
+
+    if PeriodoValidado.objects.filter(data_inicio=inicio, data_fim=fim).exists():
+        return Response({'error': 'Este período já foi validado e não pode ser alterado'}, status=400)
+
+    almocos = Almoco.objects.filter(data_hora__date__gte=inicio, data_hora__date__lte=fim)
+    total = almocos.count()
+    if total == 0:
+        return Response({'error': 'Não há refeições neste período'}, status=400)
+
+    config = Configuracao.objects.first()
+    if not config:
+        return Response({'error': 'Valor por refeição não configurado. Solicite ao administrador.'}, status=400)
+    valor_total = total * config.valor_refeicao
+
+    periodo = PeriodoValidado.objects.create(
+        data_inicio=inicio,
+        data_fim=fim,
+        total_refeicoes=total,
+        valor_total=valor_total,
+        fiscal=request.user,
+        observacao=request.data.get('observacao', '')
+    )
+    return Response({
+        'status': 'validado',
+        'protocolo': periodo.protocolo,
+        'total_refeicoes': total,
+        'valor_total': float(valor_total),
+        'data_validacao': periodo.data_validacao,
+        'fiscal': request.user.email
+    })
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscal])
+def listar_periodos_validados(request):
+    periodos = PeriodoValidado.objects.all().order_by('-data_validacao')
+    data = [{
+        'id': p.id,
+        'data_inicio': p.data_inicio,
+        'data_fim': p.data_fim,
+        'total_refeicoes': p.total_refeicoes,
+        'valor_total': float(p.valor_total),
+        'protocolo': p.protocolo,
+        'fiscal': p.fiscal.email if p.fiscal else None,
+        'data_validacao': p.data_validacao,
+        'observacao': p.observacao
+    } for p in periodos]
+    return Response(data)
+
+# ==================== CONFIGURAÇÕES DO SISTEMA ====================
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAdmin])
+def configuracao_sistema(request):
+    config, created = Configuracao.objects.get_or_create(pk=1)
+    if request.method == 'GET':
+        return Response({
+            'id': config.id,
+            'valor_refeicao': float(config.valor_refeicao),
+            'horario_inicio': config.horario_inicio.strftime('%H:%M'),
+            'horario_fim': config.horario_fim.strftime('%H:%M'),
+            'updated_at': config.updated_at,
+            'updated_by': config.updated_by.email if config.updated_by else None
+        })
+    elif request.method == 'PUT':
+        old_valor = config.valor_refeicao
+        old_inicio = config.horario_inicio
+        old_fim = config.horario_fim
+
+        if 'valor_refeicao' in request.data:
+            config.valor_refeicao = request.data['valor_refeicao']
+        if 'horario_inicio' in request.data:
+            config.horario_inicio = request.data['horario_inicio']
+        if 'horario_fim' in request.data:
+            config.horario_fim = request.data['horario_fim']
+        config.updated_by = request.user
+        config.save()
+
+        if str(old_valor) != str(config.valor_refeicao):
+            registrar_log_configuracao(request.user, 'valor_refeicao', str(old_valor), str(config.valor_refeicao))
+        if str(old_inicio) != str(config.horario_inicio):
+            registrar_log_configuracao(request.user, 'horario_inicio', str(old_inicio), str(config.horario_inicio))
+        if str(old_fim) != str(config.horario_fim):
+            registrar_log_configuracao(request.user, 'horario_fim', str(old_fim), str(config.horario_fim))
+
+        return Response({
+            'message': 'Configuração atualizada com sucesso',
+            'valor_refeicao': float(config.valor_refeicao),
+            'horario_inicio': config.horario_inicio.strftime('%H:%M'),
+            'horario_fim': config.horario_fim.strftime('%H:%M')
+        })
+
+# ==================== OCORRÊNCIAS ====================
+@api_view(['POST'])
+@permission_classes([IsAdminOrFiscal])
+def registrar_ocorrencia(request):
+    estudante_id = request.data.get('estudante_id')
+    tipo = request.data.get('tipo')
+    descricao = request.data.get('descricao')
+    if not estudante_id or not tipo or not descricao:
+        return Response({'error': 'estudante_id, tipo e descricao são obrigatórios'}, status=400)
+    try:
+        estudante = Student.objects.get(id=estudante_id)
+    except Student.DoesNotExist:
+        return Response({'error': 'Estudante não encontrado'}, status=404)
+    ocorrencia = Ocorrencia.objects.create(
+        estudante=estudante,
+        operador=request.user if request.user.is_authenticated else None,
+        tipo=tipo,
+        descricao=descricao
+    )
+    return Response({
+        'id': ocorrencia.id,
+        'estudante': estudante.nome,
+        'tipo': ocorrencia.tipo,
+        'descricao': ocorrencia.descricao,
+        'data_hora': ocorrencia.data_hora,
+        'operador': request.user.email if request.user.is_authenticated else None
+    }, status=201)
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrGestor])
+def listar_ocorrencias(request, estudante_id=None):
+    if estudante_id:
+        try:
+            estudante = Student.objects.get(id=estudante_id)
+        except Student.DoesNotExist:
+            return Response({'error': 'Estudante não encontrado'}, status=404)
+        ocorrencias = Ocorrencia.objects.filter(estudante=estudante).order_by('-data_hora')
+    else:
+        if request.user.papel != 'admin':
+            return Response({'error': 'Permissão negada'}, status=403)
+        ocorrencias = Ocorrencia.objects.all().order_by('-data_hora')
+    data = [{
+        'id': o.id,
+        'estudante': o.estudante.nome,
+        'tipo': o.tipo,
+        'descricao': o.descricao,
+        'data_hora': o.data_hora,
+        'operador': o.operador.email if o.operador else None
+    } for o in ocorrencias]
+    return Response(data)
