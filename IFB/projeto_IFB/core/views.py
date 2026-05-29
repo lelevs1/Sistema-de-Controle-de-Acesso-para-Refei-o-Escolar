@@ -12,7 +12,7 @@ from django.db import models
 from django.db.models import Count, Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, generics
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
@@ -21,7 +21,7 @@ from .models import (
     User, Student, Digital, Almoco, LogLiberacao, Turma, Curso,
     Configuracao, PeriodoValidado, Ocorrencia
 )
-from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
+from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer, CursoSerializer, TurmaSerializer
 from .permissions import IsAdmin, IsAdminOrFiscal, IsAdminOrGestor, IsFiscal, IsAdminOrFiscalOrGestor
 from .biometria import comparar_templates
 from .utils import gerar_csv, gerar_pdf, registrar_log_configuracao
@@ -253,6 +253,17 @@ class StudentViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
+# ==================== CURSOS E TURMAS ====================
+class CursoListCreateView(generics.ListCreateAPIView):
+    queryset = Curso.objects.all().order_by('nome')
+    serializer_class = CursoSerializer
+    permission_classes = [IsAdminOrFiscalOrGestor]
+
+class TurmaListCreateView(generics.ListCreateAPIView):
+    queryset = Turma.objects.all().order_by('nome')
+    serializer_class = TurmaSerializer
+    permission_classes = [IsAdminOrFiscalOrGestor]
 
 # ==================== IMPORTAR ESTUDANTES (CSV) ====================
 @api_view(['POST'])
