@@ -707,34 +707,65 @@ def relatorio_diario(request):
 @api_view(['GET'])
 @permission_classes([IsAdminOrGestor])
 def relatorio_mensal(request):
-    ano = request.query_params.get('ano')
-    mes = request.query_params.get('mes')
-    if not ano or not mes:
-        return Response({'error': 'Parâmetros ano e mes obrigatórios'}, status=400)
+    inicio = request.query_params.get('inicio')
+    fim = request.query_params.get('fim')
+    if not inicio or not fim:
+        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
     try:
-        data_inicio = datetime(int(ano), int(mes), 1).date()
-        if int(mes) == 12:
-            data_fim = datetime(int(ano)+1, 1, 1).date()
-        else:
-            data_fim = datetime(int(ano), int(mes)+1, 1).date()
+        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
     except ValueError:
-        return Response({'error': 'Ano/mês inválidos'}, status=400)
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
 
-    almocos = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).select_related('estudante', 'operador')
-    cabecalho = ['ID', 'Estudante', 'Matrícula', 'Data', 'Método', 'Operador']
-    dados = [[
-        a.id, a.estudante.nome, a.estudante.matricula,
-        a.data_hora.strftime('%d/%m/%Y'), a.get_metodo_display(),
-        a.operador.email if a.operador else '---'
-    ] for a in almocos]
+    almocos = Almoco.objects.filter(data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
+
+    config = Configuracao.objects.first()
+    valor_refeicao = float(config.valor_refeicao) if config else 0.0
+
+    cabecalho = ['Semana', 'Biometricas', 'Manuais', 'Total', 'Valor']
+    dados = []
+
+    current_date = data_ini
+    semana_idx = 1
+    while current_date <= data_fim:
+        next_date = current_date + timedelta(days=6)
+        if next_date > data_fim:
+            next_date = data_fim
+            
+        almocos_semana = almocos.filter(data_hora__date__gte=current_date, data_hora__date__lte=next_date)
+        total = almocos_semana.count()
+        biometria = almocos_semana.filter(metodo='biometria').count()
+        manual = total - biometria
+        valor = total * valor_refeicao
+        
+        semana_label = f"Semana {semana_idx} ({current_date.strftime('%d/%m')} a {next_date.strftime('%d/%m')})"
+        dados.append([semana_label, biometria, manual, total, valor])
+        
+        current_date = next_date + timedelta(days=1)
+        semana_idx += 1
 
     formato = request.query_params.get('formato', 'json').lower()
-    nome_arquivo = f'relatorio_mensal_{ano}_{mes}'
+    nome_arquivo = f'relatorio_mensal_{inicio}_a_{fim}'
     if formato == 'csv':
         return gerar_csv(nome_arquivo, cabecalho, dados)
     elif formato == 'pdf':
-        return gerar_pdf(nome_arquivo, f'Relatório Mensal - {data_inicio.strftime("%B %Y")}', cabecalho, dados)
-    return Response({'dados': dados, 'total': len(dados)})
+        return gerar_pdf(nome_arquivo, f'Relatório Mensal ({inicio} a {fim})', cabecalho, dados)
+        
+    semanas_json = [
+        {
+            'semana': d[0],
+            'biometricas': d[1],
+            'manuais': d[2],
+            'total': d[3],
+            'valor': d[4]
+        } for d in dados
+    ]
+    
+    return Response({
+        'semanas': semanas_json,
+        'total_geral': sum(d[3] for d in dados),
+        'valor_geral': sum(d[4] for d in dados)
+    })
 
 @api_view(['GET'])
 @permission_classes([IsAdminOrFiscal])
