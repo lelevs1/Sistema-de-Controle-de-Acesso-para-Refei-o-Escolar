@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Student, Digital, Turma, Curso
+from .models import User, Student, Digital, Turma
 
 class DigitalSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,16 +14,6 @@ class ImportStudentSerializer(serializers.Serializer):
         if not value.name.endswith(('.csv', '.xlsx')):
             raise serializers.ValidationError("Formato inválido. Envie CSV ou Excel.")
         return value
-
-class CursoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Curso
-        fields = ['id', 'nome']
-
-class TurmaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Turma
-        fields = ['id', 'nome', 'turno']
 
 class StudentSerializer(serializers.ModelSerializer):
     foto_url = serializers.SerializerMethodField(read_only=True)

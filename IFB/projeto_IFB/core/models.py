@@ -156,6 +156,10 @@ class Almoco(models.Model):
         verbose_name = 'Almoço'
         verbose_name_plural = 'Almoços'
         ordering = ['-data_hora']
+        indexes = [
+            models.Index(fields=['data_hora']),
+            models.Index(fields=['estudante', 'data_hora']),
+        ]
 
     def __str__(self):
         return f'{self.estudante.nome} - {self.data_hora.strftime("%d/%m/%Y %H:%M")}'

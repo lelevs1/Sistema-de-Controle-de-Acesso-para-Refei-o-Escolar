@@ -12,7 +12,7 @@ from django.db import models
 from django.db.models import Count, Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from rest_framework import viewsets, status, generics
+from rest_framework import viewsets, status
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
@@ -21,7 +21,7 @@ from .models import (
     User, Student, Digital, Almoco, LogLiberacao, Turma, Curso,
     Configuracao, PeriodoValidado, Ocorrencia
 )
-from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer, CursoSerializer, TurmaSerializer
+from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
 from .permissions import IsAdmin, IsAdminOrFiscal, IsAdminOrGestor, IsFiscal, IsAdminOrFiscalOrGestor
 from .biometria import comparar_templates
 from .utils import gerar_csv, gerar_pdf, registrar_log_configuracao
@@ -253,17 +253,6 @@ class StudentViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
-
-# ==================== CURSOS E TURMAS ====================
-class CursoListCreateView(generics.ListCreateAPIView):
-    queryset = Curso.objects.all().order_by('nome')
-    serializer_class = CursoSerializer
-    permission_classes = [IsAdminOrFiscalOrGestor]
-
-class TurmaListCreateView(generics.ListCreateAPIView):
-    queryset = Turma.objects.all().order_by('nome')
-    serializer_class = TurmaSerializer
-    permission_classes = [IsAdminOrFiscalOrGestor]
 
 # ==================== IMPORTAR ESTUDANTES (CSV) ====================
 @api_view(['POST'])
@@ -718,65 +707,34 @@ def relatorio_diario(request):
 @api_view(['GET'])
 @permission_classes([IsAdminOrGestor])
 def relatorio_mensal(request):
-    inicio = request.query_params.get('inicio')
-    fim = request.query_params.get('fim')
-    if not inicio or not fim:
-        return Response({'error': 'Parâmetros inicio e fim obrigatórios'}, status=400)
+    ano = request.query_params.get('ano')
+    mes = request.query_params.get('mes')
+    if not ano or not mes:
+        return Response({'error': 'Parâmetros ano e mes obrigatórios'}, status=400)
     try:
-        data_ini = datetime.strptime(inicio, '%Y-%m-%d').date()
-        data_fim = datetime.strptime(fim, '%Y-%m-%d').date()
+        data_inicio = datetime(int(ano), int(mes), 1).date()
+        if int(mes) == 12:
+            data_fim = datetime(int(ano)+1, 1, 1).date()
+        else:
+            data_fim = datetime(int(ano), int(mes)+1, 1).date()
     except ValueError:
-        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
+        return Response({'error': 'Ano/mês inválidos'}, status=400)
 
-    almocos = Almoco.objects.filter(data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
-
-    config = Configuracao.objects.first()
-    valor_refeicao = float(config.valor_refeicao) if config else 0.0
-
-    cabecalho = ['Semana', 'Biometricas', 'Manuais', 'Total', 'Valor']
-    dados = []
-
-    current_date = data_ini
-    semana_idx = 1
-    while current_date <= data_fim:
-        next_date = current_date + timedelta(days=6)
-        if next_date > data_fim:
-            next_date = data_fim
-            
-        almocos_semana = almocos.filter(data_hora__date__gte=current_date, data_hora__date__lte=next_date)
-        total = almocos_semana.count()
-        biometria = almocos_semana.filter(metodo='biometria').count()
-        manual = total - biometria
-        valor = total * valor_refeicao
-        
-        semana_label = f"Semana {semana_idx} ({current_date.strftime('%d/%m')} a {next_date.strftime('%d/%m')})"
-        dados.append([semana_label, biometria, manual, total, valor])
-        
-        current_date = next_date + timedelta(days=1)
-        semana_idx += 1
+    almocos = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).select_related('estudante', 'operador')
+    cabecalho = ['ID', 'Estudante', 'Matrícula', 'Data', 'Método', 'Operador']
+    dados = [[
+        a.id, a.estudante.nome, a.estudante.matricula,
+        a.data_hora.strftime('%d/%m/%Y'), a.get_metodo_display(),
+        a.operador.email if a.operador else '---'
+    ] for a in almocos]
 
     formato = request.query_params.get('formato', 'json').lower()
-    nome_arquivo = f'relatorio_mensal_{inicio}_a_{fim}'
+    nome_arquivo = f'relatorio_mensal_{ano}_{mes}'
     if formato == 'csv':
         return gerar_csv(nome_arquivo, cabecalho, dados)
     elif formato == 'pdf':
-        return gerar_pdf(nome_arquivo, f'Relatório Mensal ({inicio} a {fim})', cabecalho, dados)
-        
-    semanas_json = [
-        {
-            'semana': d[0],
-            'biometricas': d[1],
-            'manuais': d[2],
-            'total': d[3],
-            'valor': d[4]
-        } for d in dados
-    ]
-    
-    return Response({
-        'semanas': semanas_json,
-        'total_geral': sum(d[3] for d in dados),
-        'valor_geral': sum(d[4] for d in dados)
-    })
+        return gerar_pdf(nome_arquivo, f'Relatório Mensal - {data_inicio.strftime("%B %Y")}', cabecalho, dados)
+    return Response({'dados': dados, 'total': len(dados)})
 
 @api_view(['GET'])
 @permission_classes([IsAdminOrFiscal])
@@ -897,7 +855,7 @@ def relatorio_pagamento(request):
 
 # ==================== VALIDAÇÃO FISCAL ====================
 @api_view(['POST'])
-@permission_classes([IsFiscal])
+@permission_classes([IsAdminOrFiscal])
 def validar_periodo(request):
     data_inicio = request.data.get('data_inicio')
     data_fim = request.data.get('data_fim')
@@ -1050,3 +1008,53 @@ def listar_ocorrencias(request, estudante_id=None):
         'operador': o.operador.email if o.operador else None
     } for o in ocorrencias]
     return Response(data)
+# ==================== ADMIN - ALTERAR PERÍODO VALIDADO ====================
+@api_view(['PUT'])
+@permission_classes([IsAdmin])
+def alterar_periodo_validado(request, periodo_id):
+    """
+    PUT /api/admin/periodos/<id>/
+    Permite ao administrador alterar um período já validado.
+    Se total_refeicoes for alterado, o valor_total é recalculado automaticamente.
+    """
+    try:
+        periodo = PeriodoValidado.objects.get(id=periodo_id)
+    except PeriodoValidado.DoesNotExist:
+        return Response({'error': 'Período não encontrado'}, status=404)
+
+    old_total = periodo.total_refeicoes
+    old_valor = periodo.valor_total
+    old_obs = periodo.observacao
+
+    # Atualiza total_refeicoes (e recalcula valor_total)
+    if 'total_refeicoes' in request.data:
+        periodo.total_refeicoes = request.data['total_refeicoes']
+        config = Configuracao.objects.first()
+        if config:
+            periodo.valor_total = periodo.total_refeicoes * config.valor_refeicao
+        else:
+            periodo.valor_total = old_valor  # fallback
+
+    if 'observacao' in request.data:
+        periodo.observacao = request.data['observacao']
+
+    periodo.save()
+
+    # Logs
+    if old_total != periodo.total_refeicoes:
+        registrar_log_configuracao(request.user, f'periodo_{periodo.id}_total_refeicoes', str(old_total), str(periodo.total_refeicoes))
+    if old_valor != periodo.valor_total:
+        registrar_log_configuracao(request.user, f'periodo_{periodo.id}_valor_total', str(old_valor), str(periodo.valor_total))
+    if old_obs != periodo.observacao:
+        registrar_log_configuracao(request.user, f'periodo_{periodo.id}_observacao', old_obs or '', periodo.observacao or '')
+
+    return Response({
+        'id': periodo.id,
+        'data_inicio': periodo.data_inicio,
+        'data_fim': periodo.data_fim,
+        'total_refeicoes': periodo.total_refeicoes,
+        'valor_total': float(periodo.valor_total),
+        'observacao': periodo.observacao,
+        'protocolo': periodo.protocolo,
+        'message': 'Período alterado com sucesso (log registrado)'
+    })

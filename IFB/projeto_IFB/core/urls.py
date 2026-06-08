@@ -19,8 +19,6 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('', views.home, name='home'),
     path('api/', include(router.urls)),
-    path('api/cursos/', views.CursoListCreateView.as_view(), name='curso-list-create'),
-    path('api/turmas/', views.TurmaListCreateView.as_view(), name='turma-list-create'),
     path('api/estudantes/importar/', views.importar_estudantes, name='importar_estudantes'),
     path('api/estudantes/<int:estudante_id>/digitais/', views.listar_digitais, name='listar_digitais'),
     path('api/estudantes/<int:estudante_id>/digitais/cadastrar/', views.cadastrar_digital, name='cadastrar_digital'),
@@ -56,4 +54,6 @@ urlpatterns = [
     path('api/ocorrencias/criar/', views.registrar_ocorrencia, name='registrar_ocorrencia'),
     path('api/ocorrencias/estudante/<int:estudante_id>/', views.listar_ocorrencias,
          name='listar_ocorrencias_estudante'),
+# Dentro de urlpatterns, adicione:
+    path('api/admin/periodos/<int:periodo_id>/', views.alterar_periodo_validado, name='alterar_periodo_validado'),
 ]
