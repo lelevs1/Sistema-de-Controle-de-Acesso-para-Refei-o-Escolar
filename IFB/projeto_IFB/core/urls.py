@@ -16,6 +16,7 @@ urlpatterns = [
     path('api/perfil/', views.perfil_usuario, name='perfil'),
     path('auth/google/', views.google_login, name='google-login'),
     path('auth/google/callback/', views.google_callback, name='google-callback'),
+
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('', views.home, name='home'),
     path('api/', include(router.urls)),
@@ -56,4 +57,5 @@ urlpatterns = [
          name='listar_ocorrencias_estudante'),
 # Dentro de urlpatterns, adicione:
     path('api/admin/periodos/<int:periodo_id>/', views.alterar_periodo_validado, name='alterar_periodo_validado'),
+    path('dashboard/', views.exibir_token, name='dashboard'),
 ]

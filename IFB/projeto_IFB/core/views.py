@@ -160,10 +160,10 @@ def google_callback(request):
         return redirect("http://localhost:5173/login?error=no_email")
     email = User.objects.normalize_email(email.strip())
 
-    allowed_domains = ["escola.gov.br", "educacao.gov.br"]
-    domain = email.split("@")[-1].lower()
-    if domain not in allowed_domains:
-        return redirect("http://localhost:5173/login?error=domain_not_allowed")
+    #allowed_domains = ["escola.gov.br", "educacao.gov.br", "gmail.com"]
+    #domain = email.split("@")[-1].lower()
+    #if domain not in allowed_domains:
+       # return redirect("http://localhost:5173/login?error=domain_not_allowed")
 
     user = User.objects.filter(email=email).first()
     if not user:
@@ -189,9 +189,14 @@ def google_callback(request):
     access_jwt = str(refresh.access_token)
     refresh_jwt = str(refresh)
 
-    frontend_url = f"http://localhost:5173/dashboard?access={access_jwt}&refresh={refresh_jwt}&papel={user.papel}"
+    frontend_url = f"http://127.0.0.1:8000/dashboard?access={access_jwt}&refresh={refresh_jwt}&papel={user.papel}"
     return redirect(frontend_url)
 
+def exibir_token(request):
+    access = request.GET.get('access')
+    refresh = request.GET.get('refresh')
+    papel = request.GET.get('papel')
+    return JsonResponse({'access': access, 'refresh': refresh, 'papel': papel})
 # ==================== USUÁRIOS E PERFIL ====================
 @api_view(['POST'])
 @permission_classes([IsAdmin])
@@ -441,7 +446,7 @@ def registrar_almoco_manual(request, estudante_id):
 
 # ==================== BUSCA DE ESTUDANTES ====================
 @api_view(['GET'])
-@permission_classes([IsAdminOrFiscal])
+@permission_classes([IsAdminOrFiscalOrGestor])
 def buscar_estudantes(request):
     query = request.query_params.get('q', '').strip()
     if not query:
@@ -465,7 +470,7 @@ def buscar_estudantes(request):
 
 # ==================== ESTATÍSTICAS (básicas) ====================
 @api_view(['GET'])
-@permission_classes([IsAdminOrFiscal])
+@permission_classes([IsAdminOrFiscalOrEmpresa])
 def estatisticas_hoje(request):
     hoje = timezone.now().date()
     almocos_hoje = Almoco.objects.filter(data_hora__date=hoje)
@@ -482,7 +487,7 @@ def estatisticas_hoje(request):
     })
 
 @api_view(['GET'])
-@permission_classes([IsAdminOrFiscal])
+@permission_classes([IsAdminOrFiscalOrEmpresa])
 def estatisticas_semana(request):
     hoje = timezone.now().date()
     inicio_semana = hoje - timedelta(days=hoje.weekday())
@@ -498,7 +503,7 @@ def estatisticas_semana(request):
     return Response(dados)
 
 @api_view(['GET'])
-@permission_classes([IsAdminOrFiscal])
+@permission_classes([IsAdminOrFiscalOrEmpresa])
 def estatisticas_mensal(request):
     hoje = timezone.now().date()
     mes_atual = hoje.replace(day=1)

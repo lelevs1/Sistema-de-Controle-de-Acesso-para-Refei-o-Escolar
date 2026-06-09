@@ -104,8 +104,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configurações do Google OAuth
-GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID', default='')
-GOOGLE_CLIENT_SECRET = config('GOOGLE_CLIENT_SECRET', default='')
+GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID', default='306577560364-0qikcprl3kkde5l4nofdfi3did71raor.apps.googleusercontent.com')
+GOOGLE_CLIENT_SECRET = config('GOOGLE_CLIENT_SECRET', default='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')
 GOOGLE_REDIRECT_URI = config('GOOGLE_REDIRECT_URI', default='http://localhost:8000/auth/google/callback/')
 
 # Django REST Framework + JWT
