@@ -16,13 +16,22 @@ from rest_framework import viewsets, status
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
+from django.db import IntegrityError
 
 from .models import (
     User, Student, Digital, Almoco, LogLiberacao, Turma, Curso,
     Configuracao, PeriodoValidado, Ocorrencia
 )
 from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
-from .permissions import IsAdmin, IsAdminOrFiscal, IsAdminOrGestor, IsFiscal, IsAdminOrFiscalOrGestor
+from .permissions import (
+    IsAdmin,
+    IsAdminOrFiscal,
+    IsAdminOrGestor,
+    IsFiscal,
+    IsAdminOrFiscalOrGestor,
+    IsAdminOrFiscalOrEmpresa,
+    IsAdminOrFiscalOrOperador,
+)
 from .biometria import comparar_templates
 from .utils import gerar_csv, gerar_pdf, registrar_log_configuracao
 
@@ -34,7 +43,7 @@ logger = logging.getLogger(__name__)
 # ==================== UTILITÁRIOS ====================
 def calcular_percentuais():
     hoje = timezone.now().date()
-    almocos_hoje = Almoco.objects.filter(data_hora__date=hoje)
+    almocos_hoje = Almoco.objects.filter(data=hoje)
     total = almocos_hoje.count()
     biometria = almocos_hoje.filter(metodo='biometria').count()
     manual = total - biometria
@@ -160,11 +169,6 @@ def google_callback(request):
         return redirect("http://localhost:5173/login?error=no_email")
     email = User.objects.normalize_email(email.strip())
 
-    #allowed_domains = ["escola.gov.br", "educacao.gov.br", "gmail.com"]
-    #domain = email.split("@")[-1].lower()
-    #if domain not in allowed_domains:
-       # return redirect("http://localhost:5173/login?error=domain_not_allowed")
-
     user = User.objects.filter(email=email).first()
     if not user:
         user = User.objects.create_user(
@@ -197,6 +201,7 @@ def exibir_token(request):
     refresh = request.GET.get('refresh')
     papel = request.GET.get('papel')
     return JsonResponse({'access': access, 'refresh': refresh, 'papel': papel})
+
 # ==================== USUÁRIOS E PERFIL ====================
 @api_view(['POST'])
 @permission_classes([IsAdmin])
@@ -242,7 +247,7 @@ def perfil_usuario(request):
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-    permission_classes = [IsAdminOrFiscalOrGestor]   # alterado para incluir gestor
+    permission_classes = [IsAdminOrFiscalOrGestor]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def create(self, request, *args, **kwargs):
@@ -357,7 +362,6 @@ def verificar_digital(request):
     if not codigo_hex:
         return Response({'error': 'Código hexadecimal não informado'}, status=400)
 
-    # Verifica horário de funcionamento
     config = Configuracao.objects.first()
     if config:
         agora = timezone.now().time()
@@ -365,22 +369,28 @@ def verificar_digital(request):
             return Response({'status': 'bloqueado', 'motivo': 'Fora do horário de funcionamento'}, status=403)
 
     todas_digitais = Digital.objects.select_related('estudante__turma', 'estudante__curso').all()
+    hoje = timezone.now().date()
+
     for digital in todas_digitais:
         if comparar_templates(codigo_hex, digital.codigo_hex, security_level=4):
             estudante = digital.estudante
             if not estudante.ativo:
                 return Response({'status': 'bloqueado', 'motivo': 'Aluno inativo'}, status=403)
 
-            hoje = timezone.now().date()
-            if Almoco.objects.filter(estudante=estudante, data_hora__date=hoje).exists():
+            if Almoco.objects.filter(estudante=estudante, data=hoje).exists():
                 return Response({'status': 'bloqueado', 'motivo': 'Já almoçou hoje'}, status=403)
 
-            almoco = Almoco.objects.create(
-                estudante=estudante,
-                metodo='biometria',
-                operador=request.user if request.user.is_authenticated else None,
-                observacao='Liberação via biometria'
-            )
+            try:
+                almoco = Almoco.objects.create(
+                    estudante=estudante,
+                    data=hoje,
+                    metodo='biometria',
+                    operador=request.user if request.user.is_authenticated else None,
+                    observacao='Liberação via biometria'
+                )
+            except IntegrityError:
+                return Response({'status': 'bloqueado', 'motivo': 'Já almoçou hoje'}, status=400)
+
             enviar_liberacao_websocket(estudante, almoco)
             return Response({
                 'status': 'liberado',
@@ -398,7 +408,7 @@ def verificar_digital(request):
 
 # ==================== LIBERAÇÃO MANUAL ====================
 @api_view(['POST'])
-@permission_classes([IsAdminOrFiscal])
+@permission_classes([IsAdminOrFiscalOrOperador])
 def liberar_manual(request):
     estudante_id = request.data.get('estudante_id')
     observacao = request.data.get('observacao', '').strip()
@@ -416,22 +426,27 @@ def liberar_manual(request):
         return Response({'status': 'bloqueado', 'motivo': 'Aluno inativo'}, status=403)
 
     hoje = timezone.now().date()
-    if Almoco.objects.filter(estudante=estudante, data_hora__date=hoje).exists():
+
+    if Almoco.objects.filter(estudante=estudante, data=hoje).exists():
         return Response({'status': 'bloqueado', 'motivo': 'Já almoçou hoje'}, status=400)
 
-    # Verifica horário
     config = Configuracao.objects.first()
     if config:
         agora = timezone.now().time()
         if agora < config.horario_inicio or agora > config.horario_fim:
             return Response({'status': 'bloqueado', 'motivo': 'Fora do horário de funcionamento'}, status=403)
 
-    almoco = Almoco.objects.create(
-        estudante=estudante,
-        metodo='manual',
-        operador=request.user,
-        observacao=observacao
-    )
+    try:
+        almoco = Almoco.objects.create(
+            estudante=estudante,
+            data=hoje,
+            metodo='manual',
+            operador=request.user,
+            observacao=observacao
+        )
+    except IntegrityError:
+        return Response({'status': 'bloqueado', 'motivo': 'Já almoçou hoje'}, status=400)
+
     enviar_liberacao_websocket(estudante, almoco)
     return Response({
         'status': 'liberado',
@@ -440,7 +455,7 @@ def liberar_manual(request):
     })
 
 @api_view(['POST'])
-@permission_classes([IsAdminOrFiscal])
+@permission_classes([IsAdminOrFiscalOrOperador])
 def registrar_almoco_manual(request, estudante_id):
     return liberar_manual(request)
 
@@ -473,11 +488,11 @@ def buscar_estudantes(request):
 @permission_classes([IsAdminOrFiscalOrEmpresa])
 def estatisticas_hoje(request):
     hoje = timezone.now().date()
-    almocos_hoje = Almoco.objects.filter(data_hora__date=hoje)
+    almocos_hoje = Almoco.objects.filter(data=hoje)
     total = almocos_hoje.count()
     por_hora = almocos_hoje.extra({'hora': "strftime('%H', data_hora)"}).values('hora').annotate(total=Count('id'))
     ontem = hoje - timedelta(days=1)
-    total_ontem = Almoco.objects.filter(data_hora__date=ontem).count()
+    total_ontem = Almoco.objects.filter(data=ontem).count()
     variacao = ((total - total_ontem) / total_ontem * 100) if total_ontem else 0
     return Response({
         'total_hoje': total,
@@ -494,7 +509,7 @@ def estatisticas_semana(request):
     dias = [inicio_semana + timedelta(days=i) for i in range(7)]
     dados = []
     for dia in dias:
-        total = Almoco.objects.filter(data_hora__date=dia).count()
+        total = Almoco.objects.filter(data=dia).count()
         dados.append({
             'data': dia.strftime('%Y-%m-%d'),
             'dia_semana': dia.strftime('%A'),
@@ -508,11 +523,11 @@ def estatisticas_mensal(request):
     hoje = timezone.now().date()
     mes_atual = hoje.replace(day=1)
     proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
-    almocos = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
+    almocos = Almoco.objects.filter(data__gte=mes_atual, data__lt=proximo_mes)
     total = almocos.count()
     por_metodo = almocos.values('metodo').annotate(total=Count('id'))
     biometria = next((item['total'] for item in por_metodo if item['metodo'] == 'biometria'), 0)
-    manual = next((item['total'] for item in por_metodo if item['metodo'] == 'manual'), 0)
+    manual = total - biometria
     perc_biometria = (biometria / total * 100) if total else 0
     perc_manual = (manual / total * 100) if total else 0
     detalhes_por_dia = list(almocos.extra({'dia': "strftime('%d', data_hora)"}).values('dia').annotate(total=Count('id')))
@@ -526,7 +541,7 @@ def estatisticas_mensal(request):
         'detalhes_por_dia': detalhes_por_dia
     })
 
-# ==================== LOGS (COM OCULTAÇÃO PARA FISCAL) ====================
+# ==================== LOGS ====================
 def registrar_log_liberacao(estudante, tipo, operador=None, observacao=''):
     LogLiberacao.objects.create(
         estudante=estudante,
@@ -587,8 +602,8 @@ def dashboard_fiscal(request):
     ultimos_30_dias = [hoje - timedelta(days=i) for i in range(30)]
     evolucao = []
     for dia in ultimos_30_dias:
-        total = Almoco.objects.filter(data_hora__date=dia).count()
-        biometria = Almoco.objects.filter(data_hora__date=dia, metodo='biometria').count()
+        total = Almoco.objects.filter(data=dia).count()
+        biometria = Almoco.objects.filter(data=dia, metodo='biometria').count()
         manual = total - biometria
         evolucao.append({
             'data': dia.isoformat(),
@@ -600,12 +615,12 @@ def dashboard_fiscal(request):
     dias_semana = [inicio_semana + timedelta(days=i) for i in range(7)]
     semana = []
     for dia in dias_semana:
-        total = Almoco.objects.filter(data_hora__date=dia).count()
+        total = Almoco.objects.filter(data=dia).count()
         semana.append({'data': dia.isoformat(), 'total': total})
 
     mes_atual = hoje.replace(day=1)
     proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
-    almocos_mes = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
+    almocos_mes = Almoco.objects.filter(data__gte=mes_atual, data__lt=proximo_mes)
     total_mes = almocos_mes.count()
     biometria_mes = almocos_mes.filter(metodo='biometria').count()
     manual_mes = total_mes - biometria_mes
@@ -621,47 +636,52 @@ def dashboard_fiscal(request):
         }
     })
 
-# ==================== DASHBOARD GESTÃO ====================
+# ==================== DASHBOARD GESTÃO (OTIMIZADO) ====================
 @api_view(['GET'])
 @permission_classes([IsAdminOrGestor])
 def dashboard_gestao(request):
     hoje = timezone.now().date()
     mes_atual = hoje.replace(day=1)
     proximo_mes = (mes_atual + timedelta(days=32)).replace(day=1)
-    almocos_periodo = Almoco.objects.filter(data_hora__gte=mes_atual, data_hora__lt=proximo_mes)
 
-    turmas = Turma.objects.all()
+    turmas_com_contagem = Turma.objects.annotate(
+        total_alunos=Count('estudantes', filter=Q(estudantes__ativo=True)),
+        total_almocos=Count(
+            'estudantes__almocos',
+            filter=Q(estudantes__almocos__data__gte=mes_atual, estudantes__almocos__data__lt=proximo_mes)
+        )
+    ).filter(total_alunos__gt=0)
+
     dados_turmas = []
-    for turma in turmas:
-        alunos_turma = Student.objects.filter(turma=turma, ativo=True).count()
-        if alunos_turma == 0:
-            continue
-        total_almocos_turma = almocos_periodo.filter(estudante__turma=turma).count()
-        media_por_aluno = round(total_almocos_turma / alunos_turma, 2) if alunos_turma else 0
-        percentual = round((total_almocos_turma / (alunos_turma * 30)) * 100, 2) if alunos_turma else 0
+    for turma in turmas_com_contagem:
+        media = round(turma.total_almocos / turma.total_alunos, 2) if turma.total_alunos else 0
+        percentual = round((turma.total_almocos / (turma.total_alunos * 30)) * 100, 2) if turma.total_alunos else 0
         dados_turmas.append({
             'turma_id': turma.id,
             'turma_nome': turma.nome,
-            'total_alunos': alunos_turma,
-            'total_almocos': total_almocos_turma,
-            'media_por_aluno': media_por_aluno,
-            'percentual_comparecimento': percentual
+            'total_alunos': turma.total_alunos,
+            'total_almocos': turma.total_almocos,
+            'media_por_aluno': media,
+            'percentual_comparecimento': percentual,
         })
 
-    cursos = Curso.objects.all()
+    cursos_com_contagem = Curso.objects.annotate(
+        total_alunos=Count('estudantes', filter=Q(estudantes__ativo=True)),
+        total_almocos=Count(
+            'estudantes__almocos',
+            filter=Q(estudantes__almocos__data__gte=mes_atual, estudantes__almocos__data__lt=proximo_mes)
+        )
+    ).filter(total_alunos__gt=0)
+
     dados_cursos = []
-    for curso in cursos:
-        alunos_curso = Student.objects.filter(curso=curso, ativo=True).count()
-        if alunos_curso == 0:
-            continue
-        total_almocos_curso = almocos_periodo.filter(estudante__curso=curso).count()
-        media_por_aluno = round(total_almocos_curso / alunos_curso, 2) if alunos_curso else 0
+    for curso in cursos_com_contagem:
+        media = round(curso.total_almocos / curso.total_alunos, 2) if curso.total_alunos else 0
         dados_cursos.append({
             'curso_id': curso.id,
             'curso_nome': curso.nome,
-            'total_alunos': alunos_curso,
-            'total_almocos': total_almocos_curso,
-            'media_por_aluno': media_por_aluno
+            'total_alunos': curso.total_alunos,
+            'total_almocos': curso.total_almocos,
+            'media_por_aluno': media,
         })
 
     meses = []
@@ -669,7 +689,7 @@ def dashboard_gestao(request):
         data_inicio = hoje.replace(day=1) - timedelta(days=30 * i)
         data_inicio = data_inicio.replace(day=1)
         data_fim = (data_inicio + timedelta(days=32)).replace(day=1)
-        total = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).count()
+        total = Almoco.objects.filter(data__gte=data_inicio, data__lt=data_fim).count()
         meses.append({
             'mes': data_inicio.strftime('%Y-%m'),
             'total': total
@@ -694,7 +714,7 @@ def relatorio_diario(request):
     except ValueError:
         return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
 
-    almocos = Almoco.objects.filter(data_hora__date=data).select_related('estudante', 'operador')
+    almocos = Almoco.objects.filter(data=data).select_related('estudante', 'operador')
     cabecalho = ['ID Almoço', 'Estudante', 'Matrícula', 'Método', 'Data/Hora', 'Operador', 'Observação']
     dados = [[
         a.id, a.estudante.nome, a.estudante.matricula,
@@ -725,11 +745,11 @@ def relatorio_mensal(request):
     except ValueError:
         return Response({'error': 'Ano/mês inválidos'}, status=400)
 
-    almocos = Almoco.objects.filter(data_hora__gte=data_inicio, data_hora__lt=data_fim).select_related('estudante', 'operador')
+    almocos = Almoco.objects.filter(data__gte=data_inicio, data__lt=data_fim).select_related('estudante', 'operador')
     cabecalho = ['ID', 'Estudante', 'Matrícula', 'Data', 'Método', 'Operador']
     dados = [[
         a.id, a.estudante.nome, a.estudante.matricula,
-        a.data_hora.strftime('%d/%m/%Y'), a.get_metodo_display(),
+        a.data.strftime('%d/%m/%Y'), a.get_metodo_display(),
         a.operador.email if a.operador else '---'
     ] for a in almocos]
 
@@ -781,7 +801,7 @@ def relatorio_operador(request):
     operadores = User.objects.filter(papel__in=['operador', 'admin']).annotate(num_almocos=Count('almoco'))
     dados = []
     for op in operadores:
-        almocos = Almoco.objects.filter(operador=op, data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
+        almocos = Almoco.objects.filter(operador=op, data__gte=data_ini, data__lte=data_fim)
         total = almocos.count()
         biometria = almocos.filter(metodo='biometria').count()
         manual = total - biometria
@@ -840,11 +860,11 @@ def relatorio_pagamento(request):
     except ValueError:
         return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
 
-    almocos = Almoco.objects.filter(data_hora__date__gte=data_ini, data_hora__date__lte=data_fim)
-    dias = almocos.dates('data_hora', 'day').order_by('data_hora')
+    almocos = Almoco.objects.filter(data__gte=data_ini, data__lte=data_fim)
+    dias = almocos.dates('data', 'day').order_by('data')
     dados = []
     for dia in dias:
-        dia_almocos = almocos.filter(data_hora__date=dia)
+        dia_almocos = almocos.filter(data=dia)
         total = dia_almocos.count()
         biometria = dia_almocos.filter(metodo='biometria').count()
         manual = total - biometria
@@ -877,7 +897,7 @@ def validar_periodo(request):
     if PeriodoValidado.objects.filter(data_inicio=inicio, data_fim=fim).exists():
         return Response({'error': 'Este período já foi validado e não pode ser alterado'}, status=400)
 
-    almocos = Almoco.objects.filter(data_hora__date__gte=inicio, data_hora__date__lte=fim)
+    almocos = Almoco.objects.filter(data__gte=inicio, data__lte=fim)
     total = almocos.count()
     if total == 0:
         return Response({'error': 'Não há refeições neste período'}, status=400)
@@ -1013,6 +1033,7 @@ def listar_ocorrencias(request, estudante_id=None):
         'operador': o.operador.email if o.operador else None
     } for o in ocorrencias]
     return Response(data)
+
 # ==================== ADMIN - ALTERAR PERÍODO VALIDADO ====================
 @api_view(['PUT'])
 @permission_classes([IsAdmin])
@@ -1031,21 +1052,19 @@ def alterar_periodo_validado(request, periodo_id):
     old_valor = periodo.valor_total
     old_obs = periodo.observacao
 
-    # Atualiza total_refeicoes (e recalcula valor_total)
     if 'total_refeicoes' in request.data:
         periodo.total_refeicoes = request.data['total_refeicoes']
         config = Configuracao.objects.first()
         if config:
             periodo.valor_total = periodo.total_refeicoes * config.valor_refeicao
         else:
-            periodo.valor_total = old_valor  # fallback
+            periodo.valor_total = old_valor
 
     if 'observacao' in request.data:
         periodo.observacao = request.data['observacao']
 
     periodo.save()
 
-    # Logs
     if old_total != periodo.total_refeicoes:
         registrar_log_configuracao(request.user, f'periodo_{periodo.id}_total_refeicoes', str(old_total), str(periodo.total_refeicoes))
     if old_valor != periodo.valor_total:

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
-
+import datetime
 # ==================== TURMA ====================
 class Turma(models.Model):
     nome = models.CharField('Nome da Turma', max_length=100, unique=True)
@@ -34,7 +34,7 @@ class Student(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Curso', related_name='estudantes')
     turma = models.ForeignKey(Turma, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Turma', related_name='estudantes')
     foto = models.ImageField('Foto do estudante', upload_to='estudantes/fotos/', blank=True, null=True)
-    ativo = models.BooleanField('Ativo', default=True)
+    ativo = models.BooleanField('Ativo', default=datetime.date.today)
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
     updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 
@@ -147,6 +147,7 @@ class Almoco(models.Model):
         ('manual', 'Manual'),
     ]
     estudante = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='almocos')
+    data = models.DateField( editable=False)
     data_hora = models.DateTimeField(auto_now_add=True)
     metodo = models.CharField(max_length=20, choices=METODO_CHOICES)
     operador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -156,14 +157,11 @@ class Almoco(models.Model):
         verbose_name = 'Almoço'
         verbose_name_plural = 'Almoços'
         ordering = ['-data_hora']
+        unique_together = ['estudante', 'data'] # <-- RESTRIÇÃO DE UNICIDADE
         indexes = [
             models.Index(fields=['data_hora']),
             models.Index(fields=['estudante', 'data_hora']),
         ]
-
-    def __str__(self):
-        return f'{self.estudante.nome} - {self.data_hora.strftime("%d/%m/%Y %H:%M")}'
-
 
 # ==================== CONFIGURAÇÃO DO SISTEMA ====================
 class Configuracao(models.Model):
@@ -214,15 +212,16 @@ class PeriodoValidado(models.Model):
         verbose_name_plural = 'Períodos Validados'
         unique_together = ['data_inicio', 'data_fim']
 
-    def save(self, *args, **kwargs):
-        if not self.protocolo:
-            import hashlib, time
-            raw = f"{self.data_inicio}{self.data_fim}{time.time()}{self.fiscal.id if self.fiscal else ''}"
-            self.protocolo = hashlib.md5(raw.encode()).hexdigest()[:16].upper()
-        super().save(*args, **kwargs)
-
     def __str__(self):
         return f'{self.data_inicio} a {self.data_fim} - Protocolo: {self.protocolo}'
+
+    def save(self, *args, **kwargs):
+        if self.pk:  # se já existe no banco
+            raise PermissionError("Períodos validados não podem ser alterados.")
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        raise PermissionError("Períodos validados não podem ser excluídos.")
 
 
 # ==================== OCORRÊNCIA ====================
