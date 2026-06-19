@@ -1,7 +1,24 @@
 from django.contrib import admin
 from .models import Student, Turma, Digital, Almoco, LogLiberacao, User
 from .models import Curso
+from .models import PeriodoValidado
 
+@admin.register(PeriodoValidado)
+class PeriodoValidadoAdmin(admin.ModelAdmin):
+    readonly_fields = ['protocolo', 'data_validacao', 'fiscal', 'total_refeicoes', 'valor_total', 'data_inicio', 'data_fim']
+    list_display = ['protocolo', 'data_inicio', 'data_fim', 'total_refeicoes', 'valor_total']
+
+    def get_actions(self, request):
+        actions = super().get_actions(request)
+        if 'delete_selected' in actions:
+            del actions['delete_selected']
+        return actions
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
 @admin.register(Curso)
 class CursoAdmin(admin.ModelAdmin):
     list_display = ('nome',)

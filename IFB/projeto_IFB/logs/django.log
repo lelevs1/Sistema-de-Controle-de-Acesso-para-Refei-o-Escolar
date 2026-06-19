@@ -1,0 +1,2272 @@
+Not Found: /favicon.ico
+Not Found: /static/admin/css/base.css
+Not Found: /static/admin/js/theme.js
+Not Found: /static/admin/css/dark_mode.css
+Not Found: /static/admin/css/dashboard.css
+Not Found: /static/admin/css/nav_sidebar.css
+Not Found: /static/admin/css/responsive.css
+Not Found: /static/admin/js/nav_sidebar.js
+Not Found: /static/admin/css/base.css
+Not Found: /static/admin/css/dark_mode.css
+Not Found: /static/admin/js/theme.js
+Not Found: /static/admin/css/nav_sidebar.css
+Not Found: /static/admin/css/dashboard.css
+Not Found: /static/admin/css/responsive.css
+Not Found: /static/admin/js/nav_sidebar.js
+Not Found: /fiscal/
+Not Found: /api/dasboard/fiscal/
+Unauthorized: /api/dashboard/fiscal/
+Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+Not Found: /static/rest_framework/js/ajax-form.js
+Not Found: /static/rest_framework/css/default.css
+Not Found: /static/rest_framework/css/prettify.css
+Not Found: /static/rest_framework/css/bootstrap.min.css
+Not Found: /static/rest_framework/js/default.js
+Not Found: /static/rest_framework/js/csrf.js
+Not Found: /static/rest_framework/js/bootstrap.min.js
+Not Found: /static/rest_framework/js/load-ajax-form.js
+Not Found: /static/rest_framework/js/prettify-min.js
+Unauthorized: /api/dashboard/fiscal/
+Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+Not Found: /static/rest_framework/js/ajax-form.js
+Not Found: /static/rest_framework/css/bootstrap.min.css
+Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+Not Found: /static/rest_framework/css/default.css
+Not Found: /static/rest_framework/css/prettify.css
+Not Found: /static/rest_framework/js/csrf.js
+Not Found: /static/rest_framework/js/bootstrap.min.js
+Not Found: /static/rest_framework/js/prettify-min.js
+Not Found: /static/rest_framework/js/default.js
+Not Found: /static/rest_framework/js/load-ajax-form.js
+Unauthorized: /api/validar-periodo/
+Not Found: /static/rest_framework/css/bootstrap.min.css
+Not Found: /static/rest_framework/js/ajax-form.js
+Not Found: /static/rest_framework/css/prettify.css
+Not Found: /static/rest_framework/css/bootstrap-tweaks.css
+Not Found: /static/rest_framework/js/jquery-3.7.1.min.js
+Not Found: /static/rest_framework/css/default.css
+Not Found: /static/rest_framework/js/prettify-min.js
+Not Found: /static/rest_framework/js/csrf.js
+Not Found: /static/rest_framework/js/bootstrap.min.js
+Not Found: /static/rest_framework/js/load-ajax-form.js
+Not Found: /static/rest_framework/js/default.js
+Not Found: /favicon.ico
+Not Found: //auth/google/
+Not Found: /static/admin/css/dark_mode.css
+Not Found: /static/admin/css/base.css
+Not Found: /static/admin/js/theme.js
+Not Found: /static/admin/css/nav_sidebar.css
+Not Found: /static/admin/css/dashboard.css
+Not Found: /static/admin/css/responsive.css
+Not Found: /static/admin/js/nav_sidebar.js
+Not Found: /favicon.ico
+Not Found: /static/admin/css/base.css
+Not Found: /static/admin/js/theme.js
+Not Found: /static/admin/css/dark_mode.css
+Not Found: /static/admin/css/nav_sidebar.css
+Not Found: /static/admin/css/login.css
+Not Found: /static/admin/css/responsive.css
+Not Found: /static/admin/js/nav_sidebar.js
+Not Found: /static/admin/css/base.css
+Not Found: /static/admin/css/dark_mode.css
+Not Found: /static/admin/js/theme.js
+Not Found: /static/admin/css/nav_sidebar.css
+Not Found: /static/admin/css/login.css
+Not Found: /static/admin/css/responsive.css
+Not Found: /static/admin/js/nav_sidebar.js
+Internal Server Error: /api/dashboard/semana/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 512, in estatisticas_semana
+    total = Almoco.objects.filter(data=dia).count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 492, in estatisticas_hoje
+    total = almocos_hoje.count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Internal Server Error: /api/dashboard/semana/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 512, in estatisticas_semana
+    total = Almoco.objects.filter(data=dia).count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 492, in estatisticas_hoje
+    total = almocos_hoje.count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Unauthorized: /api/dashboard/hoje/
+Unauthorized: /api/dashboard/hoje/
+Unauthorized: /api/login/
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 492, in estatisticas_hoje
+    total = almocos_hoje.count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 492, in estatisticas_hoje
+    total = almocos_hoje.count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 492, in estatisticas_hoje
+    total = almocos_hoje.count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Internal Server Error: /api/dashboard/semana/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 512, in estatisticas_semana
+    total = Almoco.objects.filter(data=dia).count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 492, in estatisticas_hoje
+    total = almocos_hoje.count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Internal Server Error: /api/dashboard/semana/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: core_almoco.data
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 512, in estatisticas_semana
+    total = Almoco.objects.filter(data=dia).count()
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 606, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: core_almoco.data
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Internal Server Error: /api/dashboard/hoje/
+Traceback (most recent call last):
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 552, in thread_handler
+    raise exc_info[1]
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+        request, *callback_args, **callback_kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 502, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 86, in run
+    result = ctx.run(self.task)
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\concurrent\futures\thread.py", line 73, in run
+    return fn(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\asgiref\sync.py", line 556, in thread_handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\IFB\projeto_IFB\core\views.py", line 499, in estatisticas_hoje
+    'por_hora': list(por_hora),
+                ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 386, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 1954, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\query.py", line 218, in __iter__
+    for row in compiler.results_iter(
+               ~~~~~~~~~~~~~~~~~~~~~^
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1572, in results_iter
+    results = self.execute_sql(
+        MULTI, chunked_fetch=chunked_fetch, chunk_size=chunk_size
+    )
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 121, in execute
+    with self.debug_sql(sql, params, use_last_executed_query=True):
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Tina\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\contextlib.py", line 148, in __exit__
+    next(self.gen)
+    ~~~~^^^^^^^^^^
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\utils.py", line 139, in debug_sql
+    sql = self.db.ops.last_executed_query(self.cursor, sql, params)
+  File "D:\Bakup Dell Tina\Documents\Dev\Residência Tech BFD\Sistema-de-Controle-de-Acesso-para-Refei-o-Escolar\.venv\Lib\site-packages\django\db\backends\sqlite3\operations.py", line 193, in last_executed_query
+    return sql % params
+           ~~~~^~~~~~~~
+ValueError: unsupported format character 'H' (0x48) at index 19
+Not Found: /api/turmas/
+Not Found: /api/cursos/
+Not Found: /api/cursos/
+Not Found: /api/turmas/
+Not Found: /api/biometria/
+Not Found: /api/biometria/
+Not Found: /api/biometria/
+Not Found: /api/biometria/
+Not Found: /api/biometria/
+Not Found: /api/biometria/
