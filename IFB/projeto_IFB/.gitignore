@@ -14,3 +14,7 @@ env/
 
 # Variáveis de ambiente (senhas e tokens)
 .env
+
+# Arquivos de log
+*.log
+logs/
