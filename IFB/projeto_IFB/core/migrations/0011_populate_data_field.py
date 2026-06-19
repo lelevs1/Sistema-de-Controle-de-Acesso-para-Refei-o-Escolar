@@ -14,7 +14,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(preencher_data),
-    ]from django.db import migrations
+    ]
+    from django.db import migrations
 
 def preencher_data(apps, schema_editor):
     Almoco = apps.get_model('core', 'Almoco')
