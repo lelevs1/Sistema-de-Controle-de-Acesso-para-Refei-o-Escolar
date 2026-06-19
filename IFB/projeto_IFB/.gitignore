@@ -1,6 +1,7 @@
 # Banco de dados local
 db.sqlite3
 *.sqlite3
+db.sqlite3-journal
 
 # Cache do Python
 __pycache__/
@@ -18,3 +19,4 @@ env/
 # Arquivos de log
 *.log
 logs/
+django.log
