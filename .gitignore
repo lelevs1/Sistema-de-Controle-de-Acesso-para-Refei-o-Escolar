@@ -1,13 +1,37 @@
-# Ignore local Python and Django artifacts
+# =========================
+# Banco de Dados
+# =========================
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+IFB/projeto_IFB/db.sqlite3
+
+# =========================
+# Cache do Python e Django
+# =========================
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyo
 *.pyd
-IFB/projeto_IFB/db.sqlite3
-*.sqlite3
-*.db
+
+# =========================
+# Ambientes Virtuais
+# =========================
 .venv/
 venv/
 env/
-.env
 
+# =========================
+# Variáveis de Ambiente
+# =========================
+.env
+.env.local
+
+# =========================
+# Arquivos de Log
+# =========================
+*.log
+logs/
+django.log
+IFB/projeto_IFB/logs/
