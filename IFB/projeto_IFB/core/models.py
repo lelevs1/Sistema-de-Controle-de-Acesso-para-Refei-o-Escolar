@@ -34,7 +34,7 @@ class Student(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Curso', related_name='estudantes')
     turma = models.ForeignKey(Turma, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Turma', related_name='estudantes')
     foto = models.ImageField('Foto do estudante', upload_to='estudantes/fotos/', blank=True, null=True)
-    ativo = models.BooleanField('Ativo', default=datetime.date.today)
+    ativo = models.BooleanField('Ativo', default=True)
     created_at = models.DateTimeField('Criado em', auto_now_add=True)
     updated_at = models.DateTimeField('Atualizado em', auto_now=True)
 

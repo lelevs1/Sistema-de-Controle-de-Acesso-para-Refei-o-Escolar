@@ -96,12 +96,15 @@ def login(request):
     if not email or not password:
         return Response({'error': 'Email e senha obrigatórios'}, status=400)
 
-    user = User.objects.filter(email=email).first()
-    if not user or not user.check_password(password):
+    user = User.objects.filter(email__iexact=email).first()
+    if not user:
         return Response({'error': 'Credenciais inválidas'}, status=401)
 
     if user.papel == 'fiscal':
         return Response({'error': 'Fiscais devem usar login com Google'}, status=403)
+
+    if not user.check_password(password):
+        return Response({'error': 'Credenciais inválidas'}, status=401)
 
     if not user.is_active:
         return Response({'error': 'Usuário desativado'}, status=403)
