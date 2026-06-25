@@ -126,11 +126,17 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = 'core.User'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://seudominiofrontend.com",   # produção
-]
+CORS_ALLOWED_ORIGINS = config(
+    'CORS_ALLOWED_ORIGINS',
+    default='http://localhost:5173,http://127.0.0.1:5173,http://localhost:8000,http://127.0.0.1:8000,https://seudominiofrontend.com',
+    cast=lambda v: [origin.strip() for origin in v.split(',') if origin.strip()]
+)
+CORS_ALLOWED_ORIGIN_REGEXES = config(
+    'CORS_ALLOWED_ORIGIN_REGEXES',
+    default=r'^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$',
+    cast=lambda v: [v] if isinstance(v, str) else v
+)
+CORS_ALLOW_CREDENTIALS = config('CORS_ALLOW_CREDENTIALS', default=True, cast=bool)
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
