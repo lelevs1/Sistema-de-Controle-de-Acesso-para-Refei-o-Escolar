@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Student, Digital, Turma
+from .models import User, Student, Digital, Turma, Curso
 
 class DigitalSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,11 +34,17 @@ class StudentSerializer(serializers.ModelSerializer):
     def get_turma_nome(self, obj):
         return obj.turma.nome if obj.turma else None
 
+class TurmaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Turma
+        fields = ['id', 'nome', 'turno']
+
+class CursoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Curso
+        fields = ['id', 'nome']
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-curso_nome = serializers.SerializerMethodField()
-
-def get_curso_nome(self, obj):
-    return obj.curso.nome if obj.curso else None

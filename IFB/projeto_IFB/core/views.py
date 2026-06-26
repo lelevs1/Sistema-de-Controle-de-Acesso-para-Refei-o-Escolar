@@ -24,7 +24,7 @@ from .models import (
     User, Student, Digital, Almoco, LogLiberacao, Turma, Curso,
     Configuracao, PeriodoValidado, Ocorrencia
 )
-from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer
+from .serializers import StudentSerializer, DigitalSerializer, ImportStudentSerializer, CursoSerializer, TurmaSerializer
 from .permissions import (
     IsAdmin,
     IsAdminOrFiscal,
@@ -268,6 +268,20 @@ class StudentViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscalOrGestor])
+def listar_turmas(request):
+    turmas = Turma.objects.order_by('nome').all()
+    serializer = TurmaSerializer(turmas, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAdminOrFiscalOrGestor])
+def listar_cursos(request):
+    cursos = Curso.objects.order_by('nome').all()
+    serializer = CursoSerializer(cursos, many=True)
+    return Response(serializer.data)
 
 # ==================== IMPORTAR ESTUDANTES (CSV) ====================
 @api_view(['POST'])
