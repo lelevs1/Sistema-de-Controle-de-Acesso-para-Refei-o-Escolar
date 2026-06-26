@@ -770,18 +770,30 @@ def relatorio_diario(request):
 @api_view(['GET'])
 @permission_classes([IsAdminOrGestor])
 def relatorio_mensal(request):
-    ano = request.query_params.get('ano')
-    mes = request.query_params.get('mes')
-    if not ano or not mes:
-        return Response({'error': 'Parâmetros ano e mes obrigatórios'}, status=400)
+    data_str = request.query_params.get('data')
+    
+    if not data_str:
+        return Response({'error': 'Parâmetro data obrigatório (YYYY-MM-DD)'}, status=400)
+        
     try:
-        data_inicio = datetime(int(ano), int(mes), 1).date()
-        if int(mes) == 12:
-            data_fim = datetime(int(ano)+1, 1, 1).date()
+        # Transforma a string recebida do front em um objeto de data
+        data_obj = datetime.strptime(data_str, '%Y-%m-%d').date()
+        ano = data_obj.year
+        mes = data_obj.month
+        
+        # --- CÓDIGO NOVO: CALCULANDO O INÍCIO E FIM DO MÊS ---
+        # data_inicio será o dia 1º do mês atual
+        data_inicio = data_obj.replace(day=1)
+        
+        # data_fim será o dia 1º do próximo mês (tratando a virada de ano)
+        if mes == 12:
+            data_fim = data_inicio.replace(year=ano + 1, month=1)
         else:
-            data_fim = datetime(int(ano), int(mes)+1, 1).date()
+            data_fim = data_inicio.replace(month=mes + 1)
+        # -----------------------------------------------------
+        
     except ValueError:
-        return Response({'error': 'Ano/mês inválidos'}, status=400)
+        return Response({'error': 'Formato de data inválido. Use YYYY-MM-DD'}, status=400)
 
     almocos = Almoco.objects.filter(data__gte=data_inicio, data__lt=data_fim).select_related('estudante', 'operador')
     cabecalho = ['ID', 'Estudante', 'Matrícula', 'Data', 'Método', 'Operador']
